@@ -51,7 +51,14 @@ else
   CONF_TCMALLOC=--enable-gperf-tcmalloc
 endif
 
+DEB_BUILD_ARCH ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DEB_HOST_ARCH ?= $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+ifneq ($(DEB_BUILD_ARCH),$(DEB_HOST_ARCH))
+export PYTHON=/python_virtualenv/env3/bin/python3
+else
 export PYTHON=python3
+endif
 
 %:
 	dh $@ -Bbuild --with=sphinxdoc
