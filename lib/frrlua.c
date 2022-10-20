@@ -317,7 +317,7 @@ void lua_pushnexthop(lua_State *L, const struct nexthop *nexthop)
 	lua_pushinteger(L, *(nexthop->backup_idx));
 	lua_setfield(L, -2, "backup_idx");
 	if (nexthop->nh_encap_type == NET_VXLAN) {
-		lua_pushinteger(L, nexthop->nh_encap.vni);
+		lua_pushinteger(L, nexthop->nh_encap.encap_data.vni);
 		lua_setfield(L, -2, "vni");
 	}
 	lua_pushinteger(L, nexthop->nh_encap_type);

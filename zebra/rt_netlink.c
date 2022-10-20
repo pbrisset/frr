@@ -2239,6 +2239,7 @@ static int netlink_route_nexthop_encap(bool fpm, struct nlmsghdr *n,
 				       size_t nlen, const struct nexthop *nh)
 {
 	struct rtattr *nest;
+	const struct vxlan_nh_encap *encap_data;
 
 	if (!fpm)
 		return true;
@@ -2252,8 +2253,20 @@ static int netlink_route_nexthop_encap(bool fpm, struct nlmsghdr *n,
 		if (!nest)
 			return false;
 
-		if (!nl_attr_put32(n, nlen, 0 /* VXLAN_VNI */, nh->nh_encap.vni))
+		encap_data = &nh->nh_encap.encap_data;
+
+		if (!nl_attr_put32(n, nlen, 0 /* VXLAN_VNI */, encap_data->vni))
 			return false;
+
+		if (ZEBRA_DEBUG_KERNEL)
+			zlog_debug(
+				"%s: VNI:%d RMAC:%pEA", __func__, encap_data->vni,
+				&encap_data->rmac);
+
+		if (!nl_attr_put(n, nlen, 1 /* VXLAN_RMAC */,
+					&encap_data->rmac, sizeof(encap_data->rmac)))
+			return false;
+
 		nl_attr_nest_end(n, nest);
 		break;
 	}
