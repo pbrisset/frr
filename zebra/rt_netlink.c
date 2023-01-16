@@ -399,6 +399,31 @@ static inline int proto2zebra(int proto, int family, bool is_nexthop)
 	return proto;
 }
 
+static uint32_t table_lookup_by_vrf(vrf_id_t vrf_id, ns_id_t ns_id)
+{
+	struct vrf *vrf;
+	struct zebra_vrf *zvrf;
+
+	RB_FOREACH (vrf, vrf_id_head, &vrfs_by_id) {
+		zvrf = vrf->info;
+		if (zvrf == NULL)
+			continue;
+		/* case vrf with netns : match the netnsid */
+		if (vrf_is_backend_netns()) {
+			if (ns_id == zvrf_id(zvrf))
+                return zvrf->table_id;
+		} else {
+			/* VRF is VRF_BACKEND_VRF_LITE */
+			if (zvrf_id(zvrf) != vrf_id)
+				continue;
+            return zvrf->table_id;
+		}
+	}
+
+	return RT_TABLE_UNSPEC;
+}
+
+
 /**
  * @parse_encap_mpls() - Parses encapsulated mpls attributes
  * @tb:         Pointer to rtattr to look for nested items in.
@@ -2645,12 +2670,24 @@ ssize_t netlink_route_multipath_msg_encode(int cmd, struct zebra_dplane_ctx *ctx
 
 	/* Table corresponding to this route. */
 	table_id = dplane_ctx_get_table(ctx);
-	if (table_id < 256)
-		req->r.rtm_table = table_id;
-	else {
-		req->r.rtm_table = RT_TABLE_UNSPEC;
-		if (!nl_attr_put32(&req->n, datalen, RTA_TABLE, table_id))
-			return 0;
+	if (!fpm) {
+		if (table_id < 256)
+			req->r.rtm_table = table_id;
+		else {
+			req->r.rtm_table = RT_TABLE_UNSPEC;
+			if (!nl_attr_put32(&req->n, datalen, RTA_TABLE, table_id))
+				return 0;
+		}
+	} else {
+		/* Put vrf if_index instead of table id */
+		vrf_id_t vrf = dplane_ctx_get_vrf(ctx);
+		if (vrf < 256)
+			req->r.rtm_table = vrf;
+		else {
+			req->r.rtm_table = RT_TABLE_UNSPEC;
+			if (!nl_attr_put32(&req->n, datalen, RTA_TABLE, vrf))
+				return 0;
+		}
 	}
 
 	if (IS_ZEBRA_DEBUG_KERNEL)
