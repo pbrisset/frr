@@ -706,6 +706,12 @@ void rib_install_kernel(struct route_node *rn, struct route_entry *re,
 	/* Update fib selection */
 	dest->selected_fib = re;
 
+	/* Do not install local routes to FIB */
+	if (re->type == ZEBRA_ROUTE_LOCAL) {
+		zlog_debug("Not installing local route re %p (%s)",
+		 re, zebra_route_string(re->type));
+		return;
+	}
 	/*
 	 * Make sure we update the FPM any time we send new information to
 	 * the kernel.
@@ -753,6 +759,12 @@ void rib_uninstall_kernel(struct route_node *rn, struct route_entry *re)
 
 	__attribute__((unused)) char buf[PREFIX2STR_BUFFER] = { 0 };
 
+	/* Do not uninstall local routes to FIB */
+	if (re->type == ZEBRA_ROUTE_LOCAL) {
+		zlog_debug("Not uninstalling local route re %p (%s)",
+			   re, zebra_route_string(re->type));
+		return;
+	}
 	/*
 	 * Make sure we update the FPM any time we send new information to
 	 * the dataplane.
@@ -1261,10 +1273,6 @@ static struct route_entry *rib_choose_best(struct route_entry *current,
 	 * or loopback interface.  If not, pick the last connected
 	 * route of the set of lowest metric connected routes.
 	 */
-	possible = rib_choose_best_type(ZEBRA_ROUTE_LOCAL, current, alternate);
-	if (possible)
-		return possible;
-
 	possible = rib_choose_best_type(ZEBRA_ROUTE_CONNECT, current, alternate);
 	if (possible)
 		return possible;
