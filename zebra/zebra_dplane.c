@@ -5990,7 +5990,7 @@ enum zebra_dplane_result dplane_local_neigh_add(const struct interface *ifp,
 					  const struct ipaddr *ip,
 					  const struct ethaddr *mac,
 					  bool set_router, bool set_static,
-					  bool set_inactive)
+					  bool set_inactive, bool trigger_probe)
 {
 	enum zebra_dplane_result result = ZEBRA_DPLANE_REQUEST_FAILURE;
 	uint32_t update_flags = 0;
@@ -6000,8 +6000,12 @@ enum zebra_dplane_result dplane_local_neigh_add(const struct interface *ifp,
 	if (set_static)
 		update_flags |= DPLANE_NEIGH_SET_STATIC;
 
-	if (set_inactive) {
+	if (set_inactive)
 		update_flags |= DPLANE_NEIGH_SET_INACTIVE;
+
+	if (trigger_probe) {
+		state = DPLANE_NUD_PROBE;
+	} else if (set_inactive) {
 		state = DPLANE_NUD_STALE;
 	} else {
 		state = DPLANE_NUD_REACHABLE;
