@@ -2657,10 +2657,28 @@ ssize_t netlink_route_multipath_msg_encode(int cmd, struct zebra_dplane_ctx *ctx
 	 * path(s)
 	 * by the routing protocol and for communicating with protocol peers.
 	 */
-	if (!nl_attr_put32(&req->n, datalen, RTA_PRIORITY,
-			   ROUTE_INSTALLATION_METRIC))
+	if (fpm)
+	{
+            /* Patch to send tag value as route attribute using RTA_PRIORITY
+	     * which can be used as metadata/attribute to take application specific
+	     * action. As seen in above comment this field is not use anyways and can be
+	     * use by fpmsyncd */
+            if (!nl_attr_put32(&req->n, datalen, RTA_PRIORITY,
+		               cmd == RTM_DELROUTE ? dplane_ctx_get_old_tag(ctx) :
+				                     dplane_ctx_get_tag(ctx)))
+	    {
 		return 0;
 
+	    }
+	}
+	else
+	{
+	    if (!nl_attr_put32(&req->n, datalen, RTA_PRIORITY,
+			       ROUTE_INSTALLATION_METRIC))
+	    {
+                return 0;
+	    }
+	}
 #if defined(SUPPORT_REALMS)
 	if (cmd == RTM_DELROUTE)
 		tag = dplane_ctx_get_old_tag(ctx);
