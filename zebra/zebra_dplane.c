@@ -27,6 +27,7 @@
 #include "zebra/zebra_pbr.h"
 #include "zebra/zebra_l2.h"
 #include "zebra/zebra_neigh.h"
+#include "zebra/zebra_srv6.h"
 #include "zebra/zebra_tc.h"
 #include "zebra/zebra_trace.h"
 #include "printfrr.h"
@@ -85,6 +86,7 @@ const uint32_t DPLANE_DEFAULT_NEW_WORK = 100;
 struct dplane_nexthop_info {
 	uint32_t id;
 	uint32_t old_id;
+	uint32_t pic_nhe_id;
 	afi_t afi;
 	vrf_id_t vrf_id;
 	int type;
@@ -486,6 +488,7 @@ struct zebra_dplane_ctx {
 	/* Support info for different kinds of updates */
 	union {
 		struct dplane_route_info rinfo;
+		struct zebra_srv6_sidlist sidlist;
 		struct zebra_lsp lsp;
 		struct dplane_pw_info pw;
 		struct dplane_br_port_info br_port;
@@ -2469,6 +2472,19 @@ int dplane_ctx_get_ns_sock(const struct zebra_dplane_ctx *ctx)
 #else
 	return -1;
 #endif
+}
+
+const struct zebra_srv6_sidlist *dplane_ctx_get_sidlist(const struct zebra_dplane_ctx *ctx)
+{
+	DPLANE_CTX_VALID(ctx);
+
+	return &(ctx->u.sidlist);
+}
+
+uint32_t dplane_ctx_get_pic_nhe_id(const struct zebra_dplane_ctx *ctx)
+{
+	DPLANE_CTX_VALID(ctx);
+	return ctx->u.rinfo.nhe.pic_nhe_id;
 }
 
 /* Accessors for nexthop information */

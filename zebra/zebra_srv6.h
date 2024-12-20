@@ -245,6 +245,20 @@ struct zebra_srv6 {
 	struct list *sid_blocks;
 };
 
+#define SRV6_SEGMENTLIST_NAME_MAX_LENGTH 64
+#define SRV6_SID_INDEX_MAX_NUM 8
+
+struct zebra_srv6_segment_entry {
+	uint32_t index_;
+	struct ipaddr srv6_sid_value_;
+};
+
+struct zebra_srv6_sidlist {
+	char sidlist_name_[SRV6_SEGMENTLIST_NAME_MAX_LENGTH];
+	uint32_t segment_count_;
+	struct zebra_srv6_segment_entry segments_[SRV6_SID_INDEX_MAX_NUM];
+};
+
 /* declare hooks for the basic API, so that it can be specialized or served
  * externally. Also declare a hook when those functions have been registered,
  * so that any external module wanting to replace those can react
