@@ -37,6 +37,9 @@ static bool trace;
 #define MGMT_MSG_ERR(ms, fmt, ...)                                             \
 	zlog_err("%s: %s: " fmt, (ms)->idtag, __func__, ##__VA_ARGS__)
 
+#define MGMT_MSG_INFO(ms, fmt, ...)                                            \
+	zlog_info("%s: %s: " fmt, (ms)->idtag, __func__, ##__VA_ARGS__)
+
 DEFINE_MTYPE(LIB, MSG_CONN, "msg connection state");
 
 /**
@@ -127,7 +130,7 @@ not_done:
 		return MSR_SCHED_STREAM;
 	}
 	if (n == 0)
-		MGMT_MSG_ERR(ms, "got EOF/disconnect on fd %d", fd);
+		MGMT_MSG_INFO(ms, "got EOF/disconnect on fd %d", fd);
 	else
 		MGMT_MSG_ERR(ms, "got error while reading on fd %d: '%s'", fd,
 			     safe_strerror(errno));
