@@ -565,14 +565,48 @@ int zebra_evpn_neigh_del(struct zebra_evpn *zevpn, struct zebra_neigh *n)
 	return 0;
 }
 
+static bool zebra_evpn_neigh_del_if_svi_unresolved(struct zebra_neigh *n,
+						    struct zebra_mac **old_mac)
+{
+	struct zebra_evpn *zevpn = n->zevpn;
+
+	if (n->ifindex != IFINDEX_INTERNAL || !zevpn
+	    || !CHECK_FLAG(n->flags, ZEBRA_NEIGH_LOCAL)
+	    || !(n->flags & ZEBRA_NEIGH_ALL_PEER_FLAGS))
+		return false;
+
+	*old_mac = n->mac;
+
+	if (IS_ZEBRA_DEBUG_EVPN_MH_NEIGH)
+		zlog_debug(
+			"sync-neigh vni %u ip %pIA mac %pEA 0x%x delete as SVI/BVI is unresolved",
+			zevpn->vni, &n->ip, &n->emac, n->flags);
+
+	zebra_evpn_neigh_send_del_to_client(zevpn->vni, &n->ip, &n->emac,
+					    n->flags, n->state,
+					    false /* force */);
+	zebra_evpn_neigh_clear_sync_info(n);
+	zebra_evpn_neigh_del(zevpn, n);
+	return true;
+}
+
 void zebra_evpn_sync_neigh_del(struct zebra_neigh *n)
 {
 	bool old_n_static;
 	bool new_n_static;
+	struct zebra_evpn *zevpn = n->zevpn;
+	struct zebra_mac *old_mac = NULL;
 
 	if (IS_ZEBRA_DEBUG_EVPN_MH_NEIGH && n->zevpn)
 		zlog_debug("sync-neigh del vni %u ip %pIA mac %pEA f 0x%x",
 			   n->zevpn->vni, &n->ip, &n->emac, n->flags);
+
+	if (zebra_evpn_neigh_del_if_svi_unresolved(n, &old_mac)) {
+		if (old_mac && CHECK_FLAG(old_mac->flags, ZEBRA_MAC_AUTO)
+		    && !zebra_evpn_mac_in_use(old_mac))
+			zebra_evpn_mac_del(zevpn, old_mac);
+		return;
+	}
 
 	if (CHECK_FLAG(n->flags, ZEBRA_NEIGH_ES_PEER_ACTIVE)) {
 		struct zebra_ns *zns = NULL;
@@ -642,11 +676,20 @@ struct zebra_neigh *zebra_evpn_proc_sync_neigh_update(
 	bool set_dp_inactive = false;
 	bool created;
 	ifindex_t ifindex = 0;
+	struct zebra_mac *old_mac = NULL;
 
 	/* locate l3-svi */
 	ifp = zevpn_map_to_svi(zevpn, true);
 	if (ifp)
 		ifindex = ifp->ifindex;
+
+	if (n && zebra_evpn_neigh_del_if_svi_unresolved(n, &old_mac))
+		n = NULL;
+
+	if (old_mac && old_mac != mac
+	    && CHECK_FLAG(old_mac->flags, ZEBRA_MAC_AUTO)
+	    && !zebra_evpn_mac_in_use(old_mac))
+		zebra_evpn_mac_del(zevpn, old_mac);
 
 	is_router = !!CHECK_FLAG(flags, ZEBRA_MACIP_TYPE_ROUTER_FLAG);
 	old_mac_static = zebra_evpn_mac_is_static(mac);
