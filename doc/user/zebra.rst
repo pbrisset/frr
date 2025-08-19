@@ -126,6 +126,8 @@ Besides the common invocation options (:ref:`common-invocation-options`), the
 
    **Global option** that enables hardware-based MAC learning and aging mode.
 
+   This option signals to zebra that it is operating in MAC external-learn mode.
+
    This is a system-wide zebra option (not EVPN-MH specific) designed for
    platforms with hardware ASIC capabilities that perform MAC learning and
    aging in hardware rather than kernel software.
