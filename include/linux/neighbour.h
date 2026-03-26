@@ -52,7 +52,7 @@ enum {
 
 /* Neighbor Cache Entry extended flags, part of NDA_EXT_FLAGS attribute */
 #define NTF_E_WEAK_OVERRIDE_STATE 0x01
-#define NTF_E_MH_PEER_SYNC 0x02
+#define NTF_E_MH_PEER_SYNC 0x04
 
 /*
  *	Neighbor Cache Entry States.
