@@ -977,6 +977,8 @@ void zebra_evpn_process_neigh_on_local_mac_change(struct zebra_evpn *zevpn,
 			if (IS_ZEBRA_NEIGH_INACTIVE(n) || seq_change
 			    || es_change) {
 				ZEBRA_NEIGH_SET_ACTIVE(n);
+				UNSET_FLAG(n->flags,
+					   ZEBRA_NEIGH_LOCAL_INACTIVE);
 				n->loc_seq = zmac->loc_seq;
 				if (!(zebra_evpn_do_dup_addr_detect(zvrf)
 				      && zvrf->dad_freeze

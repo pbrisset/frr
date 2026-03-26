@@ -2453,7 +2453,11 @@ static void zebra_evpn_es_df_delay_exp_cb(struct event *t)
 static void zebra_evpn_mh_on_first_local_es(void)
 {
 	zebra_evpn_mh_dup_addr_detect_off();
-	zebra_evpn_mh_advertise_reach_neigh_only();
+	/* Don't restrict to reachable neighbors only - in SONiC,
+	 * neighbor entries go stale because traffic goes via ASIC
+	 * not kernel.
+	 */
+	/* zebra_evpn_mh_advertise_reach_neigh_only(); */
 	zebra_evpn_mh_advertise_svi_mac();
 }
 
