@@ -5311,6 +5311,7 @@ static void rib_process_dplane_results(struct event *event)
 			case DPLANE_OP_VTEP_ADD:
 			case DPLANE_OP_VTEP_DELETE:
 			case DPLANE_OP_BR_PORT_UPDATE:
+			case DPLANE_OP_BR_PORT_DELETE:
 			case DPLANE_OP_NEIGH_TABLE_UPDATE:
 			case DPLANE_OP_GRE_SET:
 			case DPLANE_OP_SRV6_ENCAP_SRCADDR_SET:

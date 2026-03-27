@@ -195,6 +195,7 @@ struct dplane_br_port_info {
 	/* DPLANE_BR_PORT_XXX - see zebra_dplane.h*/
 	uint32_t flags;
 	uint32_t backup_nhg_id;
+	uint16_t vid;
 };
 
 /*
@@ -939,6 +940,7 @@ static void dplane_ctx_free_internal(struct zebra_dplane_ctx *ctx)
 	case DPLANE_OP_RULE_UPDATE:
 	case DPLANE_OP_NEIGH_DISCOVER:
 	case DPLANE_OP_BR_PORT_UPDATE:
+	case DPLANE_OP_BR_PORT_DELETE:
 	case DPLANE_OP_NEIGH_IP_INSTALL:
 	case DPLANE_OP_NEIGH_IP_DELETE:
 	case DPLANE_OP_NONE:
@@ -1195,6 +1197,9 @@ const char *dplane_op2str(enum dplane_op_e op)
 
 	case DPLANE_OP_BR_PORT_UPDATE:
 		return "BR_PORT_UPDATE";
+
+	case DPLANE_OP_BR_PORT_DELETE:
+		return "BR_PORT_DELETE";
 
 	case DPLANE_OP_ADDR_INSTALL:
 		return "ADDR_INSTALL";
@@ -3615,6 +3620,14 @@ dplane_ctx_get_br_port_backup_nhg_id(const struct zebra_dplane_ctx *ctx)
 	return ctx->u.br_port.backup_nhg_id;
 }
 
+uint16_t
+dplane_ctx_get_br_port_vlan_id(const struct zebra_dplane_ctx *ctx)
+{
+	DPLANE_CTX_VALID(ctx);
+
+	return ctx->u.br_port.vid;
+}
+
 /* Accessors for PBR iptable information */
 void dplane_ctx_get_pbr_iptable(const struct zebra_dplane_ctx *ctx,
 				struct zebra_pbr_iptable *table)
@@ -5452,7 +5465,8 @@ done:
 enum zebra_dplane_result dplane_br_port_update(const struct interface *ifp, bool non_df,
 					       uint32_t sph_filter_cnt,
 					       const struct ipaddr *sph_filters,
-					       uint32_t backup_nhg_id)
+					       uint32_t backup_nhg_id,
+					       uint16_t vid)
 {
 	enum zebra_dplane_result result = ZEBRA_DPLANE_REQUEST_FAILURE;
 	uint32_t flags = 0;
@@ -5497,8 +5511,60 @@ enum zebra_dplane_result dplane_br_port_update(const struct interface *ifp, bool
 	ctx->u.br_port.flags = flags;
 	ctx->u.br_port.backup_nhg_id = backup_nhg_id;
 	ctx->u.br_port.sph_filter_cnt = sph_filter_cnt;
+	ctx->u.br_port.vid = vid;
 	memcpy(ctx->u.br_port.sph_filters, sph_filters,
 	       sizeof(ctx->u.br_port.sph_filters[0]) * sph_filter_cnt);
+
+	/* Enqueue for processing on the dplane pthread */
+	ret = dplane_update_enqueue(ctx);
+
+	/* Increment counter */
+	atomic_fetch_add_explicit(&zdplane_info.dg_br_port_in, 1,
+				  memory_order_relaxed);
+
+	if (ret == AOK) {
+		result = ZEBRA_DPLANE_REQUEST_QUEUED;
+	} else {
+		/* Error counter */
+		atomic_fetch_add_explicit(&zdplane_info.dg_br_port_errors, 1,
+					  memory_order_relaxed);
+		dplane_ctx_free(&ctx);
+	}
+
+	return result;
+}
+
+enum zebra_dplane_result
+dplane_br_port_delete(const struct interface *ifp, uint16_t vid)
+{
+	enum zebra_dplane_result result = ZEBRA_DPLANE_REQUEST_FAILURE;
+	int ret;
+	struct zebra_dplane_ctx *ctx = NULL;
+	struct zebra_ns *zns;
+	enum dplane_op_e op = DPLANE_OP_BR_PORT_DELETE;
+
+	if (IS_ZEBRA_DEBUG_DPLANE_DETAIL || IS_ZEBRA_DEBUG_EVPN_MH_ES) {
+		zlog_debug(
+			"init br_port delete ctx %s: ifp %s, vid %u",
+			dplane_op2str(op), ifp->name, vid);
+	}
+
+	ctx = dplane_ctx_alloc();
+
+	ctx->zd_op = op;
+	ctx->zd_status = ZEBRA_DPLANE_REQUEST_SUCCESS;
+	ctx->zd_vrf_id = ifp->vrf->vrf_id;
+
+	zns = zebra_ns_lookup(ifp->vrf->vrf_id);
+	dplane_ctx_ns_init(ctx, zns, false);
+
+	ctx->zd_ifindex = ifp->ifindex;
+	strlcpy(ctx->zd_ifname, ifp->name, sizeof(ctx->zd_ifname));
+
+	/* Init the br-port-specific data area */
+	memset(&ctx->u.br_port, 0, sizeof(ctx->u.br_port));
+
+	ctx->u.br_port.vid = vid;
 
 	/* Enqueue for processing on the dplane pthread */
 	ret = dplane_update_enqueue(ctx);
@@ -7361,6 +7427,7 @@ static void kernel_dplane_log_detail(struct zebra_dplane_ctx *ctx)
 	case DPLANE_OP_ROUTE_NOTIFY:
 	case DPLANE_OP_LSP_NOTIFY:
 	case DPLANE_OP_BR_PORT_UPDATE:
+	case DPLANE_OP_BR_PORT_DELETE:
 
 	case DPLANE_OP_NONE:
 		break;
@@ -7647,6 +7714,7 @@ static void kernel_dplane_handle_result(struct zebra_dplane_ctx *ctx)
 	case DPLANE_OP_ROUTE_NOTIFY:
 	case DPLANE_OP_LSP_NOTIFY:
 	case DPLANE_OP_BR_PORT_UPDATE:
+	case DPLANE_OP_BR_PORT_DELETE:
 		break;
 
 	/* TODO -- error counters for incoming events? */

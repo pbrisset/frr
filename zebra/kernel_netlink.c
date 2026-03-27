@@ -1475,6 +1475,7 @@ static enum netlink_msg_status nl_put_msg(struct nl_batch *bth,
 	case DPLANE_OP_ROUTE_NOTIFY:
 	case DPLANE_OP_LSP_NOTIFY:
 	case DPLANE_OP_BR_PORT_UPDATE:
+	case DPLANE_OP_BR_PORT_DELETE:
 		return FRR_NETLINK_SUCCESS;
 
 	case DPLANE_OP_INTF_SPEED_GET:

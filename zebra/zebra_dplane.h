@@ -179,6 +179,7 @@ enum dplane_op_e {
 
 	/* bridge port update */
 	DPLANE_OP_BR_PORT_UPDATE,
+	DPLANE_OP_BR_PORT_DELETE,
 
 	/* Policy based routing iptable update */
 	DPLANE_OP_IPTABLE_ADD,
@@ -898,6 +899,8 @@ dplane_ctx_get_br_port_sph_filter_cnt(const struct zebra_dplane_ctx *ctx);
 const struct ipaddr *dplane_ctx_get_br_port_sph_filters(const struct zebra_dplane_ctx *ctx);
 uint32_t
 dplane_ctx_get_br_port_backup_nhg_id(const struct zebra_dplane_ctx *ctx);
+uint16_t
+dplane_ctx_get_br_port_vlan_id(const struct zebra_dplane_ctx *ctx);
 
 /* Accessors for neighbor table information */
 uint8_t dplane_ctx_neightable_get_family(const struct zebra_dplane_ctx *ctx);
@@ -990,7 +993,11 @@ enum zebra_dplane_result dplane_route_notif_update(
 enum zebra_dplane_result dplane_br_port_update(const struct interface *ifp, bool non_df,
 					       uint32_t sph_filter_cnt,
 					       const struct ipaddr *sph_filters,
-					       uint32_t backup_nhg_id);
+					       uint32_t backup_nhg_id,
+					       uint16_t vid);
+
+enum zebra_dplane_result dplane_br_port_delete(const struct interface *ifp,
+					       uint16_t vid);
 
 /* Forward ref of nhg_hash_entry */
 struct nhg_hash_entry;
