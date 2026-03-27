@@ -28,6 +28,47 @@ struct zebra_dplane_ctx;
 struct zebra_dplane_info;
 struct zebra_ns;
 
+/* FPM-specific extension values, for messages and attributes */
+typedef enum {
+	/*
+	 * FRR and SWSS can build with kernel headers that define different
+	 * RTM_MAX values, so this private ABI must use a fixed base.
+	 */
+	RTM_FPM_FIRST = 140,
+	RTM_FPM_GETENCAPS = RTM_FPM_FIRST,
+	RTM_FPM_ADDENCAP,
+	RTM_FPM_DELENCAP,
+	RTM_FPM_ADD_EVPN_SHL,
+	RTM_FPM_DEL_EVPN_SHL,
+	RTM_FPM_ADD_EVPN_DF,
+	RTM_FPM_DEL_EVPN_DF,
+	RTM_FPM_ADD_EVPN_ES_BACKUP_NHG,
+	RTM_FPM_DEL_EVPN_ES_BACKUP_NHG,
+	RTM_FPM_LAST = RTM_FPM_DEL_EVPN_ES_BACKUP_NHG,
+	RTM_FPM_MAX = RTM_FPM_LAST
+} rtm_fpm_msg_types_et;
+
+struct evpn_shl_msg {
+	int esm_ifindex;
+	uint16_t esm_vid;
+};
+
+struct evpn_df_msg {
+	int edm_ifindex;
+	uint16_t edm_vid;
+	int edm_non_df;
+};
+
+struct evpn_backup_nhg_msg {
+	int ebnm_ifindex;
+	int ebnm_backup_nhg_id;
+};
+
+#define FPM_SHL_IPV4_ADDR 1
+#define FPM_SHL_IPV6_ADDR 2
+#define FPM_SHL_LAST FPM_SHL_IPV6_ADDR
+#define FPM_SHL_MAX FPM_SHL_LAST
+
 #define NL_RCV_PKT_BUF_SIZE     (34 * 1024)
 #define NL_PKT_BUF_SIZE         8192
 
