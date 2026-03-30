@@ -2509,7 +2509,7 @@ struct bgp_nlri {
 #define BGP_DEFAULT_SELECT_DEFERRAL_TIME       120
 #define BGP_DEFAULT_RIB_STALE_TIME             500
 #define BGP_DEFAULT_UPDATE_ADVERTISEMENT_TIME  1
-#define BGP_DEFAULT_SUPPRESS_FIB_ADV_DELAY     1000 /* ms */
+#define BGP_DEFAULT_SUPPRESS_FIB_ADV_DELAY     50 /* ms */
 
 /* BGP Long-lived Graceful Restart */
 #define BGP_DEFAULT_LLGR_STALE_TIME 0
