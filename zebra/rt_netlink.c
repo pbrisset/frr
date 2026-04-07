@@ -2365,6 +2365,15 @@ static bool _netlink_route_build_multipath(const struct prefix *p,
 				   routedesc, p, addrstr, label_buf, nexthop->ifindex,
 				   nexthop->vrf_id);
 		}
+
+		/*
+		 * Add encapsulation information when installing via
+		 * FPM for v4-over-v6 nexthops (e.g. EVPN Type-5
+		 * routes with IPv6 VTEPs).
+		 */
+		if (!netlink_route_nexthop_encap(fpm, nlmsg, req_size, nexthop))
+			return false;
+
 		nl_attr_rtnh_end(nlmsg, rtnh);
 		return true;
 	}
