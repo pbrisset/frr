@@ -84,6 +84,7 @@ override_dh_auto_configure:
 		--enable-doc-html \
 		--enable-snmp \
 		--enable-fpm \
+		--enable-sharpd \
 		--disable-protobuf \
 		--disable-zeromq \
 		--enable-ospfapi \
