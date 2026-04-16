@@ -3334,7 +3334,11 @@ DEFUN_NOSH (show_tcmalloc_stats,
 	    "tcmalloc library info\n"
 	    "Show tcmalloc stats\n")
 {
+#ifdef HAVE_TC_MALLINFO2
 	struct mallinfo2 minfo;
+#else
+	struct mallinfo minfo;
+#endif
 	char buf[30];
 	size_t sval;
 	int major = 0, minor = 0;
@@ -3344,7 +3348,11 @@ DEFUN_NOSH (show_tcmalloc_stats,
 
 	vty_out(vty, "Tcmalloc version '%s' (%d.%d)\n", str, major, minor);
 
+#ifdef HAVE_TC_MALLINFO2
 	minfo = tc_mallinfo2();
+#else
+	minfo = tc_mallinfo();
+#endif
 
 	vty_out(vty, "Tcmalloc mallinfo statistics:\n");
 	vty_out(vty, "  Total heap allocated:  %s\n",

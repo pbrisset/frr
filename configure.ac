@@ -920,6 +920,11 @@ AC_DEFINE([HAVE_TCMALLOC], [1], [Enable tcmalloc])
   *) AC_MSG_ERROR([bad value ${enableval} for --enable-gperf-tcmalloc]) ;;
 esac],[gperf_tcmalloc_enabled=false])
 
+if test "$gperf_tcmalloc_enabled" = "true"; then
+  AC_CHECK_FUNC([tc_mallinfo2],
+    [AC_DEFINE([HAVE_TC_MALLINFO2], [1], [tc_mallinfo2 from gperftools])])
+fi
+
 #if openssl, else use the internal
 AS_IF([test "$with_crypto" = "openssl"], [
 AC_CHECK_LIB([crypto], [EVP_DigestInit], [LIBS="$LIBS -lcrypto"], [], [])
