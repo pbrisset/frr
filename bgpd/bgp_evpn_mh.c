@@ -1747,7 +1747,7 @@ static void bgp_evpn_path_es_unlink(struct bgp_path_es_info *es_info)
 		return;
 
 	pi = es_info->pi;
-	if (BGP_DEBUG(evpn_mh, EVPN_MH_RT))
+	if (BGP_DEBUG(evpn_mh, EVPN_MH_RT) && pi && pi->net)
 		zlog_debug("vni %u path %pFX unlinked from es %s", es_info->vni,
 			   &pi->net->rn->p, es->esi_str);
 
@@ -2312,6 +2312,9 @@ static void bgp_evpn_mac_update_on_es_local_chg(struct bgp_evpn_es *es,
 
 	for (ALL_LIST_ELEMENTS_RO(es->macip_global_path_list, node, es_info)) {
 		pi = es_info->pi;
+
+		if (!pi)
+			continue;
 
 		/* Consider "valid" remote routes */
 		if (!bgp_evpn_is_valid_bgp_path(pi))
