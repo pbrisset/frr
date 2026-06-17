@@ -1092,7 +1092,6 @@ extern void bgp_upa_withdraw_global(struct bgp *bgp, afi_t afi, safi_t safi);
 extern void bgp_upa_check_prefix_global(struct bgp *bgp, const struct prefix *p, afi_t afi,
 				       safi_t safi);
 extern bool bgp_upa_has_extcomm(struct bgp_path_info *pi);
-extern bool bgp_upa_get_dbit(struct bgp_path_info *pi);
 
 extern int bgp_path_info_cmp(struct bgp *bgp, struct bgp_path_info *new,
 			     struct bgp_path_info *exist, int *paths_eq,
