@@ -103,6 +103,8 @@
  * In a uint8_t, MSB maps to (1 << 7) = 0x80.
  */
 #define BGP_UPA_FLAG_DROP (1 << 7) /* D-bit (RFC bit 0, MSB): install drop entry */
+#define BGP_UPA_FLAG_RECOMPUTE                                                  \
+	(1 << 6) /* R-bit (RFC bit 1): recompute next-hops */
 
 /* Absolute byte offsets within the 8-byte UPA Extended Community value.
  * Bytes 0 (type) and 1 (subtype) are already named by ECOMMUNITY_ENCODE_OPAQUE
@@ -487,7 +489,7 @@ extern bool ecommunity_node_target_match(struct ecommunity *ecomm,
  * Wire layout (8 bytes total):
  *   [0] type     = 0x03 (ECOMMUNITY_ENCODE_OPAQUE)
  *   [1] subtype  = ECOMMUNITY_OPAQUE_SUBTYPE_UPA
- *   [2] flags    = BGP_UPA_FLAG_DROP | reserved
+ *   [2] flags    = BGP_UPA_FLAG_DROP | BGP_UPA_FLAG_RECOMPUTE | reserved
  *   [3] reserved = 0x00
  *   [4..7] BGP Router-ID of the originator (network byte order)
  */

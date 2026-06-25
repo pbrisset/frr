@@ -1264,13 +1264,17 @@ static char *_ecommunity_ecom2str(struct ecommunity *ecom, int format, int filte
 			} else if (*pnt == ECOMMUNITY_OPAQUE_SUBTYPE_UPA) {
 				struct in_addr rid = {};
 				uint8_t flags = data[BGP_UPA_EXTCOM_OFF_FLAGS];
-				const char *dbit_str = CHECK_FLAG(flags, BGP_UPA_FLAG_DROP)
-								? "drop" : "no-drop";
+				const char *action_str =
+					CHECK_FLAG(flags, BGP_UPA_FLAG_DROP)
+						? "drop"
+					: CHECK_FLAG(flags, BGP_UPA_FLAG_RECOMPUTE)
+						? "recompute"
+						: "none";
 
 				memcpy(&rid.s_addr, data + BGP_UPA_EXTCOM_OFF_ROUTER_ID,
 				       sizeof(rid.s_addr));
 				snprintfrr(encbuf, sizeof(encbuf), "upa:%pI4:%s", &rid,
-					   dbit_str);
+					   action_str);
 			} else {
 				unk_ecom = true;
 			}
