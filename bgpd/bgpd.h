@@ -22,6 +22,17 @@ PREDECL_LIST(zebra_announce);
 PREDECL_LIST(zebra_l2_vni);
 PREDECL_HASH(bgp_upa_prefix_hash);
 
+/* UPA (Unreachable Prefix Announcement) receiver action requested by the
+ * originator. Replaces the legacy upa_drop bool in a later phase; declared here
+ * because both struct bgp (this file) and struct bgp_aggregate (bgp_route.h)
+ * carry a field of this type.
+ */
+enum bgp_upa_action {
+	BGP_UPA_ACTION_NONE = 0,  /* signal only, no FIB action requested  */
+	BGP_UPA_ACTION_DROP,      /* D-bit: blackhole                      */
+	BGP_UPA_ACTION_RECOMPUTE, /* R-bit: recompute next-hops            */
+};
+
 enum bgp_bp_install_type {
 	BGP_BP_INSTALL_ROUTE,
 };
@@ -854,6 +865,7 @@ struct bgp {
 	 */
 	bool upa_enabled[AFI_MAX][SAFI_MAX];
 	bool upa_drop[AFI_MAX][SAFI_MAX];
+	enum bgp_upa_action upa_action[AFI_MAX][SAFI_MAX];
 	uint32_t upa_max_routes[AFI_MAX][SAFI_MAX];
 	struct bgp_upa_prefix_hash_head upa_routes[AFI_MAX][SAFI_MAX];
 

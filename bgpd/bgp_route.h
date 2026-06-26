@@ -360,6 +360,7 @@ struct bgp_path_info {
 #define BGP_PATH_LOCAL_IMPORT_EVPN_RT2_MACIP (1 << 21)
 #define BGP_PATH_UPA (1 << 22) /* Route has UPA marking (locally originated or received with UPA ExtCom) */
 #define BGP_PATH_UPA_DROP (1 << 23) /* UPA route has D-bit set (drop/blackhole) */
+#define BGP_PATH_UPA_RECOMPUTE (1 << 24) /* UPA route has R-bit set (recompute next-hops) */
 
 	/* BGP route type.  This can be static, RIP, OSPF, BGP etc.  */
 	uint8_t type;
@@ -536,6 +537,8 @@ struct bgp_aggregate {
 	 *
 	 * upa_enabled  true when "aggregate-address ... upa" is configured.
 	 * upa_drop     true when the D-bit should be set on originated UPAs.
+	 * upa_action   receiver action signalled on originated UPAs (none/drop/
+	 *              recompute); added alongside upa_drop, supersedes it later.
 	 * upa_max_routes  per-aggregate cap on simultaneous UPA entries (0=unlimited).
 	 * upa_routes   typesafe hash of prefixes currently announced as UPA under this
 	 *              aggregate; keyed by prefix, cleaned up in bgp_free_aggregate_info().
@@ -545,6 +548,7 @@ struct bgp_aggregate {
 	 */
 	bool upa_enabled;
 	bool upa_drop;
+	enum bgp_upa_action upa_action;
 	uint32_t upa_max_routes;
 	struct bgp_upa_prefix_hash_head upa_routes;
 };
