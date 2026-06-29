@@ -854,7 +854,8 @@ struct bgp {
 	/* Global UPA (Unreachable Prefix Announcement) configuration per AFI/SAFI.
 	 *
 	 * upa_enabled[][]      true when "upa originate" configured at AF level.
-	 * upa_drop[][]         true when D-bit should be set on originated UPAs.
+	 * upa_action[][]       receiver action signalled on originated UPAs
+	 *                      (none/drop/recompute).
 	 * upa_max_routes[][]   global cap on simultaneous UPA entries (0=unlimited).
 	 * upa_routes[][]       typesafe hash of prefixes currently announced as UPA globally;
 	 *                      keyed by prefix, cleaned up in bgp_free().
@@ -864,7 +865,6 @@ struct bgp {
 	 * per-aggregate UPA configuration in struct bgp_aggregate.
 	 */
 	bool upa_enabled[AFI_MAX][SAFI_MAX];
-	bool upa_drop[AFI_MAX][SAFI_MAX];
 	enum bgp_upa_action upa_action[AFI_MAX][SAFI_MAX];
 	uint32_t upa_max_routes[AFI_MAX][SAFI_MAX];
 	struct bgp_upa_prefix_hash_head upa_routes[AFI_MAX][SAFI_MAX];

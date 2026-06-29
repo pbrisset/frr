@@ -102,6 +102,7 @@
 /* UPA flags byte — RFC bit-numbering: bit 0 is the MSB.
  * In a uint8_t, MSB maps to (1 << 7) = 0x80.
  */
+#define BGP_UPA_FLAG_NONE 0	   /* no action bit set (signal only) */
 #define BGP_UPA_FLAG_DROP (1 << 7) /* D-bit (RFC bit 0, MSB): install drop entry */
 #define BGP_UPA_FLAG_RECOMPUTE                                                  \
 	(1 << 6) /* R-bit (RFC bit 1): recompute next-hops */

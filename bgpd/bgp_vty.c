@@ -22097,8 +22097,10 @@ static void bgp_config_write_family(struct vty *vty, struct bgp *bgp, afi_t afi,
 	/* Global UPA configuration */
 	if (bgp->upa_enabled[afi][safi])
 		vty_out(vty, " upa originate-all\n");
-	if (bgp->upa_drop[afi][safi])
+	if (bgp->upa_action[afi][safi] == BGP_UPA_ACTION_DROP)
 		vty_out(vty, " upa drop\n");
+	else if (bgp->upa_action[afi][safi] == BGP_UPA_ACTION_RECOMPUTE)
+		vty_out(vty, " upa recompute\n");
 	if (bgp->upa_max_routes[afi][safi] > 0)
 		vty_out(vty, " upa max-routes %u\n", bgp->upa_max_routes[afi][safi]);
 
@@ -23293,9 +23295,17 @@ DEFPY(upa_drop_global,
 	afi_t afi = bgp_node_afi(vty);
 	safi_t safi = bgp_node_safi(vty);
 
-	bgp->upa_drop[afi][safi] = true;
+	if (bgp->upa_action[afi][safi] == BGP_UPA_ACTION_DROP)
+		return CMD_SUCCESS; /* no change, avoid needless re-origination */
 
-	/* If global UPA is already enabled, re-originate with new D-bit setting */
+	if (BGP_DEBUG(upa, UPA))
+		zlog_debug("UPA: global action %s -> drop (afi=%s safi=%s)",
+			   bgp_upa_action2str(bgp->upa_action[afi][safi]), afi2str(afi),
+			   safi2str(safi));
+
+	bgp->upa_action[afi][safi] = BGP_UPA_ACTION_DROP;
+
+	/* If global UPA is already enabled, re-originate with new action */
 	if (bgp->upa_enabled[afi][safi]) {
 		bgp_upa_withdraw_global(bgp, afi, safi);
 		bgp_upa_originate_global(bgp, afi, safi);
@@ -23315,9 +23325,84 @@ DEFPY(no_upa_drop_global,
 	afi_t afi = bgp_node_afi(vty);
 	safi_t safi = bgp_node_safi(vty);
 
-	bgp->upa_drop[afi][safi] = false;
+	/* Only clear when the live action is actually DROP. During a config
+	 * replay the diff may add "upa recompute" before deleting "upa drop";
+	 * an unconditional reset to NONE would clobber RECOMPUTE and desync the
+	 * running state from the intended config. Bail unchanged otherwise.
+	 */
+	if (bgp->upa_action[afi][safi] != BGP_UPA_ACTION_DROP)
+		return CMD_SUCCESS;
 
-	/* If global UPA is already enabled, re-originate with new D-bit setting */
+	if (BGP_DEBUG(upa, UPA))
+		zlog_debug("UPA: global action drop -> none (afi=%s safi=%s)", afi2str(afi),
+			   safi2str(safi));
+
+	bgp->upa_action[afi][safi] = BGP_UPA_ACTION_NONE;
+
+	/* If global UPA is already enabled, re-originate with new action */
+	if (bgp->upa_enabled[afi][safi]) {
+		bgp_upa_withdraw_global(bgp, afi, safi);
+		bgp_upa_originate_global(bgp, afi, safi);
+	}
+
+	return CMD_SUCCESS;
+}
+
+DEFPY(upa_recompute_global,
+      upa_recompute_global_cmd,
+      "upa recompute",
+      "Unreachable Prefix Announcement\n"
+      "Set R-bit in global UPA Extended Community (receivers recompute next-hops)\n")
+{
+	VTY_DECLVAR_CONTEXT(bgp, bgp);
+	afi_t afi = bgp_node_afi(vty);
+	safi_t safi = bgp_node_safi(vty);
+
+	if (bgp->upa_action[afi][safi] == BGP_UPA_ACTION_RECOMPUTE)
+		return CMD_SUCCESS; /* no change, avoid needless re-origination */
+
+	if (BGP_DEBUG(upa, UPA))
+		zlog_debug("UPA: global action %s -> recompute (afi=%s safi=%s)",
+			   bgp_upa_action2str(bgp->upa_action[afi][safi]), afi2str(afi),
+			   safi2str(safi));
+
+	bgp->upa_action[afi][safi] = BGP_UPA_ACTION_RECOMPUTE;
+
+	/* If global UPA is already enabled, re-originate with new action */
+	if (bgp->upa_enabled[afi][safi]) {
+		bgp_upa_withdraw_global(bgp, afi, safi);
+		bgp_upa_originate_global(bgp, afi, safi);
+	}
+
+	return CMD_SUCCESS;
+}
+
+DEFPY(no_upa_recompute_global,
+      no_upa_recompute_global_cmd,
+      "no upa recompute",
+      NO_STR
+      "Unreachable Prefix Announcement\n"
+      "Set R-bit in global UPA Extended Community (receivers recompute next-hops)\n")
+{
+	VTY_DECLVAR_CONTEXT(bgp, bgp);
+	afi_t afi = bgp_node_afi(vty);
+	safi_t safi = bgp_node_safi(vty);
+
+	/* Only clear when the live action is actually RECOMPUTE. During a config
+	 * replay the diff may add "upa drop" before deleting "upa recompute"; an
+	 * unconditional reset to NONE would clobber DROP and desync the running
+	 * state from the intended config. Bail unchanged otherwise.
+	 */
+	if (bgp->upa_action[afi][safi] != BGP_UPA_ACTION_RECOMPUTE)
+		return CMD_SUCCESS;
+
+	if (BGP_DEBUG(upa, UPA))
+		zlog_debug("UPA: global action recompute -> none (afi=%s safi=%s)", afi2str(afi),
+			   safi2str(safi));
+
+	bgp->upa_action[afi][safi] = BGP_UPA_ACTION_NONE;
+
+	/* If global UPA is already enabled, re-originate with new action */
 	if (bgp->upa_enabled[afi][safi]) {
 		bgp_upa_withdraw_global(bgp, afi, safi);
 		bgp_upa_originate_global(bgp, afi, safi);
@@ -25063,12 +25148,16 @@ void bgp_vty_init(void)
 	install_element(BGP_IPV4_NODE, &no_upa_max_routes_global_cmd);
 	install_element(BGP_IPV4_NODE, &upa_drop_global_cmd);
 	install_element(BGP_IPV4_NODE, &no_upa_drop_global_cmd);
+	install_element(BGP_IPV4_NODE, &upa_recompute_global_cmd);
+	install_element(BGP_IPV4_NODE, &no_upa_recompute_global_cmd);
 	install_element(BGP_IPV6_NODE, &upa_originate_all_cmd);
 	install_element(BGP_IPV6_NODE, &no_upa_originate_all_cmd);
 	install_element(BGP_IPV6_NODE, &upa_max_routes_global_cmd);
 	install_element(BGP_IPV6_NODE, &no_upa_max_routes_global_cmd);
 	install_element(BGP_IPV6_NODE, &upa_drop_global_cmd);
 	install_element(BGP_IPV6_NODE, &no_upa_drop_global_cmd);
+	install_element(BGP_IPV6_NODE, &upa_recompute_global_cmd);
+	install_element(BGP_IPV6_NODE, &no_upa_recompute_global_cmd);
 
 	bgp_vty_if_init();
 }

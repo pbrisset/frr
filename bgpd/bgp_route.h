@@ -536,9 +536,8 @@ struct bgp_aggregate {
 	/* UPA (Unreachable Prefix Announcement) state for this aggregate.
 	 *
 	 * upa_enabled  true when "aggregate-address ... upa" is configured.
-	 * upa_drop     true when the D-bit should be set on originated UPAs.
-	 * upa_action   receiver action signalled on originated UPAs (none/drop/
-	 *              recompute); added alongside upa_drop, supersedes it later.
+	 * upa_action   receiver action signalled on originated UPAs
+	 *              (none/drop/recompute).
 	 * upa_max_routes  per-aggregate cap on simultaneous UPA entries (0=unlimited).
 	 * upa_routes   typesafe hash of prefixes currently announced as UPA under this
 	 *              aggregate; keyed by prefix, cleaned up in bgp_free_aggregate_info().
@@ -547,7 +546,6 @@ struct bgp_aggregate {
 	 * false/0/NULL without explicit initialisation.
 	 */
 	bool upa_enabled;
-	bool upa_drop;
 	enum bgp_upa_action upa_action;
 	uint32_t upa_max_routes;
 	struct bgp_upa_prefix_hash_head upa_routes;
@@ -1096,6 +1094,7 @@ extern void bgp_upa_withdraw_global(struct bgp *bgp, afi_t afi, safi_t safi);
 extern void bgp_upa_check_prefix_global(struct bgp *bgp, const struct prefix *p, afi_t afi,
 				       safi_t safi);
 extern bool bgp_upa_has_extcomm(struct bgp_path_info *pi);
+extern const char *bgp_upa_action2str(enum bgp_upa_action action);
 
 extern int bgp_path_info_cmp(struct bgp *bgp, struct bgp_path_info *new,
 			     struct bgp_path_info *exist, int *paths_eq,

@@ -9608,6 +9608,20 @@ bool bgp_upa_has_extcomm(struct bgp_path_info *pi)
 	return CHECK_FLAG(pi->flags, BGP_PATH_UPA);
 }
 
+const char *bgp_upa_action2str(enum bgp_upa_action action)
+{
+	switch (action) {
+	case BGP_UPA_ACTION_DROP:
+		return "drop";
+	case BGP_UPA_ACTION_RECOMPUTE:
+		return "recompute";
+	case BGP_UPA_ACTION_NONE:
+		return "none";
+	}
+
+	return "unknown";
+}
+
 /* Determine whether a prefix is unreachable for global (per-prefix) UPA
  * origination. A prefix is reachable only when a non-UPA, non-stale path is the
  * installed bestpath (BGP_PATH_SELECTED), matching true forwarding
@@ -9630,15 +9644,21 @@ static bool bgp_upa_is_prefix_unreachable(struct bgp_dest *dest)
 	return true;
 }
 
-static struct ecommunity *bgp_upa_create_extcomm(struct bgp *bgp, bool drop)
+static struct ecommunity *bgp_upa_create_extcomm(struct bgp *bgp, enum bgp_upa_action action)
 {
 	struct ecommunity *ecomm;
 	struct ecommunity_val eval;
+	uint8_t flags = BGP_UPA_FLAG_NONE;
+
+	if (action == BGP_UPA_ACTION_DROP)
+		flags = BGP_UPA_FLAG_DROP;
+	else if (action == BGP_UPA_ACTION_RECOMPUTE)
+		flags = BGP_UPA_FLAG_RECOMPUTE;
 
 	memset(&eval, 0, sizeof(eval));
 	eval.val[0] = ECOMMUNITY_ENCODE_OPAQUE;
 	eval.val[1] = ECOMMUNITY_OPAQUE_SUBTYPE_UPA;
-	eval.val[BGP_UPA_EXTCOM_OFF_FLAGS] = drop ? BGP_UPA_FLAG_DROP : 0;
+	eval.val[BGP_UPA_EXTCOM_OFF_FLAGS] = flags;
 	memcpy(&eval.val[BGP_UPA_EXTCOM_OFF_ROUTER_ID], &bgp->router_id.s_addr, 4);
 
 	ecomm = ecommunity_new();
@@ -9722,10 +9742,10 @@ static bool bgp_upa_originate_single(struct bgp *bgp, struct bgp_dest *dest,
 	}
 
 	bgp_attr_default_set(&attr, bgp, BGP_ORIGIN_INCOMPLETE);
-	ecomm_upa = bgp_upa_create_extcomm(bgp, aggregate->upa_drop);
+	ecomm_upa = bgp_upa_create_extcomm(bgp, aggregate->upa_action);
 	bgp_attr_set_ecommunity(&attr, ecomm_upa);
 
-	if (aggregate->upa_drop) {
+	if (aggregate->upa_action == BGP_UPA_ACTION_DROP) {
 		attr.nh_type = NEXTHOP_TYPE_BLACKHOLE;
 		attr.bh_type = BLACKHOLE_UNSPEC;
 	}
@@ -9749,15 +9769,17 @@ static bool bgp_upa_originate_single(struct bgp *bgp, struct bgp_dest *dest,
 	new = info_make(ZEBRA_ROUTE_BGP, BGP_ROUTE_NORMAL, 0, bgp->peer_self, new_attr, dest);
 	SET_FLAG(new->flags, BGP_PATH_VALID);
 	SET_FLAG(new->flags, BGP_PATH_UPA);
-	if (aggregate->upa_drop)
+	if (aggregate->upa_action == BGP_UPA_ACTION_DROP)
 		SET_FLAG(new->flags, BGP_PATH_UPA_DROP);
+	else if (aggregate->upa_action == BGP_UPA_ACTION_RECOMPUTE)
+		SET_FLAG(new->flags, BGP_PATH_UPA_RECOMPUTE);
 
 	bgp_path_info_add(dest, new);
 	bgp_process(bgp, dest, new, afi, safi);
 
 	if (BGP_DEBUG(upa, UPA))
-		zlog_debug("UPA %pFX: originated for aggregate %pFX (drop=%d)", dest_p, aggr_p,
-			   aggregate->upa_drop);
+		zlog_debug("UPA %pFX: originated for aggregate %pFX (action=%s)", dest_p, aggr_p,
+			   bgp_upa_action2str(aggregate->upa_action));
 
 	return true;
 }
@@ -9880,15 +9902,15 @@ static void bgp_upa_track_route_hash(struct bgp_upa_prefix_hash_head *hash,
 	if (hash->hh.count == 0 && hash->hh.tabshift == 0)
 		bgp_upa_prefix_hash_init(hash);
 
-	entry = XCALLOC(MTYPE_BGP_AGGREGATE, sizeof(*entry));
+	entry = XCALLOC(MTYPE_BGP_UPA_PREFIX, sizeof(*entry));
 	prefix_copy(&entry->prefix, p);
 
 	if (bgp_upa_prefix_hash_add(hash, entry))
-		XFREE(MTYPE_BGP_AGGREGATE, entry);
+		XFREE(MTYPE_BGP_UPA_PREFIX, entry);
 }
 
-static bool bgp_upa_originate_single_global(struct bgp *bgp, struct bgp_dest *dest,
-					    afi_t afi, safi_t safi, bool d_bit)
+static bool bgp_upa_originate_single_global(struct bgp *bgp, struct bgp_dest *dest, afi_t afi,
+					    safi_t safi, enum bgp_upa_action action)
 {
 	struct bgp_path_info *pi;
 	struct attr attr = { 0 };
@@ -9901,11 +9923,11 @@ static bool bgp_upa_originate_single_global(struct bgp *bgp, struct bgp_dest *de
 	}
 
 	bgp_attr_default_set(&attr, bgp, BGP_ORIGIN_INCOMPLETE);
-	upa_ecom = bgp_upa_create_extcomm(bgp, d_bit);
+	upa_ecom = bgp_upa_create_extcomm(bgp, action);
 	if (upa_ecom)
 		bgp_attr_set_ecommunity(&attr, upa_ecom);
 
-	if (d_bit) {
+	if (action == BGP_UPA_ACTION_DROP) {
 		attr.nh_type = NEXTHOP_TYPE_BLACKHOLE;
 		attr.bh_type = BLACKHOLE_UNSPEC;
 	}
@@ -9916,15 +9938,17 @@ static bool bgp_upa_originate_single_global(struct bgp *bgp, struct bgp_dest *de
 	pi = info_make(ZEBRA_ROUTE_BGP, BGP_ROUTE_NORMAL, 0, bgp->peer_self, new_attr, dest);
 	SET_FLAG(pi->flags, BGP_PATH_VALID);
 	SET_FLAG(pi->flags, BGP_PATH_UPA);
-	if (d_bit)
+	if (action == BGP_UPA_ACTION_DROP)
 		SET_FLAG(pi->flags, BGP_PATH_UPA_DROP);
+	else if (action == BGP_UPA_ACTION_RECOMPUTE)
+		SET_FLAG(pi->flags, BGP_PATH_UPA_RECOMPUTE);
 
 	bgp_path_info_add(dest, pi);
 	bgp_process(bgp, dest, pi, afi, safi);
 
 	if (BGP_DEBUG(upa, UPA))
-		zlog_debug("UPA: Global originated UPA for %pFX (d_bit=%d)",
-			   bgp_dest_get_prefix(dest), d_bit);
+		zlog_debug("UPA: Global originated UPA for %pFX (action=%s)",
+			   bgp_dest_get_prefix(dest), bgp_upa_action2str(action));
 
 	return true;
 }
@@ -9964,7 +9988,7 @@ void bgp_upa_check_prefix_global(struct bgp *bgp, const struct prefix *p,
 		}
 
 		if (bgp_upa_originate_single_global(bgp, dest, afi, safi,
-						    bgp->upa_drop[afi][safi])) {
+						    bgp->upa_action[afi][safi])) {
 			bgp_upa_track_route_hash(&bgp->upa_routes[afi][safi], p);
 		}
 	} else if (!is_unreachable && upa_exists) {
@@ -9983,7 +10007,7 @@ void bgp_upa_originate_global(struct bgp *bgp, afi_t afi, safi_t safi)
 	struct bgp_dest *dest;
 	uint32_t originated = 0;
 	uint32_t max_routes = bgp->upa_max_routes[afi][safi];
-	bool d_bit = bgp->upa_drop[afi][safi];
+	enum bgp_upa_action action = bgp->upa_action[afi][safi];
 
 	if (!table)
 		return;
@@ -9998,7 +10022,7 @@ void bgp_upa_originate_global(struct bgp *bgp, afi_t afi, safi_t safi)
 		    bgp_upa_count_tracked_hash(&bgp->upa_routes[afi][safi]) >= max_routes)
 			continue;
 
-		if (bgp_upa_originate_single_global(bgp, dest, afi, safi, d_bit)) {
+		if (bgp_upa_originate_single_global(bgp, dest, afi, safi, action)) {
 			bgp_upa_track_route_hash(&bgp->upa_routes[afi][safi], p);
 			originated++;
 		}
@@ -11327,12 +11351,12 @@ static int bgp_aggregate_unset(struct vty *vty, const char *prefix_str,
 
 static bool bgp_aggregate_cmp_params(struct bgp_aggregate *aggregate, const char *rmap,
 				     uint8_t summary_only, uint8_t as_set, uint8_t origin,
-				     bool match_med, const char *suppress_map,
-				     bool upa_enabled, bool upa_drop, uint32_t upa_max_routes)
+				     bool match_med, const char *suppress_map, bool upa_enabled,
+				     enum bgp_upa_action upa_action, uint32_t upa_max_routes)
 {
 	if ((aggregate->origin != origin) || (aggregate->as_set != as_set) ||
 	    (aggregate->match_med != match_med) || (aggregate->summary_only != summary_only) ||
-	    (aggregate->upa_enabled != upa_enabled) || (aggregate->upa_drop != upa_drop) ||
+	    (aggregate->upa_enabled != upa_enabled) || (aggregate->upa_action != upa_action) ||
 	    (aggregate->upa_max_routes != upa_max_routes))
 		return false;
 
@@ -11349,12 +11373,10 @@ static bool bgp_aggregate_cmp_params(struct bgp_aggregate *aggregate, const char
 	return true;
 }
 
-static int bgp_aggregate_set(struct vty *vty, const char *prefix_str, afi_t afi,
-			     safi_t safi, const char *rmap,
-			     uint8_t summary_only, uint8_t as_set,
-			     uint8_t origin, bool match_med,
-			     const char *suppress_map,
-			     bool upa_enabled, bool upa_drop, uint32_t upa_max_routes)
+static int bgp_aggregate_set(struct vty *vty, const char *prefix_str, afi_t afi, safi_t safi,
+			     const char *rmap, uint8_t summary_only, uint8_t as_set, uint8_t origin,
+			     bool match_med, const char *suppress_map, bool upa_enabled,
+			     enum bgp_upa_action upa_action, uint32_t upa_max_routes)
 {
 	VTY_DECLVAR_CONTEXT(bgp, bgp);
 	int ret;
@@ -11393,7 +11415,7 @@ static int bgp_aggregate_set(struct vty *vty, const char *prefix_str, afi_t afi,
 
 		/* Check for duplicate configs */
 		if (bgp_aggregate_cmp_params(aggregate, rmap, summary_only, as_set, origin,
-					     match_med, suppress_map, upa_enabled, upa_drop,
+					     match_med, suppress_map, upa_enabled, upa_action,
 					     upa_max_routes)) {
 			bgp_dest_unlock_node(dest);
 			return CMD_SUCCESS;
@@ -11463,12 +11485,13 @@ static int bgp_aggregate_set(struct vty *vty, const char *prefix_str, afi_t afi,
 
 	/* UPA (Unreachable Prefix Announcement) configuration */
 	aggregate->upa_enabled = upa_enabled;
-	aggregate->upa_drop = upa_drop;
+	aggregate->upa_action = upa_action;
 	aggregate->upa_max_routes = upa_max_routes;
 
 	if (BGP_DEBUG(upa, UPA))
-		zlog_debug("%s: aggregate %pFX upa_enabled=%d upa_drop=%d upa_max_routes=%u",
-			   __func__, &p, upa_enabled, upa_drop, upa_max_routes);
+		zlog_debug("%s: aggregate %pFX upa_enabled=%d upa_action=%s upa_max_routes=%u",
+			   __func__, &p, upa_enabled, bgp_upa_action2str(upa_action),
+			   upa_max_routes);
 
 	bgp_dest_set_bgp_aggregate_info(dest, aggregate);
 
@@ -11506,7 +11529,7 @@ DEFPY(aggregate_addressv4, aggregate_addressv4_cmd,
       "|origin <egp|igp|incomplete>$origin_s"
       "|matching-MED-only$match_med"
       "|suppress-map RMAP_NAME$suppress_map"
-      "|upa$upa [drop$upa_drop] [max-routes (1-65535)$upa_max_routes]"
+      "|upa$upa [drop$upa_drop|recompute$upa_recompute] [max-routes (1-65535)$upa_max_routes]"
       "}]",
       NO_STR
       "Configure BGP aggregate entries\n"
@@ -11526,6 +11549,7 @@ DEFPY(aggregate_addressv4, aggregate_addressv4_cmd,
       "Route map with the route selectors\n"
       "Originate UPA (Unreachable Prefix Announcement) for unreachable prefixes\n"
       "Set D-bit in UPA Extended Community (receivers install drop entry)\n"
+      "Set R-bit in UPA Extended Community (receivers recompute next-hops)\n"
       "Cap simultaneous UPA routes for this aggregate\n"
       "Maximum number of UPA routes\n")
 {
@@ -11535,7 +11559,7 @@ DEFPY(aggregate_addressv4, aggregate_addressv4_cmd,
 	int as_set = AGGREGATE_AS_UNSET;
 	char prefix_buf[PREFIX2STR_BUFFER];
 	bool upa_enabled = false;
-	bool upa_drop_flag = false;
+	enum bgp_upa_action upa_action = BGP_UPA_ACTION_NONE;
 	uint32_t upa_max = 0;
 
 	if (addr_str) {
@@ -11564,8 +11588,12 @@ DEFPY(aggregate_addressv4, aggregate_addressv4_cmd,
 	if (upa)
 		upa_enabled = true;
 	if (upa_drop) {
-		upa_drop_flag = true;
+		upa_action = BGP_UPA_ACTION_DROP;
 		upa_enabled = true; /* drop implies upa enabled */
+	}
+	if (upa_recompute) {
+		upa_action = BGP_UPA_ACTION_RECOMPUTE;
+		upa_enabled = true; /* recompute implies upa enabled */
 	}
 	if (upa_max_routes) {
 		upa_max = upa_max_routes;
@@ -11576,10 +11604,9 @@ DEFPY(aggregate_addressv4, aggregate_addressv4_cmd,
 	if (no)
 		return bgp_aggregate_unset(vty, prefix_s, AFI_IP, safi);
 
-	return bgp_aggregate_set(vty, prefix_s, AFI_IP, safi, rmap_name,
-				 summary_only != NULL, as_set, origin,
-				 match_med != NULL, suppress_map,
-				 upa_enabled, upa_drop_flag, upa_max);
+	return bgp_aggregate_set(vty, prefix_s, AFI_IP, safi, rmap_name, summary_only != NULL,
+				 as_set, origin, match_med != NULL, suppress_map, upa_enabled,
+				 upa_action, upa_max);
 }
 
 void bgp_free_aggregate_info(struct bgp_aggregate *aggregate)
@@ -11628,7 +11655,7 @@ DEFPY(aggregate_addressv6, aggregate_addressv6_cmd,
       "|origin <egp|igp|incomplete>$origin_s"
       "|matching-MED-only$match_med"
       "|suppress-map RMAP_NAME$suppress_map"
-      "|upa$upa [drop$upa_drop] [max-routes (1-65535)$upa_max_routes]"
+      "|upa$upa [drop$upa_drop|recompute$upa_recompute] [max-routes (1-65535)$upa_max_routes]"
       "}]",
       NO_STR
       "Configure BGP aggregate entries\n"
@@ -11646,13 +11673,14 @@ DEFPY(aggregate_addressv6, aggregate_addressv6_cmd,
       "Route map with the route selectors\n"
       "Originate UPA (Unreachable Prefix Announcement) for unreachable prefixes\n"
       "Set D-bit in UPA Extended Community (receivers install drop entry)\n"
+      "Set R-bit in UPA Extended Community (receivers recompute next-hops)\n"
       "Cap simultaneous UPA routes for this aggregate\n"
       "Maximum number of UPA routes\n")
 {
 	uint8_t origin = BGP_ORIGIN_UNSPECIFIED;
 	int as_set = AGGREGATE_AS_UNSET;
 	bool upa_enabled = false;
-	bool upa_drop_flag = false;
+	enum bgp_upa_action upa_action = BGP_UPA_ACTION_NONE;
 	uint32_t upa_max = 0;
 
 	if (origin_s) {
@@ -11670,7 +11698,11 @@ DEFPY(aggregate_addressv6, aggregate_addressv6_cmd,
 	if (upa)
 		upa_enabled = true;
 	if (upa_drop) {
-		upa_drop_flag = true;
+		upa_action = BGP_UPA_ACTION_DROP;
+		upa_enabled = true;
+	}
+	if (upa_recompute) {
+		upa_action = BGP_UPA_ACTION_RECOMPUTE;
 		upa_enabled = true;
 	}
 	if (upa_max_routes) {
@@ -11683,10 +11715,9 @@ DEFPY(aggregate_addressv6, aggregate_addressv6_cmd,
 		return bgp_aggregate_unset(vty, prefix_str, AFI_IP6,
 					   SAFI_UNICAST);
 
-	return bgp_aggregate_set(vty, prefix_str, AFI_IP6, SAFI_UNICAST,
-				 rmap_name, summary_only != NULL, as_set,
-				 origin, match_med != NULL, suppress_map,
-				 upa_enabled, upa_drop_flag, upa_max);
+	return bgp_aggregate_set(vty, prefix_str, AFI_IP6, SAFI_UNICAST, rmap_name,
+				 summary_only != NULL, as_set, origin, match_med != NULL,
+				 suppress_map, upa_enabled, upa_action, upa_max);
 }
 
 /* Redistribute route treatment. */
@@ -19856,8 +19887,10 @@ void bgp_config_write_network(struct vty *vty, struct bgp *bgp, afi_t afi,
 
 		if (bgp_aggregate->upa_enabled) {
 			vty_out(vty, " upa");
-			if (bgp_aggregate->upa_drop)
+			if (bgp_aggregate->upa_action == BGP_UPA_ACTION_DROP)
 				vty_out(vty, " drop");
+			else if (bgp_aggregate->upa_action == BGP_UPA_ACTION_RECOMPUTE)
+				vty_out(vty, " recompute");
 			if (bgp_aggregate->upa_max_routes > 0)
 				vty_out(vty, " max-routes %u", bgp_aggregate->upa_max_routes);
 		}
@@ -20046,7 +20079,7 @@ DEFUN(show_bgp_upa_statistics, show_bgp_upa_statistics_cmd,
 
 	bool global_enabled = bgp->upa_enabled[afi][safi];
 	uint32_t max_routes = bgp->upa_max_routes[afi][safi];
-	bool d_bit = bgp->upa_drop[afi][safi];
+	enum bgp_upa_action action = bgp->upa_action[afi][safi];
 	uint32_t tracked_count = bgp->upa_routes[afi][safi].hh.count;
 
 	if (use_json) {
@@ -20054,7 +20087,7 @@ DEFUN(show_bgp_upa_statistics, show_bgp_upa_statistics_cmd,
 		json_object_int_add(json, "activeUpaRoutes", total_upa_routes);
 		json_object_int_add(json, "globalTrackedRoutes", tracked_count);
 		json_object_int_add(json, "maxRoutesLimit", max_routes ? max_routes : 0);
-		json_object_boolean_add(json, "dropBitEnabled", d_bit);
+		json_object_int_add(json, "globalAction", action);
 		vty_json(vty, json);
 	} else {
 		vty_out(vty, "UPA Statistics for AFI %s, SAFI %s:\n\n",
@@ -20066,7 +20099,10 @@ DEFUN(show_bgp_upa_statistics, show_bgp_upa_statistics_cmd,
 		vty_out(vty, "  Global tracked routes:         %u\n", tracked_count);
 		vty_out(vty, "  Max-routes limit:              %s\n",
 			max_routes ? "limited" : "unlimited");
-		vty_out(vty, "  D-bit (drop) enabled:          %s\n", d_bit ? "Yes" : "No");
+		vty_out(vty, "  Global action:                 %s\n",
+			action == BGP_UPA_ACTION_DROP	     ? "drop"
+			: action == BGP_UPA_ACTION_RECOMPUTE ? "recompute"
+							     : "none");
 	}
 
 	return CMD_SUCCESS;
@@ -20147,8 +20183,11 @@ DEFUN(show_bgp_aggregate, show_bgp_aggregate_cmd,
 						aggregate->summary_only);
 			json_object_boolean_add(entry, "upaEnabled",
 						aggregate->upa_enabled);
-			json_object_boolean_add(entry, "upaDrop",
-						aggregate->upa_drop);
+			json_object_string_add(entry, "upaAction",
+					       aggregate->upa_action == BGP_UPA_ACTION_DROP ? "drop"
+					       : aggregate->upa_action == BGP_UPA_ACTION_RECOMPUTE
+						       ? "recompute"
+						       : "none");
 			json_object_int_add(entry, "upaMaxRoutes",
 					   aggregate->upa_max_routes);
 			json_object_object_add(json_aggrs, pbuf, entry);
@@ -20161,8 +20200,11 @@ DEFUN(show_bgp_aggregate, show_bgp_aggregate_cmd,
 			vty_out(vty, "  UPA enabled: %s\n",
 				aggregate->upa_enabled ? "yes" : "no");
 			if (aggregate->upa_enabled) {
-				vty_out(vty, "  UPA drop (D-bit): %s\n",
-					aggregate->upa_drop ? "yes" : "no");
+				vty_out(vty, "  UPA action: %s\n",
+					aggregate->upa_action == BGP_UPA_ACTION_DROP ? "drop"
+					: aggregate->upa_action == BGP_UPA_ACTION_RECOMPUTE
+						? "recompute"
+						: "none");
 				if (aggregate->upa_max_routes > 0)
 					vty_out(vty,
 						"  UPA max-routes: %u\n",
