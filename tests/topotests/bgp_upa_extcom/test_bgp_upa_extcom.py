@@ -29,6 +29,7 @@ raw hex values:
 
 import json
 import os
+import re
 import sys
 import time
 import pytest
@@ -1858,7 +1859,7 @@ def test_global_upa_with_dbit():
     # Check D-bit enabled in statistics
     output = r1.vtysh_cmd("show bgp ipv4 unicast upa statistics json")
     data = json.loads(output)
-    assert data.get("dropBitEnabled") == True, "D-bit not enabled in statistics"
+    assert data.get("globalAction") == "drop", "D-bit not enabled in statistics"
 
     # Verify UPA route was originated
     upa_output = r1.vtysh_cmd("show bgp ipv4 unicast upa json")
@@ -2464,14 +2465,16 @@ def test_show_bgp_upa_statistics():
     output = r1.vtysh_cmd("show bgp ipv4 unicast upa statistics")
     assert "Global UPA originate-all" in output, "Global UPA status not in statistics"
     assert "Max-routes limit" in output, "Max-routes not in statistics"
-    assert "D-bit" in output, "D-bit status not in statistics"
+    assert re.search(
+        r"Global action:\s+drop", output
+    ), "Global action (drop) not in statistics"
 
     # Check JSON
     json_output = r1.vtysh_cmd("show bgp ipv4 unicast upa statistics json")
     data = json.loads(json_output)
     assert data.get("globalUpaEnabled") == True, "globalUpaEnabled not correct in JSON"
     assert data.get("maxRoutesLimit") == 100, "maxRoutesLimit not correct in JSON"
-    assert data.get("dropBitEnabled") == True, "dropBitEnabled not correct in JSON"
+    assert data.get("globalAction") == "drop", "globalAction not correct in JSON"
 
     # Cleanup
     r1.vtysh_cmd(
