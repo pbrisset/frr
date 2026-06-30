@@ -46,6 +46,7 @@ DEFINE_MTYPE(BGPD, BGP_ROUTE_EXTRA_FS, "BGP extra info for flowspec");
 DEFINE_MTYPE(BGPD, BGP_ROUTE_EXTRA_UNREACH, "BGP extra info for unreachability");
 DEFINE_MTYPE(BGPD, BGP_ROUTE_EXTRA_VRFLEAK, "BGP extra info for vrf leaking");
 DEFINE_MTYPE(BGPD, BGP_ROUTE_EXTRA_VNC, "BGP extra info for vnc");
+DEFINE_MTYPE(BGPD, BGP_ROUTE_EXTRA_UPA, "BGP extra info for UPA recompute");
 DEFINE_MTYPE(BGPD, BGP_CONN, "BGP connected");
 DEFINE_MTYPE(BGPD, BGP_STATIC, "BGP static");
 DEFINE_MTYPE(BGPD, BGP_ADVERTISE_ATTR, "BGP adv attr");
