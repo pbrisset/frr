@@ -1389,16 +1389,21 @@ Route Aggregation-IPv4 Address Family
    Similar to `summary-only`, but will only suppress more specific routes that
    are matched by the selected route-map.
 
-.. clicmd:: aggregate-address A.B.C.D/M upa [drop] [max-routes (1-4294967295)]
+.. clicmd:: aggregate-address A.B.C.D/M upa [drop|recompute] [max-routes (1-4294967295)]
 
    Enable Unreachable Prefix Announcement (UPA) for this aggregate. When component
    routes are withdrawn or become unreachable, UPA routes are originated with
    the UPA extended community (type 0x03, subtype 0x09) instead of withdrawing
    the aggregate.
 
-   The optional ``drop`` keyword sets the D-bit in the UPA extended community,
-   signaling to receivers that they should install a blackhole/drop entry for
-   the prefix.
+   The optional action keyword controls the UPA flags in the extended community:
+
+   - ``drop`` sets the D-bit, signaling receivers to install a blackhole/drop
+     entry for the prefix.
+   - ``recompute`` sets the R-bit, signaling receivers to recompute a next-hop
+     set from the covering route and exclude unreachable next-hop(s).
+
+   If omitted, the action defaults to ``none`` (UPA tag without D/R action bit).
 
    The ``max-routes`` parameter specifies a cap on the number of simultaneous
    UPA routes that can be originated for this aggregate (0 = unlimited).
@@ -1458,16 +1463,21 @@ Route Aggregation-IPv6 Address Family
    Similar to `summary-only`, but will only suppress more specific routes that
    are matched by the selected route-map.
 
-.. clicmd:: aggregate-address X:X::X:X/M upa [drop] [max-routes (1-4294967295)]
+.. clicmd:: aggregate-address X:X::X:X/M upa [drop|recompute] [max-routes (1-4294967295)]
 
    Enable Unreachable Prefix Announcement (UPA) for this aggregate. When component
    routes are withdrawn or become unreachable, UPA routes are originated with
    the UPA extended community (type 0x03, subtype 0x09) instead of withdrawing
    the aggregate.
 
-   The optional ``drop`` keyword sets the D-bit in the UPA extended community,
-   signaling to receivers that they should install a blackhole/drop entry for
-   the prefix.
+   The optional action keyword controls the UPA flags in the extended community:
+
+   - ``drop`` sets the D-bit, signaling receivers to install a blackhole/drop
+     entry for the prefix.
+   - ``recompute`` sets the R-bit, signaling receivers to recompute a next-hop
+     set from the covering route and exclude unreachable next-hop(s).
+
+   If omitted, the action defaults to ``none`` (UPA tag without D/R action bit).
 
    The ``max-routes`` parameter specifies a cap on the number of simultaneous
    UPA routes that can be originated for this aggregate (0 = unlimited).
@@ -1495,7 +1505,7 @@ Unreachable Prefix Announcement (UPA)
 --------------------------------------
 
 Unreachable Prefix Announcement (UPA) is a BGP mechanism defined in
-``draft-ietf-idr-upa-02`` that allows routers to signal that a prefix is
+``draft-krierhorn-idr-upa-02`` that allows routers to signal that a prefix is
 unreachable without withdrawing the route entirely. This enables downstream
 routers to take appropriate action (such as blackholing traffic) while
 maintaining route presence in the BGP table.
@@ -1510,10 +1520,13 @@ that contains:
 
 - **Router ID**: The originating router's BGP router ID (4 bytes)
 - **D-bit (Drop flag)**: Whether receivers should install a blackhole entry
+- **R-bit (Recompute flag)**: Whether receivers should derive a recomputed
+   next-hop set from a covering route
 
 When peers receive a route with the UPA extended community, they can:
 
 - Install a blackhole route to drop traffic immediately (D-bit)
+- Recompute next-hops from the covering aggregate/less-specific route (R-bit)
 - Apply special policies (rate limiting, diversion to scrubbing centers, etc.)
 - Log/alert on unreachable prefixes
 
@@ -1528,7 +1541,7 @@ UPA must be enabled on both the aggregate and the BGP neighbor.
 
    router bgp 65001
     address-family ipv4 unicast
-     aggregate-address 10.0.0.0/8 upa drop max-routes 100
+       aggregate-address 10.0.0.0/8 upa recompute max-routes 100
     exit-address-family
 
 This enables UPA for the aggregate 10.0.0.0/8. When component routes become
@@ -1553,8 +1566,12 @@ UPA Behavior
 
 - Aggregate is advertised normally when component routes are present
 - When components are withdrawn, UPA routes are originated with the UPA ExtCom
-- If ``drop`` is configured, the D-bit is set in the UPA extended community,
-  signaling receivers to install a blackhole/drop entry
+- ``drop`` sets D-bit and installs blackhole on receivers
+- ``recompute`` sets R-bit; receivers build ``cover NH set - unreachable NH set``
+   using selected/multipath next-hops from the covering route
+- If no covering route exists yet for recompute, the route stays
+   ``pending-no-cover`` in loc-RIB and is not installed in FIB until cover exists
+- If both D-bit and R-bit are present, drop takes precedence
 - When components become reachable again, UPA routes are automatically withdrawn
 - Multiple UPA originators' Router-IDs are aggregated in a single UPDATE
   (up to 200 per prefix; a warning is logged above 100)
@@ -1566,12 +1583,13 @@ UPA Show Commands
 .. clicmd:: show bgp [<view|vrf> VIEWVRFNAME] [<ipv4|ipv6>] [unicast] upa [json]
 
    Display UPA routes in the BGP routing table. Shows all routes that have
-   the UPA extended community set.
+   the UPA extended community set. Output includes action (`drop`/`recompute`),
+   recompute state, covering prefix, and recomputed next-hops.
 
 .. clicmd:: show bgp [<view|vrf> VIEWVRFNAME] [<ipv4|ipv6>] [unicast] upa statistics [json]
 
    Display UPA statistics including global UPA configuration state, number of
-   tracked UPA routes, and active UPA route count.
+   tracked UPA routes, and recompute event counters.
 
 .. _bgp-redistribute-to-bgp:
 
