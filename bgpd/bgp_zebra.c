@@ -1625,6 +1625,20 @@ static unsigned int bgp_zebra_announce_upa_recompute(struct zapi_route *api,
 	return count;
 }
 
+static bool bgp_zebra_upa_dest_has_drop(struct bgp_dest *dest)
+{
+	struct bgp_path_info *pi;
+
+	for (pi = bgp_dest_get_bgp_path_info(dest); pi; pi = pi->next) {
+		if (CHECK_FLAG(pi->flags, BGP_PATH_REMOVED))
+			continue;
+		if (CHECK_FLAG(pi->flags, BGP_PATH_UPA) && CHECK_FLAG(pi->flags, BGP_PATH_UPA_DROP))
+			return true;
+	}
+
+	return false;
+}
+
 enum zclient_send_status bgp_zebra_announce_actual(struct bgp_dest *dest,
 						   struct bgp_path_info *info, struct bgp *bgp)
 {
@@ -1734,11 +1748,10 @@ enum zclient_send_status bgp_zebra_announce_actual(struct bgp_dest *dest,
 	 */
 	if (info->sub_type == BGP_ROUTE_AGGREGATE)
 		zapi_route_set_blackhole(&api, BLACKHOLE_NULL);
-	/* UPA routes with D-bit set get blackhole nexthop */
-	else if (CHECK_FLAG(info->flags, BGP_PATH_UPA) &&
-		 CHECK_FLAG(info->flags, BGP_PATH_UPA_DROP)) {
+	/* Any D-bit UPA path on the selected destination enforces drop. */
+	else if (CHECK_FLAG(info->flags, BGP_PATH_UPA) && bgp_zebra_upa_dest_has_drop(dest)) {
 		if (BGP_DEBUG(upa, UPA))
-			zlog_debug("UPA route %pFX: setting blackhole nexthop (D-bit=1)", p);
+			zlog_debug("UPA route %pFX: setting blackhole nexthop (dest has D-bit)", p);
 		zapi_route_set_blackhole(&api, BLACKHOLE_NULL);
 	}
 	/* UPA routes with R-bit set install the recomputed nexthop set */

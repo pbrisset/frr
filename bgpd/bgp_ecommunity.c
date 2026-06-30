@@ -1511,12 +1511,14 @@ static char *_ecommunity_ecom2str(struct ecommunity *ecom, int format, int filte
 			} else if (sub_type == ECOMMUNITY_OPAQUE_SUBTYPE_UPA) {
 				struct in_addr router_id;
 				uint8_t flags = *pnt;
-				const char *dbit_str = CHECK_FLAG(flags, BGP_UPA_FLAG_DROP)
-								? "drop" : "no-drop";
+				const char *action_str =
+					CHECK_FLAG(flags, BGP_UPA_FLAG_DROP) ? "drop"
+					: CHECK_FLAG(flags, BGP_UPA_FLAG_RECOMPUTE) ? "recompute"
+										     : "none";
 
 				memcpy(&router_id.s_addr, pnt + 2, 4);
-				snprintfrr(encbuf, sizeof(encbuf), "upa:%pI4:%s",
-					   &router_id, dbit_str);
+				snprintfrr(encbuf, sizeof(encbuf), "upa:%pI4:%s", &router_id,
+					   action_str);
 			} else
 				unk_ecom = true;
 		} else if (type == ECOMMUNITY_ENCODE_IP_NON_TRANS) {

@@ -241,7 +241,7 @@ enum bgp_upa_recompute_state {
 	BGP_UPA_RC_NONE = 0, /* not a recompute path / not yet evaluated */
 	BGP_UPA_RC_ACTIVE,   /* covering route found, synthesized set installed */
 	BGP_UPA_RC_FALLBACK, /* covering route found but set empty -> blackhole */
-	BGP_UPA_RC_PENDING,  /* no covering route found yet -> blackhole */
+	BGP_UPA_RC_PENDING,  /* no covering route found yet -> unresolved, no FIB install */
 };
 
 struct bgp_path_info_extra_upa {

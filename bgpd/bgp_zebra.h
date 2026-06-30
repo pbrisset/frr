@@ -24,7 +24,9 @@ extern struct zclient *bgp_zclient;
 
 /*
  * Check if the path is eligible for announcing to zebra.
- * UPA routes are only eligible if D-bit is set (blackhole route).
+ * UPA route policy:
+ *  - D-bit: always eligible (blackhole route)
+ *  - R-bit: eligible only when resolved (ACTIVE/FALLBACK), not when PENDING
  */
 static inline bool bgp_zebra_announce_eligible(struct bgp_path_info *pi)
 {
@@ -32,12 +34,23 @@ static inline bool bgp_zebra_announce_eligible(struct bgp_path_info *pi)
 			  pi->sub_type == BGP_ROUTE_AGGREGATE ||
 			  pi->sub_type == BGP_ROUTE_IMPORTED);
 
-	/* UPA routes (locally originated or received) are only eligible if D-bit is set.
-	 * BGP_PATH_UPA_DROP flag mirrors the D-bit set in the UPA extended community.
-	 */
-	if (CHECK_FLAG(pi->flags, BGP_PATH_UPA))
-		return (pi->type == ZEBRA_ROUTE_BGP) && subtype_ok &&
-		       CHECK_FLAG(pi->flags, BGP_PATH_UPA_DROP);
+	if (CHECK_FLAG(pi->flags, BGP_PATH_UPA)) {
+		if (!((pi->type == ZEBRA_ROUTE_BGP) && subtype_ok))
+			return false;
+
+		/* D-bit always installs as blackhole. */
+		if (CHECK_FLAG(pi->flags, BGP_PATH_UPA_DROP))
+			return true;
+
+		/* R-bit installs only after cover resolution; pending stays in loc-RIB. */
+		if (CHECK_FLAG(pi->flags, BGP_PATH_UPA_RECOMPUTE)) {
+			if (!pi->extra || !pi->extra->upa)
+				return false;
+			return pi->extra->upa->state != BGP_UPA_RC_PENDING;
+		}
+
+		return false;
+	}
 
 	/* Keep selective table announce behavior scoped to key subtypes. */
 	return (pi->type == ZEBRA_ROUTE_BGP) && subtype_ok;
