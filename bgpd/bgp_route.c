@@ -146,6 +146,10 @@ static int clear_batch_rib_helper(struct bgp_clearing_info *cinfo);
 static void bgp_gr_start_tier2_timer_if_required(struct bgp *bgp, afi_t afi, safi_t safi);
 static void bgp_upa_check_prefix_aggregates(struct bgp *bgp, struct bgp_dest *dest, afi_t afi,
 					    safi_t safi, struct bgp_path_info *new_select);
+static void bgp_upa_recompute_dest(struct bgp *bgp, struct bgp_dest *dest, afi_t afi, safi_t safi,
+				   struct bgp_path_info *selected);
+static void bgp_upa_recompute_covered(struct bgp *bgp, struct bgp_dest *cov_dest, afi_t afi,
+				      safi_t safi);
 
 /*
  * Typesafe Hash Functions for bgp_path_info
@@ -386,6 +390,14 @@ void bgp_path_info_extra_free(struct bgp_path_info_extra **extra)
 
 	if (e->labels)
 		bgp_labels_unintern(&e->labels);
+
+	if (e->upa) {
+		if (e->upa->count_ref && *e->upa->count_ref)
+			(*e->upa->count_ref)--;
+		if (e->upa->nhg.nexthop)
+			nexthops_free(e->upa->nhg.nexthop);
+		XFREE(MTYPE_BGP_ROUTE_EXTRA_UPA, e->upa);
+	}
 
 	XFREE(MTYPE_BGP_ROUTE_EXTRA, *extra);
 }
@@ -4488,6 +4500,11 @@ void bgp_process_main_one(struct bgp *bgp, struct bgp_dest *dest, afi_t afi, saf
 	}
 #endif
 
+	/* Receiver-side UPA recompute: synthesize the next-hop set on the
+	 * selected recompute path before it is announced to zebra.
+	 */
+	bgp_upa_recompute_dest(bgp, dest, afi, safi, new_select);
+
 	/* FIB update. */
 	if (bgp_fibupd_safi(safi) && (bgp->inst_type != BGP_INSTANCE_TYPE_VIEW)
 	    && !bgp_option_check(BGP_OPT_NO_FIB)) {
@@ -4547,6 +4564,11 @@ void bgp_process_main_one(struct bgp *bgp, struct bgp_dest *dest, afi_t afi, saf
 	 * If so, dynamically originate/withdraw UPA based on reachability.
 	 */
 	bgp_upa_check_prefix_aggregates(bgp, dest, afi, safi, new_select);
+
+	/* If this destination is a covering route whose next-hops changed,
+	 * refresh any dependent receiver-side recompute UPA children.
+	 */
+	bgp_upa_recompute_covered(bgp, dest, afi, safi);
 
 	return;
 }
@@ -6762,6 +6784,8 @@ void bgp_update(struct peer *peer, const struct prefix *p, uint32_t addpath_id,
 					SET_FLAG(new->flags, BGP_PATH_UPA);
 					if (ptr[BGP_UPA_EXTCOM_OFF_FLAGS] & BGP_UPA_FLAG_DROP)
 						SET_FLAG(new->flags, BGP_PATH_UPA_DROP);
+					if (ptr[BGP_UPA_EXTCOM_OFF_FLAGS] & BGP_UPA_FLAG_RECOMPUTE)
+						SET_FLAG(new->flags, BGP_PATH_UPA_RECOMPUTE);
 					break;
 				}
 			}
@@ -9802,6 +9826,339 @@ static bool bgp_upa_withdraw_single(struct bgp *bgp, struct bgp_dest *dest,
 		}
 	}
 	return false;
+}
+
+/* ------------------------------------------------------------------------- *
+ * Receiver-side UPA recompute (R-bit)
+ *
+ * When a UPA route is received with the R-bit set, the receiver re-resolves the
+ * covering route's next-hop set and installs the host prefix using that set
+ * minus the next-hop(s) advertised as unreachable. An empty result, an absent
+ * covering route, or a sibling D-bit path falls back to a blackhole next-hop.
+ * -------------------------------------------------------------------------
+ */
+
+/* Extract a path's BGP next-hop into a libfrr nexthop. Returns false if the
+ * path carries no usable next-hop for the prefix's address family.
+ */
+static bool bgp_upa_pi_to_nexthop(struct bgp *bgp, struct bgp_path_info *pi, afi_t afi,
+				  struct nexthop *nh)
+{
+	memset(nh, 0, sizeof(*nh));
+	nh->vrf_id = bgp->vrf_id;
+
+	if (afi == AFI_IP && !BGP_ATTR_MP_NEXTHOP_LEN_IP6(pi->attr)) {
+		if (pi->attr->nexthop.s_addr == INADDR_ANY)
+			return false;
+		nh->type = NEXTHOP_TYPE_IPV4;
+		nh->gate.ipv4 = pi->attr->nexthop;
+		return true;
+	}
+
+	if (IN6_IS_ADDR_UNSPECIFIED(&pi->attr->mp_nexthop_global))
+		return false;
+	nh->type = NEXTHOP_TYPE_IPV6;
+	nh->gate.ipv6 = pi->attr->mp_nexthop_global;
+	return true;
+}
+
+/* Insert a copy of src into the nexthop_group in canonical sorted order,
+ * deduplicating against existing members.
+ */
+static void bgp_upa_nhg_add(struct nexthop_group *nhg, const struct nexthop *src)
+{
+	struct nexthop *nh;
+
+	if (nexthop_exists(nhg, src))
+		return;
+
+	nh = nexthop_new();
+	*nh = *src;
+	nh->next = NULL;
+	nh->prev = NULL;
+	nexthop_group_add_sorted(nhg, nh);
+}
+
+/* Collect the covering route's next-hop set for the given UPA destination into
+ * the canonically sorted nexthop_group cover.
+ *
+ * Preference order (per design): a locally-configured aggregate-address that
+ * covers the prefix is used first, collecting next-hops from its contributing
+ * more-specifics; otherwise the nearest less-specific covering route in the RIB
+ * is used. Returns true when a covering route was found.
+ */
+static bool bgp_upa_collect_covering(struct bgp *bgp, struct bgp_dest *upa_dest, afi_t afi,
+				     safi_t safi, struct nexthop_group *cover)
+{
+	const struct prefix *upa_p = bgp_dest_get_prefix(upa_dest);
+	struct bgp_table *table = bgp->rib[afi][safi];
+	struct bgp_dest *agg_node, *cov, *top, *dest;
+	struct bgp_path_info *pi;
+	struct nexthop tmp;
+
+	if (!table)
+		return false;
+
+	/* 1. Aggregate-address first. */
+	agg_node = bgp_node_match(bgp->aggregate[afi][safi], upa_p);
+	if (agg_node) {
+		const struct prefix *agg_p = bgp_dest_get_prefix(agg_node);
+
+		top = bgp_node_get(table, agg_p);
+		for (dest = bgp_node_get(table, agg_p); dest;
+		     dest = bgp_route_next_until(dest, top)) {
+			const struct prefix *dp = bgp_dest_get_prefix(dest);
+
+			if (dp->prefixlen <= agg_p->prefixlen)
+				continue;
+			if (prefix_same(dp, upa_p))
+				continue; /* exclude the unreachable prefix */
+			for (pi = bgp_dest_get_bgp_path_info(dest); pi; pi = pi->next) {
+				if (pi->sub_type == BGP_ROUTE_AGGREGATE)
+					continue;
+				if (CHECK_FLAG(pi->flags, BGP_PATH_UPA))
+					continue;
+				if (!CHECK_FLAG(pi->flags, BGP_PATH_SELECTED) &&
+				    !CHECK_FLAG(pi->flags, BGP_PATH_MULTIPATH))
+					continue;
+				if (bgp_upa_pi_to_nexthop(bgp, pi, afi, &tmp))
+					bgp_upa_nhg_add(cover, &tmp);
+			}
+		}
+		bgp_dest_unlock_node(top);
+		bgp_dest_unlock_node(agg_node);
+		return true;
+	}
+
+	/* 2. Nearest less-specific covering route in the RIB. */
+	for (cov = bgp_dest_parent_nolock(upa_dest); cov; cov = bgp_dest_parent_nolock(cov)) {
+		bool found = false;
+
+		for (pi = bgp_dest_get_bgp_path_info(cov); pi; pi = pi->next) {
+			if (pi->sub_type == BGP_ROUTE_AGGREGATE)
+				continue;
+			if (CHECK_FLAG(pi->flags, BGP_PATH_UPA))
+				continue;
+			if (!CHECK_FLAG(pi->flags, BGP_PATH_SELECTED) &&
+			    !CHECK_FLAG(pi->flags, BGP_PATH_MULTIPATH))
+				continue;
+			if (bgp_upa_pi_to_nexthop(bgp, pi, afi, &tmp)) {
+				bgp_upa_nhg_add(cover, &tmp);
+				found = true;
+			}
+		}
+		if (found)
+			return true;
+	}
+
+	return false;
+}
+
+static const char *bgp_upa_recompute_state2str(enum bgp_upa_recompute_state state)
+{
+	switch (state) {
+	case BGP_UPA_RC_ACTIVE:
+		return "active";
+	case BGP_UPA_RC_FALLBACK:
+		return "fallback-blackhole";
+	case BGP_UPA_RC_PENDING:
+		return "pending-no-cover";
+	case BGP_UPA_RC_NONE:
+		break;
+	}
+	return "none";
+}
+
+/* (Re)compute and stash the recompute next-hop set for the selected path of a
+ * received UPA route carrying the R-bit. Runs before FIB install so the freshly
+ * stashed set is read by bgp_zebra_announce_actual().
+ */
+static void bgp_upa_recompute_dest(struct bgp *bgp, struct bgp_dest *dest, afi_t afi, safi_t safi,
+				   struct bgp_path_info *selected)
+{
+	const struct prefix *p;
+	struct bgp_path_info *pi;
+	struct bgp_path_info_extra *extra;
+	struct bgp_path_info_extra_upa *upa;
+	struct nexthop_group cover = {};
+	struct nexthop_group deny = {};
+	struct nexthop_group result = {};
+	struct nexthop *nh;
+	uint16_t cover_cnt, result_cnt = 0;
+	bool resolved = false, has_drop = false;
+	enum bgp_upa_recompute_state state;
+
+	if (!selected)
+		return;
+	if (!CHECK_FLAG(selected->flags, BGP_PATH_UPA) ||
+	    !CHECK_FLAG(selected->flags, BGP_PATH_UPA_RECOMPUTE))
+		return;
+
+	p = bgp_dest_get_prefix(dest);
+
+	/* A sibling D-bit path on the same destination forces a blackhole. */
+	for (pi = bgp_dest_get_bgp_path_info(dest); pi; pi = pi->next)
+		if (CHECK_FLAG(pi->flags, BGP_PATH_UPA) &&
+		    CHECK_FLAG(pi->flags, BGP_PATH_UPA_DROP)) {
+			has_drop = true;
+			break;
+		}
+
+	if (!has_drop)
+		resolved = bgp_upa_collect_covering(bgp, dest, afi, safi, &cover);
+	cover_cnt = nexthop_group_nexthop_num(&cover);
+
+	/* Build the deny set (next-hop of each UPA-recompute path on the dest)
+	 * and tally any advertised unreachable next-hop absent from the cover.
+	 */
+	for (pi = bgp_dest_get_bgp_path_info(dest); pi; pi = pi->next) {
+		struct nexthop upa_nh;
+
+		if (!CHECK_FLAG(pi->flags, BGP_PATH_UPA) ||
+		    !CHECK_FLAG(pi->flags, BGP_PATH_UPA_RECOMPUTE))
+			continue;
+		if (!bgp_upa_pi_to_nexthop(bgp, pi, afi, &upa_nh))
+			continue;
+		bgp_upa_nhg_add(&deny, &upa_nh);
+		if (resolved && !nexthop_exists(&cover, &upa_nh))
+			bgp->upa_recompute_nh_not_in_agg[afi][safi]++;
+	}
+
+	/* result = cover - deny */
+	for (nh = cover.nexthop; nh; nh = nh->next)
+		if (!nexthop_exists(&deny, nh))
+			bgp_upa_nhg_add(&result, nh);
+	result_cnt = nexthop_group_nexthop_num(&result);
+
+	if (cover.nexthop)
+		nexthops_free(cover.nexthop);
+	if (deny.nexthop)
+		nexthops_free(deny.nexthop);
+
+	if (has_drop)
+		state = BGP_UPA_RC_FALLBACK;
+	else if (!resolved)
+		state = BGP_UPA_RC_PENDING;
+	else if (result_cnt == 0)
+		state = BGP_UPA_RC_FALLBACK;
+	else
+		state = BGP_UPA_RC_ACTIVE;
+
+	if (state != BGP_UPA_RC_ACTIVE) {
+		if (result.nexthop)
+			nexthops_free(result.nexthop);
+		result.nexthop = NULL;
+		result_cnt = 0;
+	}
+
+	extra = bgp_path_info_extra_get(selected);
+	upa = extra->upa;
+	if (!upa) {
+		upa = XCALLOC(MTYPE_BGP_ROUTE_EXTRA_UPA, sizeof(*upa));
+		extra->upa = upa;
+		bgp->upa_recompute_count[afi][safi]++;
+		upa->count_ref = &bgp->upa_recompute_count[afi][safi];
+	}
+
+	if (state == BGP_UPA_RC_FALLBACK && upa->state != BGP_UPA_RC_FALLBACK)
+		bgp->upa_recompute_fallbacks[afi][safi]++;
+
+	if (upa->nhg.nexthop)
+		nexthops_free(upa->nhg.nexthop);
+	upa->nhg.nexthop = result.nexthop;
+	upa->state = state;
+
+	if (BGP_DEBUG(upa, UPA))
+		zlog_debug("UPA recompute %pFX: state=%s cover=%u install=%u%s", p,
+			   bgp_upa_recompute_state2str(state), cover_cnt, result_cnt,
+			   has_drop ? " (drop-override)" : "");
+}
+
+/* Reschedule every selected recompute UPA child strictly under root_p so each
+ * re-runs bgp_upa_recompute_dest() and reinstalls via the normal FIB path.
+ */
+static void bgp_upa_refresh_subtree(struct bgp *bgp, const struct prefix *root_p, afi_t afi,
+				    safi_t safi)
+{
+	struct bgp_table *table = bgp->rib[afi][safi];
+	struct bgp_dest *top, *dest;
+	struct bgp_path_info *pi;
+
+	if (!table)
+		return;
+
+	top = bgp_node_get(table, root_p);
+	for (dest = bgp_node_get(table, root_p); dest; dest = bgp_route_next_until(dest, top)) {
+		const struct prefix *dp = bgp_dest_get_prefix(dest);
+		struct bgp_path_info *rc = NULL;
+
+		if (dp->prefixlen <= root_p->prefixlen)
+			continue;
+		for (pi = bgp_dest_get_bgp_path_info(dest); pi; pi = pi->next)
+			if (CHECK_FLAG(pi->flags, BGP_PATH_UPA) &&
+			    CHECK_FLAG(pi->flags, BGP_PATH_UPA_RECOMPUTE) &&
+			    CHECK_FLAG(pi->flags, BGP_PATH_SELECTED)) {
+				rc = pi;
+				break;
+			}
+		if (rc) {
+			if (BGP_DEBUG(upa, UPA))
+				zlog_debug("UPA recompute: covering %pFX changed, refreshing %pFX",
+					   root_p, dp);
+			bgp_process(bgp, dest, rc, afi, safi);
+		}
+	}
+	bgp_dest_unlock_node(top);
+}
+
+/* When a covering route's next-hops change, refresh dependent recompute UPA
+ * children by rescheduling them; each child re-runs bgp_upa_recompute_dest()
+ * and reinstalls via the normal FIB path. Gated on the live recompute count to
+ * avoid subtree walks when no recompute routes exist.
+ */
+static void bgp_upa_recompute_covered(struct bgp *bgp, struct bgp_dest *cov_dest, afi_t afi,
+				      safi_t safi)
+{
+	const struct prefix *cov_p = bgp_dest_get_prefix(cov_dest);
+	struct bgp_dest *agg_node;
+	struct bgp_path_info *pi;
+	bool is_upa = false;
+
+	if (bgp->upa_recompute_count[afi][safi] == 0)
+		return;
+	if (!bgp->rib[afi][safi])
+		return;
+
+	for (pi = bgp_dest_get_bgp_path_info(cov_dest); pi; pi = pi->next)
+		if (CHECK_FLAG(pi->flags, BGP_PATH_UPA)) {
+			is_upa = true;
+			break;
+		}
+
+	/* Case A: cov_dest is itself a covering prefix -- a configured aggregate
+	 * that just installed (replay ordering), or a less-specific RIB route
+	 * whose next-hops changed. Refresh recompute UPA children below it.
+	 */
+	bgp_upa_refresh_subtree(bgp, cov_p, afi, safi);
+
+	/* Case B: a non-UPA contributing route under a configured
+	 * aggregate-address changed. The aggregate cover is the union of its
+	 * contributing next-hops, so the change invalidates every recompute UPA
+	 * child under the aggregate -- including siblings not below cov_dest,
+	 * which Case A's walk would miss. Skip when cov_dest is itself a UPA
+	 * route: UPA children are not contributing routes, and refreshing the
+	 * aggregate from one would reschedule its siblings in an endless loop.
+	 */
+	if (!is_upa) {
+		agg_node = bgp_node_match(bgp->aggregate[afi][safi], cov_p);
+		if (agg_node) {
+			const struct prefix *agg_p = bgp_dest_get_prefix(agg_node);
+
+			if (!prefix_same(agg_p, cov_p))
+				bgp_upa_refresh_subtree(bgp, agg_p, afi, safi);
+			bgp_dest_unlock_node(agg_node);
+		}
+	}
 }
 
 void bgp_upa_originate_all(struct bgp *bgp, const struct prefix *aggr_p, afi_t afi,
@@ -20065,29 +20422,20 @@ DEFUN(show_bgp_upa_statistics, show_bgp_upa_statistics_cmd,
 	if (use_json)
 		json = json_object_new_object();
 
-	struct bgp_table *table = bgp->rib[afi][safi];
-	struct bgp_dest *dest;
-	struct bgp_path_info *pi;
-	uint32_t total_upa_routes = 0;
-
-	if (table) {
-		for (dest = bgp_table_top(table); dest; dest = bgp_route_next(dest))
-			for (pi = bgp_dest_get_bgp_path_info(dest); pi; pi = pi->next)
-				if (bgp_upa_has_extcomm(pi))
-					total_upa_routes++;
-	}
-
 	bool global_enabled = bgp->upa_enabled[afi][safi];
 	uint32_t max_routes = bgp->upa_max_routes[afi][safi];
 	enum bgp_upa_action action = bgp->upa_action[afi][safi];
 	uint32_t tracked_count = bgp->upa_routes[afi][safi].hh.count;
+	uint64_t rc_fallback_events = bgp->upa_recompute_fallbacks[afi][safi];
+	uint64_t rc_nh_not_agg = bgp->upa_recompute_nh_not_in_agg[afi][safi];
 
 	if (use_json) {
 		json_object_boolean_add(json, "globalUpaEnabled", global_enabled);
-		json_object_int_add(json, "activeUpaRoutes", total_upa_routes);
 		json_object_int_add(json, "globalTrackedRoutes", tracked_count);
 		json_object_int_add(json, "maxRoutesLimit", max_routes ? max_routes : 0);
 		json_object_int_add(json, "globalAction", action);
+		json_object_int_add(json, "recomputeFallbackEvents", rc_fallback_events);
+		json_object_int_add(json, "recomputeNexthopNotInCover", rc_nh_not_agg);
 		vty_json(vty, json);
 	} else {
 		vty_out(vty, "UPA Statistics for AFI %s, SAFI %s:\n\n",
@@ -20095,7 +20443,6 @@ DEFUN(show_bgp_upa_statistics, show_bgp_upa_statistics_cmd,
 			safi == SAFI_UNICAST ? "unicast" : "other");
 		vty_out(vty, "  Global UPA originate-all:      %s\n",
 			global_enabled ? "Enabled" : "Disabled");
-		vty_out(vty, "  Active UPA routes:             %u\n", total_upa_routes);
 		vty_out(vty, "  Global tracked routes:         %u\n", tracked_count);
 		vty_out(vty, "  Max-routes limit:              %s\n",
 			max_routes ? "limited" : "unlimited");
@@ -20103,6 +20450,8 @@ DEFUN(show_bgp_upa_statistics, show_bgp_upa_statistics_cmd,
 			action == BGP_UPA_ACTION_DROP	     ? "drop"
 			: action == BGP_UPA_ACTION_RECOMPUTE ? "recompute"
 							     : "none");
+		vty_out(vty, "  Recompute fallback events:     %" PRIu64 "\n", rc_fallback_events);
+		vty_out(vty, "  Recompute NH-not-in-cover:     %" PRIu64 "\n", rc_nh_not_agg);
 	}
 
 	return CMD_SUCCESS;

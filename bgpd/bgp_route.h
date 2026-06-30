@@ -11,6 +11,7 @@
 #include "hook.h"
 #include "queue.h"
 #include "nexthop.h"
+#include "nexthop_group.h"
 #include "typesafe.h"
 #include "bgp_table.h"
 #include "bgp_addpath_types.h"
@@ -231,6 +232,30 @@ struct bgp_path_info_extra_vnc {
 };
 #endif
 
+/* Receiver-side UPA recompute state for a path carrying a UPA ExtCom with the
+ * R-bit set. The recomputed next-hop set is the covering route's next-hops
+ * minus the next-hop(s) advertised as unreachable, and is installed in place of
+ * the path's own next-hop.
+ */
+enum bgp_upa_recompute_state {
+	BGP_UPA_RC_NONE = 0, /* not a recompute path / not yet evaluated */
+	BGP_UPA_RC_ACTIVE,   /* covering route found, synthesized set installed */
+	BGP_UPA_RC_FALLBACK, /* covering route found but set empty -> blackhole */
+	BGP_UPA_RC_PENDING,  /* no covering route found yet -> blackhole */
+};
+
+struct bgp_path_info_extra_upa {
+	/* Synthesized recompute next-hop set installed to zebra, held in
+	 * canonical sorted order for O(n) membership/equality checks.
+	 */
+	struct nexthop_group nhg;
+	enum bgp_upa_recompute_state state;
+	/* Pointer to bgp->upa_recompute_count[afi][safi] so the live count can
+	 * be decremented from bgp_path_info_extra_free() without afi/safi.
+	 */
+	uint32_t *count_ref;
+};
+
 /* Ancillary information to struct bgp_path_info,
  * used for uncommonly used data (aggregation, MPLS, etc.)
  * and lazily allocated to save memory.
@@ -268,6 +293,9 @@ struct bgp_path_info_extra {
 	 * the Color Extended Community via bgp_path_info_get_srte_color()).
 	 */
 	uint32_t srte_color;
+
+	/* Receiver-side UPA recompute state (lazily allocated). */
+	struct bgp_path_info_extra_upa *upa;
 };
 
 struct bgp_mplsvpn_label_nh {

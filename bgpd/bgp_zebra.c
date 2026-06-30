@@ -1599,6 +1599,32 @@ static void bgp_debug_zebra_nh(struct zapi_route *api)
 	}
 }
 
+/* Build api->nexthops from the synthesized receiver-side UPA recompute set.
+ * Returns the number of next-hops installed (0 => caller installs a blackhole).
+ */
+static unsigned int bgp_zebra_announce_upa_recompute(struct zapi_route *api,
+						     struct bgp_path_info_extra_upa *upa)
+{
+	struct zapi_nexthop *api_nh;
+	struct nexthop *nh;
+	unsigned int count = 0;
+
+	for (nh = upa->nhg.nexthop; nh; nh = nh->next) {
+		if (count >= multipath_num)
+			break;
+		api_nh = &api->nexthops[count];
+		zapi_nexthop_init(api_nh);
+		api_nh->vrf_id = nh->vrf_id;
+		api_nh->type = nh->type;
+		if (nh->type == NEXTHOP_TYPE_IPV4)
+			api_nh->gate.ipv4 = nh->gate.ipv4;
+		else
+			api_nh->gate.ipv6 = nh->gate.ipv6;
+		count++;
+	}
+	return count;
+}
+
 enum zclient_send_status bgp_zebra_announce_actual(struct bgp_dest *dest,
 						   struct bgp_path_info *info, struct bgp *bgp)
 {
@@ -1714,6 +1740,24 @@ enum zclient_send_status bgp_zebra_announce_actual(struct bgp_dest *dest,
 		if (BGP_DEBUG(upa, UPA))
 			zlog_debug("UPA route %pFX: setting blackhole nexthop (D-bit=1)", p);
 		zapi_route_set_blackhole(&api, BLACKHOLE_NULL);
+	}
+	/* UPA routes with R-bit set install the recomputed nexthop set */
+	else if (CHECK_FLAG(info->flags, BGP_PATH_UPA) &&
+		 CHECK_FLAG(info->flags, BGP_PATH_UPA_RECOMPUTE) && info->extra &&
+		 info->extra->upa) {
+		unsigned int rc_nh = bgp_zebra_announce_upa_recompute(&api, info->extra->upa);
+
+		if (rc_nh == 0) {
+			if (BGP_DEBUG(upa, UPA))
+				zlog_debug("UPA recompute %pFX: empty set, blackhole nexthop", p);
+			zapi_route_set_blackhole(&api, BLACKHOLE_NULL);
+		} else {
+			if (BGP_DEBUG(upa, UPA))
+				zlog_debug("UPA recompute %pFX: installing %u recomputed nexthop(s)",
+					   p, rc_nh);
+			api.nexthop_num = rc_nh;
+			SET_FLAG(api.flags, ZEBRA_FLAG_ALLOW_RECURSION);
+		}
 	} else
 		api.nexthop_num = valid_nh_count;
 

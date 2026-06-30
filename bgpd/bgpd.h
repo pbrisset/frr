@@ -869,6 +869,24 @@ struct bgp {
 	uint32_t upa_max_routes[AFI_MAX][SAFI_MAX];
 	struct bgp_upa_prefix_hash_head upa_routes[AFI_MAX][SAFI_MAX];
 
+	/* Receiver-side UPA recompute accounting per AFI/SAFI.
+	 *
+	 * upa_recompute_count[][]        live number of received UPA paths with
+	 *                                the R-bit that currently hold a
+	 *                                synthesized recompute next-hop stash.
+	 *                                Also gates the covering-route subtree
+	 *                                walk (skipped when zero).
+	 * upa_recompute_fallbacks[][]    monotonic count of recompute events that
+	 *                                resolved to an empty set and fell back
+	 *                                to a blackhole next-hop.
+	 * upa_recompute_nh_not_in_agg[][] monotonic count of recompute events
+	 *                                where the advertised unreachable next-hop
+	 *                                was not part of the covering route.
+	 */
+	uint32_t upa_recompute_count[AFI_MAX][SAFI_MAX];
+	uint64_t upa_recompute_fallbacks[AFI_MAX][SAFI_MAX];
+	uint64_t upa_recompute_nh_not_in_agg[AFI_MAX][SAFI_MAX];
+
 	/* BGP routing information base.  */
 	struct bgp_table *rib[AFI_MAX][SAFI_MAX];
 
