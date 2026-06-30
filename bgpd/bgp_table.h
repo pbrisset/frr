@@ -113,6 +113,7 @@ struct bgp_dest {
 #define BGP_NODE_SCHEDULE_FOR_DELETE	(1 << 11)
 #define BGP_NODE_NHT_RESOLVED_NODE	(1 << 12)
 #define BGP_NODE_ZEBRA_ANNOUNCE_EARLY	(1 << 13)
+#define BGP_NODE_UPA_PREV_INSTALLED_WITH_DROP (1 << 14)
 
 	struct bgp_addpath_node_data tx_addpath;
 
