@@ -79,6 +79,7 @@ extern void zebra_vxlan_advertise_subnet(ZAPI_HANDLER_ARGS);
 extern void zebra_vxlan_advertise_svi_macip(ZAPI_HANDLER_ARGS);
 extern void zebra_vxlan_advertise_gw_macip(ZAPI_HANDLER_ARGS);
 extern void zebra_vxlan_advertise_all_vni(ZAPI_HANDLER_ARGS);
+extern void zebra_vxlan_advertise_l3vni_neigh(ZAPI_HANDLER_ARGS);
 extern void zebra_vxlan_dup_addr_detection(ZAPI_HANDLER_ARGS);
 extern void zebra_vxlan_sg_replay(ZAPI_HANDLER_ARGS);
 

@@ -4177,6 +4177,9 @@ void zebra_vxlan_print_evpn(struct vty *vty, bool uj)
 		json_object_string_add(json, "advertiseSviMac",
 				       zebra_evpn_mh_do_adv_svi_mac() ? "Yes"
 								      : "No");
+		json_object_string_add(json, "advertiseL3vniNeigh",
+				       zvrf->advertise_l3vni_neigh ? "Yes"
+								   : "No");
 		json_object_int_add(json, "numVnis", num_vnis);
 		json_object_int_add(json, "numL2Vnis", num_l2vnis);
 		json_object_int_add(json, "numL3Vnis", num_l3vnis);
@@ -4202,6 +4205,8 @@ void zebra_vxlan_print_evpn(struct vty *vty, bool uj)
 			zvrf->advertise_svi_macip ? "Yes" : "No");
 		vty_out(vty, "Advertise svi mac: %s\n",
 			zebra_evpn_mh_do_adv_svi_mac() ? "Yes" : "No");
+		vty_out(vty, "Advertise l3vni neigh: %s\n",
+			zvrf->advertise_l3vni_neigh ? "Yes" : "No");
 		vty_out(vty, "Duplicate address detection: %s\n",
 			zebra_evpn_do_dup_addr_detect(zvrf) ? "Enable"
 							    : "Disable");
@@ -6129,6 +6134,30 @@ void zebra_vxlan_advertise_all_vni(ZAPI_HANDLER_ARGS)
 stream_failure:
 	return;
 }
+
+/*
+ * Handle the advertise-l3vni-neigh knob from bgpd (EVPN L3 multihoming neighbor
+ * sync): record the per-VRF flag.
+ */
+void zebra_vxlan_advertise_l3vni_neigh(ZAPI_HANDLER_ARGS)
+{
+	struct stream *s = msg;
+	int advertise;
+
+	STREAM_GETC(s, advertise);
+
+	if (IS_ZEBRA_DEBUG_VXLAN)
+		zlog_debug("EVPN L3VNI neigh Adv %s for VRF %s(%u), currently %s",
+			   advertise ? "enabled" : "disabled", zvrf_name(zvrf),
+			   zvrf_id(zvrf),
+			   zvrf->advertise_l3vni_neigh ? "enabled" : "disabled");
+
+	zvrf->advertise_l3vni_neigh = advertise;
+
+stream_failure:
+	return;
+}
+
 
 /*
  * Allocate EVPN hash table for this VRF and do other initialization.

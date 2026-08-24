@@ -3713,6 +3713,26 @@ static void evpn_unset_advertise_all_vni(struct bgp *bgp)
 	bgp_evpn_cleanup_on_disable(bgp);
 }
 
+/*
+ * EVPN L3 multihoming (L3MH) neighbor sync (pure-L3 RT-2) enabled. Record the
+ * flag and register it with zebra. This is additive on top of advertise-all-vni,
+ * which remains the EVPN master enable.
+ */
+static void evpn_set_advertise_l3vni_neigh(struct bgp *bgp)
+{
+	bgp->advertise_l3vni_neigh = 1;
+	bgp_zebra_advertise_l3vni_neigh(bgp, bgp->advertise_l3vni_neigh);
+}
+
+/*
+ * EVPN L3 multihoming (L3MH) neighbor sync disabled. De-register with zebra.
+ */
+static void evpn_unset_advertise_l3vni_neigh(struct bgp *bgp)
+{
+	bgp->advertise_l3vni_neigh = 0;
+	bgp_zebra_advertise_l3vni_neigh(bgp, bgp->advertise_l3vni_neigh);
+}
+
 /* Set resolve overlay index flag */
 static void bgp_evpn_set_unset_resolve_overlay_index(struct bgp *bgp, bool set)
 {
@@ -4032,6 +4052,44 @@ DEFPY (no_bgp_evpn_advertise_all_vni,
 	if (!bgp)
 		return CMD_WARNING;
 	evpn_unset_advertise_all_vni(bgp);
+	return CMD_SUCCESS;
+}
+
+DEFPY (bgp_evpn_advertise_l3vni_neigh,
+       bgp_evpn_advertise_l3vni_neigh_cmd,
+       "advertise-l3vni-neigh",
+       "Advertise/sync neighbor (ARP/ND) RT-2 routes for EVPN L3 multihoming\n")
+{
+	struct bgp *bgp = VTY_GET_CONTEXT(bgp);
+
+	if (!bgp)
+		return CMD_WARNING;
+
+	evpn_set_advertise_l3vni_neigh(bgp);
+
+	/* Additive knob: it is accepted independently but only takes effect
+	 * once advertise-all-vni (the EVPN master enable) is also configured.
+	 * Warn rather than reject, mirroring the other EVPN sub-knobs.
+	 */
+	if (!bgp->advertise_all_vni)
+		vty_out(vty,
+			"%% advertise-l3vni-neigh has no effect until advertise-all-vni is configured\n");
+
+	return CMD_SUCCESS;
+}
+
+DEFPY (no_bgp_evpn_advertise_l3vni_neigh,
+       no_bgp_evpn_advertise_l3vni_neigh_cmd,
+       "no advertise-l3vni-neigh",
+       NO_STR
+       "Advertise/sync neighbor (ARP/ND) RT-2 routes for EVPN L3 multihoming\n")
+{
+	struct bgp *bgp = VTY_GET_CONTEXT(bgp);
+
+	if (!bgp)
+		return CMD_WARNING;
+
+	evpn_unset_advertise_l3vni_neigh(bgp);
 	return CMD_SUCCESS;
 }
 
@@ -8082,6 +8140,8 @@ void bgp_config_write_evpn_info(struct vty *vty, struct bgp *bgp, afi_t afi, saf
 
 	if (bgp->advertise_all_vni)
 		vty_out(vty, "  advertise-all-vni\n");
+	if (bgp->advertise_l3vni_neigh)
+		vty_out(vty, "  advertise-l3vni-neigh\n");
 
 	if (hashcount(bgp->vnihash)) {
 		struct list *vnilist = hash_to_list(bgp->vnihash);
@@ -8274,6 +8334,8 @@ void bgp_ethernetvpn_init(void)
 	install_element(BGP_EVPN_NODE, &evpnrt5_network_cmd);
 	install_element(BGP_EVPN_NODE, &bgp_evpn_advertise_all_vni_cmd);
 	install_element(BGP_EVPN_NODE, &no_bgp_evpn_advertise_all_vni_cmd);
+	install_element(BGP_EVPN_NODE, &bgp_evpn_advertise_l3vni_neigh_cmd);
+	install_element(BGP_EVPN_NODE, &no_bgp_evpn_advertise_l3vni_neigh_cmd);
 	install_element(BGP_EVPN_NODE, &bgp_evpn_advertise_autort_rfc8365_cmd);
 	install_element(BGP_EVPN_NODE, &no_bgp_evpn_advertise_autort_rfc8365_cmd);
 	install_element(BGP_EVPN_NODE, &bgp_evpn_advertise_default_gw_cmd);
