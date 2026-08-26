@@ -1255,6 +1255,8 @@ static enum zclient_send_status bgp_zebra_send_remote_macip(
 		stream_put(s, esi, sizeof(esi_t));
 	}
 
+	stream_putl(s, p->prefix.macip_addr.eth_tag); /* ETAG (VLAN) */
+
 	stream_putw_at(s, 0, stream_get_endp(s));
 
 	if (bgp_debug_zebra(NULL)) {
@@ -7897,7 +7899,7 @@ void bgp_reimport_evpn_routes_upon_martian_change(
  * Handle del of a local MACIP.
  */
 int bgp_evpn_local_macip_del(struct bgp *bgp, vni_t vni, struct ethaddr *mac,
-			     struct ipaddr *ip, int state)
+			     struct ipaddr *ip, int state, uint32_t eth_tag)
 {
 	struct bgpevpn *vpn;
 	struct prefix_evpn p;
@@ -7913,6 +7915,7 @@ int bgp_evpn_local_macip_del(struct bgp *bgp, vni_t vni, struct ethaddr *mac,
 	}
 
 	build_evpn_type2_prefix(&p, mac, ip);
+	p.prefix.macip_addr.eth_tag = eth_tag;
 	if (state == ZEBRA_NEIGH_ACTIVE) {
 		/* Remove EVPN type-2 route and schedule for processing. */
 		delete_evpn_route(bgp, vpn, &p);
@@ -7932,7 +7935,8 @@ int bgp_evpn_local_macip_del(struct bgp *bgp, vni_t vni, struct ethaddr *mac,
  * Handle add of a local MACIP.
  */
 int bgp_evpn_local_macip_add(struct bgp *bgp, vni_t vni, struct ethaddr *mac,
-		struct ipaddr *ip, uint8_t flags, uint32_t seq, esi_t *esi)
+		struct ipaddr *ip, uint8_t flags, uint32_t seq, esi_t *esi,
+		uint32_t eth_tag)
 {
 	struct bgpevpn *vpn;
 	struct prefix_evpn p;
@@ -7948,6 +7952,7 @@ int bgp_evpn_local_macip_add(struct bgp *bgp, vni_t vni, struct ethaddr *mac,
 
 	/* Create EVPN type-2 route and schedule for processing. */
 	build_evpn_type2_prefix(&p, mac, ip);
+	p.prefix.macip_addr.eth_tag = eth_tag;
 	if (update_evpn_route(bgp, vpn, &p, flags, seq, esi)) {
 		flog_err(
 			EC_BGP_EVPN_ROUTE_CREATE,
