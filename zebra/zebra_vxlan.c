@@ -2495,6 +2495,11 @@ void zebra_vxlan_process_l3vni_oper_up(struct zebra_l3vni *zl3vni)
 	/* send l3vni add to BGP */
 	frrtrace(3, frr_zebra, send_l3vni_oper_to_client, zl3vni->vrf_id, zl3vni->vni, 0);
 	zl3vni_send_add_to_client(zl3vni);
+
+	/* The L3VNI now has a resolved local VTEP IP; a no-L2VNI ES may have
+	 * been waiting for it to source its base EVPN / originator IP.
+	 */
+	zebra_evpn_es_l3vni_base_evpn_reeval();
 }
 
 void zebra_vxlan_process_l3vni_oper_down(struct zebra_l3vni *zl3vni)
@@ -2505,6 +2510,9 @@ void zebra_vxlan_process_l3vni_oper_down(struct zebra_l3vni *zl3vni)
 	/* send l3-vni del to BGP*/
 	frrtrace(3, frr_zebra, send_l3vni_oper_to_client, zl3vni->vrf_id, zl3vni->vni, 1);
 	zl3vni_send_del_to_client(zl3vni);
+
+	/* If this L3VNI sourced the no-L2VNI ES base EVPN, invalidate it. */
+	zebra_evpn_es_l3vni_oper_down(zl3vni);
 }
 
 static void zevpn_add_to_l3vni_list(struct hash_bucket *bucket, void *ctxt)
@@ -6150,6 +6158,7 @@ void zebra_vxlan_advertise_l3vni_neigh(ZAPI_HANDLER_ARGS)
 {
 	struct stream *s = msg;
 	int advertise;
+	int old_advertise;
 
 	STREAM_GETC(s, advertise);
 
@@ -6159,7 +6168,15 @@ void zebra_vxlan_advertise_l3vni_neigh(ZAPI_HANDLER_ARGS)
 			   zvrf_id(zvrf),
 			   zvrf->advertise_l3vni_neigh ? "enabled" : "disabled");
 
+	old_advertise = zvrf->advertise_l3vni_neigh;
 	zvrf->advertise_l3vni_neigh = advertise;
+
+	if (advertise && !old_advertise)
+		/* A local ES may already be up with no base EVPN; try now. */
+		zebra_evpn_es_l3vni_base_evpn_reeval();
+	else if (!advertise && old_advertise)
+		/* Release the L3VNI-sourced ES base EVPN hold. */
+		zebra_evpn_es_l3vni_base_evpn_clear();
 
 stream_failure:
 	return;
