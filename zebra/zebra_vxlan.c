@@ -38,6 +38,7 @@
 #include "zebra/zebra_evpn.h"
 #include "zebra/zebra_evpn_mac.h"
 #include "zebra/zebra_evpn_neigh.h"
+#include "zebra/zebra_neigh.h"
 #include "zebra/zebra_evpn_mh.h"
 #include "zebra/zebra_evpn_vxlan.h"
 #include "zebra/zebra_dplane.h"
@@ -105,6 +106,7 @@ static struct zebra_l3vni *zl3vni_add(vni_t vni, vrf_id_t vrf_id);
 static int zl3vni_del(struct zebra_l3vni *zl3vni);
 
 static void zevpn_build_hash_table(void);
+static void zebra_vxlan_l3vni_neigh_replay(void);
 static unsigned int zebra_vxlan_sg_hash_key_make(const void *p);
 static bool zebra_vxlan_sg_hash_eq(const void *p1, const void *p2);
 static void zebra_vxlan_sg_do_deref(struct zebra_vrf *zvrf,
@@ -2494,6 +2496,8 @@ static int zl3vni_send_del_to_client(struct zebra_l3vni *zl3vni)
 
 void zebra_vxlan_process_l3vni_oper_up(struct zebra_l3vni *zl3vni)
 {
+	struct zebra_vrf *evpn_zvrf;
+
 	if (!zl3vni)
 		return;
 
@@ -2505,6 +2509,15 @@ void zebra_vxlan_process_l3vni_oper_up(struct zebra_l3vni *zl3vni)
 	 * been waiting for it to source its base EVPN / originator IP.
 	 */
 	zebra_evpn_es_l3vni_base_evpn_reeval();
+
+	/* Hosts learned before this L3VNI came up were ignored (their BD was
+	 * not yet in L3VNI neighbor-sync mode). Now that the BD can enter that
+	 * mode, replay the L3-interface neighbor database to originate the
+	 * pure-L3 neighbors.
+	 */
+	evpn_zvrf = zebra_vrf_get_evpn();
+	if (evpn_zvrf && evpn_zvrf->advertise_l3vni_neigh)
+		zebra_vxlan_l3vni_neigh_replay();
 }
 
 void zebra_vxlan_process_l3vni_oper_down(struct zebra_l3vni *zl3vni)
@@ -2521,7 +2534,10 @@ void zebra_vxlan_process_l3vni_oper_down(struct zebra_l3vni *zl3vni)
 	/* If this L3VNI sourced the no-L2VNI ES base EVPN, invalidate it. */
 	zebra_evpn_es_l3vni_oper_down(zl3vni);
 
-	/* Withdraw any pure-L3 neighbors synced via this L3VNI's singleton. */
+	/* Withdraw any pure-L3 neighbors synced via this L3VNI's singleton. The
+	 * MAC->port cache stays valid (MAC-to-port bindings are unchanged) and
+	 * is refreshed by FDB events, so it is not flushed here.
+	 */
 	zevpn = zebra_evpn_l3_neigh_sync_lookup(zl3vni->vni);
 	if (zevpn)
 		zebra_evpn_l3vni_neigh_flush(zevpn);
@@ -4478,6 +4494,28 @@ int zebra_vxlan_handle_kernel_neigh_update(struct interface *ifp, struct interfa
 	return zebra_evpn_remote_neigh_update(zevpn, ifp, ip, macaddr, state, is_router);
 }
 
+/*
+ * Replay a single tracked L3-interface neighbor for no-L2VNI pure-L3 neighbor
+ * sync. Unlike the generic kernel-neigh handler above, this deliberately only
+ * feeds neighbors that belong to a no-L2VNI bridge into the pure-L3 update
+ * path. Neighbors that map to an L3VNI SVI (remote nexthop tracking) or to a
+ * real L2VNI are skipped so a replay never reprocesses - and clobbers the
+ * metadata of - an unrelated L2VNI neighbor.
+ */
+void zebra_vxlan_l3vni_neigh_replay_entry(struct interface *ifp, struct interface *link_if,
+					  struct ipaddr *ip, struct ethaddr *macaddr,
+					  bool is_router)
+{
+	if (zl3vni_from_svi(ifp, link_if))
+		return;
+
+	if (zebra_evpn_from_svi(ifp, link_if))
+		return;
+
+	zebra_evpn_l3vni_local_neigh_update(ifp, link_if, ip, macaddr,
+					    false /* is_own */, is_router);
+}
+
 static int32_t zebra_vxlan_remote_macip_helper(bool add, struct stream *s, vni_t *vni,
 					       struct ethaddr *macaddr, uint16_t *ipa_len,
 					       struct ipaddr *ip, struct ipaddr *vtep_ip,
@@ -4864,8 +4902,14 @@ int zebra_vxlan_local_mac_del(struct interface *ifp, struct interface *br_if,
 	 * map to a VNI.
 	 */
 	zevpn = zebra_evpn_map_vlan(ifp, br_if, vid);
-	if (!zevpn)
+	if (!zevpn) {
+		/* No L2VNI: drop this host MAC from a BD's L3VNI neighbor-sync
+		 * MAC/ES cache so its pure-L3 RT-2 stops advertising the ESI.
+		 */
+		zebra_evpn_l3vni_local_mac_update(ifp, br_if, macaddr, vid,
+						  false /* del */);
 		return 0;
+	}
 	if (!zevpn->vxlan_if) {
 		if (IS_ZEBRA_DEBUG_VXLAN)
 			zlog_debug("VNI %u hash %p doesn't have intf upon local MAC DEL",
@@ -4904,6 +4948,11 @@ int zebra_vxlan_local_mac_add_update(struct interface *ifp,
 	 */
 	zevpn = zebra_evpn_map_vlan(ifp, br_if, vid);
 	if (!zevpn) {
+		/* No L2VNI: for a BD doing L3VNI neighbor sync, cache this host
+		 * MAC -> access port so pure-L3 RT-2s carry the real ESI.
+		 */
+		zebra_evpn_l3vni_local_mac_update(ifp, br_if, macaddr, vid,
+						  true /* add */);
 		if (IS_ZEBRA_DEBUG_VXLAN)
 			zlog_debug(
 				"        Add/Update %sMAC %pEA intf %s(%u) VID %u, could not find EVPN",
@@ -6088,6 +6137,19 @@ static int neigh_read_ns(struct ns *ns,
 	return NS_WALK_CONTINUE;
 }
 
+/* Re-originate pure-L3 (no-L2VNI) neighbor sync for hosts that were learned
+ * before the BD became eligible (knob enabled after the host appeared, L3VNI
+ * oper-up, or a bgpd GR reconnect). Instead of an expensive full kernel dump,
+ * replay zebra's in-memory L3-interface neighbor database: these host ARP/ND
+ * entries live on the SVI (an L3 interface) with no VNI, and zebra already
+ * tracks them there. The MAC->port cache is maintained by ongoing no-L2VNI FDB
+ * events, so no FDB re-read is needed here.
+ */
+static void zebra_vxlan_l3vni_neigh_replay(void)
+{
+	zebra_neigh_l3_replay();
+}
+
 /*
  * Handle message from client to learn (or stop learning) about VNIs and MACs.
  * When enabled, the VNI hash table will be built and MAC FDB table read;
@@ -6185,12 +6247,29 @@ void zebra_vxlan_advertise_l3vni_neigh(ZAPI_HANDLER_ARGS)
 	old_advertise = zvrf->advertise_l3vni_neigh;
 	zvrf->advertise_l3vni_neigh = advertise;
 
-	if (advertise && !old_advertise)
-		/* A local ES may already be up with no base EVPN; try now. */
+	if (advertise) {
+		/* (Re)evaluate the L3VNI-sourced ES base EVPN. Safe when a base
+		 * already exists, and needed on a GR/retain reconnect where the
+		 * flag is already true but the base was cleared.
+		 */
 		zebra_evpn_es_l3vni_base_evpn_reeval();
-	else if (!advertise && old_advertise) {
-		/* Release the L3VNI-sourced ES base EVPN hold, then withdraw all
-		 * pure-L3 neighbors and free their singletons.
+
+		/* Replay the L3-interface neighbor database so hosts learned
+		 * before the knob turned on originate their pure-L3 RT-2s. Done
+		 * unconditionally while enabled (idempotent) so a bgpd GR reconnect
+		 * that replays the knob also replays the pure-L3 RT-2s to the new
+		 * client.
+		 */
+		if (EVPN_ENABLED(zvrf))
+			zebra_vxlan_l3vni_neigh_replay();
+	} else if (old_advertise) {
+		/* Release the L3VNI-sourced ES base EVPN hold and withdraw all
+		 * pure-L3 neighbors, freeing their singletons. The MAC->port
+		 * cache is left intact: it is maintained by no-L2VNI FDB events
+		 * independently of the knob and is inert while disabled (only
+		 * pure-L3 origination consumes it), so keeping it lets a
+		 * re-enable replay the RT-2s with their ESI without a fragile
+		 * kernel FDB re-read.
 		 */
 		zebra_evpn_es_l3vni_base_evpn_clear();
 		zebra_evpn_l3vni_neigh_flush_all();
@@ -6633,6 +6712,17 @@ static void zebra_evpn_vrf_cfg_cleanup(struct zebra_vrf *zvrf, bool stale_cleanu
 		zvrf->advertise_gw_macip = 0;
 		zvrf->advertise_svi_macip = 0;
 		zvrf->vxlan_flood_ctrl = VXLAN_FLOOD_HEAD_END_REPL;
+
+		/* Tear down the pure-L3 neighbor-sync state with the rest of the
+		 * EVPN BGP client config so the mode flag and its cache/singleton
+		 * do not survive a (non-GR) bgpd disconnect.
+		 */
+		if (zvrf->advertise_l3vni_neigh) {
+			zvrf->advertise_l3vni_neigh = 0;
+			zebra_evpn_es_l3vni_base_evpn_clear();
+			zebra_evpn_l3vni_neigh_flush_all();
+			zebra_evpn_l3vni_mac_es_flush_all();
+		}
 	}
 
 	wctx.gr_stale_cleanup = stale_cleanup;
