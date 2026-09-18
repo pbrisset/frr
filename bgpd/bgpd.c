@@ -2935,15 +2935,11 @@ void peer_nsf_stop(struct peer *peer)
 
 	if (event_is_scheduled(peer->connection->t_gr_restart)) {
 		event_cancel(&peer->connection->t_gr_restart);
-		if (bgp_debug_neighbor_events(peer))
-			zlog_debug("%pBP graceful restart timer stopped", peer);
+		zlog_info("%pBP graceful restart timer stopped", peer);
 	}
 	if (event_is_scheduled(peer->connection->t_gr_stale)) {
 		event_cancel(&peer->connection->t_gr_stale);
-		if (bgp_debug_neighbor_events(peer))
-			zlog_debug(
-				"%pBP graceful restart stalepath timer stopped",
-				peer);
+		zlog_info("%pBP graceful restart stalepath timer stopped", peer);
 	}
 	bgp_clear_route_all(peer);
 }
