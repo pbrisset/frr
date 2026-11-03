@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EVPN Mobility Visualizer</title>
+
+    <!-- load Socket.IO client so this page can receive real-time events from Flask-SocketIO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+    <!-- load vis-network library used to draw and update the topology graph -->
+    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+
+    <!-- page styling -->
+    <style>
+        /* fill viewport, remove default spacing, and use a dark background for contrast. */
+        body { margin: 0; padding: 0; background-color: #121212; color: white; font-family: sans-serif; }
+
+        /* main network canvas takes the entire browser window. */
+        #mynetwork { width: 100vw; height: 100vh; }
+
+        /* floating info card in the top-left corner that stays above the network canvas. */
+        #overlay { position: absolute; top: 10px; left: 10px; z-index: 10; background: rgba(0,0,0,0.7); padding: 15px; border-radius: 8px; border: 1px solid #333;}
+
+        /* packet animation layer drawn above network and below control overlay. */
+        #packet-layer { position: absolute; inset: 0; z-index: 6; pointer-events: none; overflow: hidden; }
+
+        .packet-dot {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            opacity: 0.95;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.55);
+        }
+
+        .packet-dot.reach { background: #39d353; }
+        .packet-dot.unreach { background: #ff5a66; }
+
+        #packet-controls {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #333;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .toggle-row { display: flex; align-items: center; gap: 8px; }
+        .toggle-row input { accent-color: #4da6ff; }
+
+        #config-panel { display: none; position: absolute; top: 10px; right: 10px; bottom: 10px; width: 45vw; z-index: 10; background: rgba(0,0,0,0.85); border: 1px solid #333; border-radius: 8px; padding: 15px; box-sizing: border-box; flex-direction: column; }
+        #config-panel header { display: flex; justify-content: space-between; align-items: center; }
+        #config-panel pre { flex: 1; overflow: auto; margin: 10px 0 0; font-size: 12px; white-space: pre; }
+        #config-close { background: none; border: 1px solid #666; color: white; cursor: pointer; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <!-- legend overlay for color/type mapping for nodes -->
+    <div id="overlay">
+        <!-- heading for legend section. -->
+        <h3 style="margin-top: 0;">EVPN Topology</h3>
+
+        <!-- quick visual key for graph node categories. -->
+        <p>🔴 Spine <br>🔵 VTEP <br>🟢 Host <br>🟡 VM (Mobile)</p>
+
+        <div id="packet-controls">
+            <strong>Packet Overlay</strong>
+            <div class="toggle-row"><input type="checkbox" id="toggle-reach" checked><label for="toggle-reach">Show REACH</label></div>
+            <div class="toggle-row"><input type="checkbox" id="toggle-unreach" checked><label for="toggle-unreach">Show UNREACH</label></div>
+        </div>
+    </div>
+
+    <!-- container element where vis-network renders the topology graph -->
+    <div id="mynetwork"></div>
+    <div id="packet-layer"></div>
+
+    <div id="config-panel">
+        <header><h3 id="config-title" style="margin: 0;"></h3><button id="config-close">Close</button></header>
+        <pre id="config-body"></pre>
+    </div>
+
+    <!-- client-side logic for creating graph objects and processing live events -->
+    <script>
+        var nodes = new vis.DataSet([]);
+        var edges = new vis.DataSet([]);
+        var container = document.getElementById('mynetwork');
+        var packetLayer = document.getElementById('packet-layer');
+        var toggleReach = document.getElementById('toggle-reach');
+        var toggleUnreach = document.getElementById('toggle-unreach');
+
+        var data = { nodes: nodes, edges: edges };
+
+        // Keep placement deterministic so mobility events do not re-layout the entire graph.
+        var LEVEL_Y = {
+            spine: 90,
+            vtep: 260,
+            host: 440,
+            vm: 610
+        };
+
+        var SPACING_X = {
+            spine: 420,
+            vtep: 220,
+            host: 220,
+            vm: 90
+        };
+
+        var vmCurrentHost = new Map();
+        var hostToVms = new Map();
+        var vmAnimations = new Map();
+        var nodeTypeById = new Map();
+        var hostVmSlots = new Map();
+        var typeToNodeIds = {
+            spine: [],
+            vtep: [],
+            host: []
+        };
+
+        var ANIMATION_MIN_MS = 320;
+        var ANIMATION_MAX_MS = 1200;
+        var ANIMATION_MS_PER_PIXEL = 0.55;
+        var HORIZONTAL_TRAVEL_PHASE = 0.82;
+        var BASE_MOVE_LIFT_PX = 22;
+        var MAX_DYNAMIC_LIFT_PX = 40;
+        var HOST_VM_GRID_COLUMNS = 3;
+        var HOST_VM_GRID_ROWS = 2;
+        var HOST_VM_COL_SPACING = 68;
+        var HOST_VM_ROW_SPACING = 70;
+        var MAX_ACTIVE_PACKET_DOTS = 180;
+        var activePacketDots = [];
+
+        function parseOrdinal(id, prefix) {
+            if (!id.startsWith(prefix)) {
+                return 1;
+            }
+            var suffix = id.slice(prefix.length);
+            var value = parseInt(suffix, 10);
+            return Number.isFinite(value) ? value : 1;
+        }
+
+        function isVmLikeNode(id) {
+            var nodeType = nodeTypeById.get(id);
+            return nodeType === 'vm' || id.startsWith('vm') || id === 'controller';
+        }
+
+        function easeInOutCubic(t) {
+            return t < 0.5
+                ? 4 * t * t * t
+                : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        }
+
+        function getSpineCenterX() {
+            var spines = typeToNodeIds.spine;
+            if (!spines.length) {
+                return 0;
+            }
+            var totalX = 0;
+            spines.forEach(function(id) {
+                var node = nodes.get(id);
+                totalX += (node && typeof node.x === 'number') ? node.x : 0;
+            });
+            return totalX / spines.length;
+        }
+
+        function relayoutTypeRow(type) {
+            var ids = typeToNodeIds[type] || [];
+            if (!ids.length) {
+                return;
+            }
+
+            var spacing = SPACING_X[type];
+            var centerX = (type === 'spine') ? 0 : getSpineCenterX();
+            var startX = centerX - ((ids.length - 1) * spacing) / 2;
+            var rowY = LEVEL_Y[type];
+
+            ids.forEach(function(id, index) {
+                setFixedPosition(id, startX + (index * spacing), rowY, false);
+            });
+        }
+
+        function registerStaticNode(id, type) {
+            if (!typeToNodeIds[type]) {
+                return;
+            }
+            if (typeToNodeIds[type].includes(id)) {
+                return;
+            }
+
+            typeToNodeIds[type].push(id);
+            typeToNodeIds[type].sort(function(a, b) {
+                var prefix = (type === 'spine') ? 'spine' : type;
+                return parseOrdinal(a, prefix) - parseOrdinal(b, prefix);
+            });
+
+            relayoutTypeRow(type);
+
+            // Keep dependent rows centered under the spine row.
+            if (type === 'spine') {
+                relayoutTypeRow('vtep');
+                relayoutTypeRow('host');
+            }
+        }
+
+        function animateNodeTo(id, targetX, targetY, options) {
+            var node = nodes.get(id);
+            if (!node) {
+                return;
+            }
+
+            var opts = options || {};
+
+            var startX = (typeof node.x === 'number') ? node.x : targetX;
+            var startY = (typeof node.y === 'number') ? node.y : targetY;
+            var dx = targetX - startX;
+            var dy = targetY - startY;
+            var distance = Math.hypot(dx, dy);
+            var durationMs = Math.min(
+                ANIMATION_MAX_MS,
+                Math.max(ANIMATION_MIN_MS, distance * ANIMATION_MS_PER_PIXEL)
+            );
+
+            if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+                nodes.update({ id: id, x: targetX, y: targetY, fixed: { x: true, y: true }, physics: false });
+                return;
+            }
+
+            var existing = vmAnimations.get(id);
+            if (existing) {
+                cancelAnimationFrame(existing);
+            }
+
+            var started = performance.now();
+
+            function step(now) {
+                var elapsed = now - started;
+                var t = Math.min(1, elapsed / durationMs);
+                var x;
+                var y;
+
+                if (opts.preferHorizontal) {
+                    // Most of the timeline is horizontal travel; vertical settle happens near the end.
+                    var horizontalPhase = HORIZONTAL_TRAVEL_PHASE;
+                    var tx = Math.min(1, t / horizontalPhase);
+                    var ty = t <= horizontalPhase ? 0 : (t - horizontalPhase) / (1 - horizontalPhase);
+                    var requestedLift = opts.liftPx || BASE_MOVE_LIFT_PX;
+                    var dynamicLift = requestedLift + Math.min(16, Math.abs(dx) * 0.06);
+                    var lift = Math.min(MAX_DYNAMIC_LIFT_PX, dynamicLift);
+
+                    x = startX + dx * easeInOutCubic(tx);
+                    y = startY + dy * easeInOutCubic(ty) - (lift * Math.sin(Math.PI * tx));
+                } else {
+                    var eased = easeInOutCubic(t);
+                    x = startX + dx * eased;
+                    y = startY + dy * eased;
+                }
+
+                nodes.update({
+                    id: id,
+                    x: x,
+                    y: y,
+                    fixed: { x: true, y: true },
+                    physics: false
+                });
+
+                if (t < 1) {
+                    vmAnimations.set(id, requestAnimationFrame(step));
+                } else {
+                    vmAnimations.delete(id);
+                }
+            }
+
+            vmAnimations.set(id, requestAnimationFrame(step));
+        }
+
+        function setFixedPosition(id, x, y, animate, animationOptions) {
+            if (animate) {
+                animateNodeTo(id, x, y, animationOptions);
+                return;
+            }
+            nodes.update({ id: id, x: x, y: y, fixed: { x: true, y: true }, physics: false });
+        }
+
+        function showPacketType(packetType) {
+            var normalized = String(packetType || '').toUpperCase();
+            if (normalized === 'REACH') {
+                return toggleReach.checked;
+            }
+            if (normalized === 'UNREACH') {
+                return toggleUnreach.checked;
+            }
+            return true;
+        }
+
+        function packetStyleClass(packetType) {
+            return String(packetType || '').toUpperCase() === 'UNREACH' ? 'unreach' : 'reach';
+        }
+
+        function getNodeDomPoint(nodeId) {
+            var node = nodes.get(nodeId);
+            if (!node || typeof node.x !== 'number' || typeof node.y !== 'number') {
+                return null;
+            }
+            return network.canvasToDOM({ x: node.x, y: node.y });
+        }
+
+        function prunePacketDotsIfNeeded() {
+            while (activePacketDots.length > MAX_ACTIVE_PACKET_DOTS) {
+                var el = activePacketDots.shift();
+                if (el && el.parentNode) {
+                    el.parentNode.removeChild(el);
+                }
+            }
+        }
+
+        function animatePacketFlow(packetType, source, target, vmName) {
+            if (!showPacketType(packetType)) {
+                return;
+            }
+
+            var sourcePoint = getNodeDomPoint(source);
+            var targetPoint = getNodeDomPoint(target);
+            if (!sourcePoint || !targetPoint) {
+                return;
+            }
+
+            var dot = document.createElement('div');
+            dot.className = 'packet-dot ' + packetStyleClass(packetType);
+            dot.title = (packetType || 'PACKET') + ' ' + (vmName || '') + ' ' + source + ' -> ' + target;
+            packetLayer.appendChild(dot);
+            activePacketDots.push(dot);
+            prunePacketDotsIfNeeded();
+
+            var dx = targetPoint.x - sourcePoint.x;
+            var dy = targetPoint.y - sourcePoint.y;
+            var distance = Math.hypot(dx, dy);
+            var durationMs = Math.max(260, Math.min(1000, distance * 1.4));
+            var start = performance.now();
+
+            function frame(now) {
+                var t = Math.min(1, (now - start) / durationMs);
+                var eased = easeInOutCubic(t);
+                var x = sourcePoint.x + dx * eased;
+                var y = sourcePoint.y + dy * eased;
+
+                dot.style.left = x + 'px';
+                dot.style.top = y + 'px';
+                dot.style.opacity = String(0.95 - (0.45 * t));
+
+                if (t < 1) {
+                    requestAnimationFrame(frame);
+                } else {
+                    if (dot.parentNode) {
+                        dot.parentNode.removeChild(dot);
+                    }
+                    var idx = activePacketDots.indexOf(dot);
+                    if (idx >= 0) {
+                        activePacketDots.splice(idx, 1);
+                    }
+                }
+            }
+
+            requestAnimationFrame(frame);
+        }
+
+        function getOrCreateHostSlotMap(hostId) {
+            if (!hostVmSlots.has(hostId)) {
+                hostVmSlots.set(hostId, new Map());
+            }
+            return hostVmSlots.get(hostId);
+        }
+
+        function assignStableSlot(hostId, vmId) {
+            var slots = getOrCreateHostSlotMap(hostId);
+            if (slots.has(vmId)) {
+                return slots.get(vmId);
+            }
+
+            var used = new Set(slots.values());
+            var slot = 0;
+            while (used.has(slot)) {
+                slot += 1;
+            }
+            slots.set(vmId, slot);
+            return slot;
+        }
+
+        function releaseStableSlot(hostId, vmId) {
+            var slots = hostVmSlots.get(hostId);
+            if (!slots) {
+                return;
+            }
+            slots.delete(vmId);
+        }
+
+        function pruneStaleSlots(hostId, vmList) {
+            var slots = hostVmSlots.get(hostId);
+            if (!slots) {
+                return;
+            }
+
+            var live = new Set(vmList);
+            Array.from(slots.keys()).forEach(function(vmId) {
+                if (!live.has(vmId)) {
+                    slots.delete(vmId);
+                }
+            });
+        }
+
+        function hostVmPositionFromSlot(hostNode, slot) {
+            var cols = HOST_VM_GRID_COLUMNS;
+            var row = Math.floor(slot / cols);
+            if (row >= HOST_VM_GRID_ROWS) {
+                // Overflow fallback: keep any excess on the last configured row.
+                row = HOST_VM_GRID_ROWS - 1;
+            }
+            var col = slot % cols;
+            var centerOffset = (cols - 1) / 2;
+            var x = hostNode.x + (col - centerOffset) * HOST_VM_COL_SPACING;
+            var y = LEVEL_Y.vm + row * HOST_VM_ROW_SPACING;
+            return { x: x, y: y };
+        }
+
+        function registerVmOnHost(vmId, hostId) {
+            var oldHost = vmCurrentHost.get(vmId);
+            if (oldHost === hostId) {
+                return;
+            }
+
+            var shouldAnimateMove = Boolean(oldHost);
+
+            if (oldHost) {
+                var oldList = hostToVms.get(oldHost) || [];
+                hostToVms.set(
+                    oldHost,
+                    oldList.filter(function(item) { return item !== vmId; })
+                );
+                releaseStableSlot(oldHost, vmId);
+                relayoutHostVms(oldHost);
+            }
+
+            var newList = hostToVms.get(hostId) || [];
+            if (!newList.includes(vmId)) {
+                newList.push(vmId);
+                newList.sort(function(a, b) {
+                    var ordDiff = parseOrdinal(a, 'vm') - parseOrdinal(b, 'vm');
+                    if (ordDiff !== 0) {
+                        return ordDiff;
+                    }
+                    return a.localeCompare(b);
+                });
+            }
+            hostToVms.set(hostId, newList);
+            vmCurrentHost.set(vmId, hostId);
+            assignStableSlot(hostId, vmId);
+            relayoutHostVms(hostId, vmId, shouldAnimateMove);
+        }
+
+        function unregisterVmFromHost(vmId, hostId) {
+            var mappedHost = vmCurrentHost.get(vmId);
+            if (mappedHost !== hostId) {
+                return;
+            }
+
+            var vmList = hostToVms.get(hostId) || [];
+            hostToVms.set(
+                hostId,
+                vmList.filter(function(item) { return item !== vmId; })
+            );
+            vmCurrentHost.delete(vmId);
+            releaseStableSlot(hostId, vmId);
+            relayoutHostVms(hostId);
+        }
+
+        function relayoutHostVms(hostId, movedVmId, animateMovedVm) {
+            var hostNode = nodes.get(hostId);
+            if (!hostNode) {
+                return;
+            }
+
+            var vmList = hostToVms.get(hostId) || [];
+            if (!vmList.length) {
+                return;
+            }
+
+            pruneStaleSlots(hostId, vmList);
+
+            vmList.forEach(function(vmId) {
+                var slot = assignStableSlot(hostId, vmId);
+                var pos = hostVmPositionFromSlot(hostNode, slot);
+                var shouldAnimate = animateMovedVm && vmId === movedVmId;
+                setFixedPosition(vmId, pos.x, pos.y, shouldAnimate, {
+                    preferHorizontal: true,
+                    liftPx: BASE_MOVE_LIFT_PX
+                });
+            });
+        }
+
+        // Use deterministic coordinates and disable runtime physics to avoid jitter.
+        var options = {
+            physics: false,
+            nodes: { shape: 'dot', font: { color: '#ffffff' }, borderWidth: 2 },
+            // Use curved vertical lines for a cleaner diagram look
+            edges: { width: 2, smooth: { type: 'cubicBezier', forceDirection: 'vertical', roundness: 0.4 } }
+        };
+        var network = new vis.Network(container, data, options);
+
+        var nodeConfigs = new Map();
+        var configPanel = document.getElementById('config-panel');
+        var configTitle = document.getElementById('config-title');
+        var configBody = document.getElementById('config-body');
+
+        function showNodeConfig(id) {
+            configTitle.textContent = id;
+            configBody.textContent = nodeConfigs.get(id) || 'No configuration received for this node.';
+            configPanel.style.display = 'flex';
+        }
+
+        document.getElementById('config-close').addEventListener('click', function() {
+            configPanel.style.display = 'none';
+        });
+
+        network.on('click', function(params) {
+            if (params.nodes.length > 0) {
+                showNodeConfig(params.nodes[0]);
+            }
+        });
+
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        socket.on('network_event', function(msg) {
+            if (msg.action === 'ADD_NODE') {
+                if (!nodes.get(msg.id)) {
+                    let color, size, x, y;
+                    
+                    // Assign deterministic coordinates by topology role.
+                    if (msg.type === 'spine') { 
+                        color = '#ff4d4d';
+                        size = 25;
+                        x = 0;
+                        y = LEVEL_Y.spine;
+                    } else if (msg.type === 'vtep') { 
+                        color = '#4da6ff';
+                        size = 25;
+                        x = 0;
+                        y = LEVEL_Y.vtep;
+                    } else if (msg.type === 'host') { 
+                        color = '#4dff4d';
+                        size = 25;
+                        x = 0;
+                        y = LEVEL_Y.host;
+                    } else { 
+                        color = '#ffff4d';
+                        size = 12;
+                        // VMs are re-positioned when linked to a host.
+                        x = 0;
+                        y = LEVEL_Y.vm;
+                    }
+                    
+                    nodes.add({
+                        id: msg.id, 
+                        label: msg.id, 
+                        color: {background: color, border: '#ffffff'}, 
+                        size: size,
+                        x: x,
+                        y: y,
+                        fixed: { x: true, y: true },
+                        physics: false
+                    });
+                    nodeTypeById.set(msg.id, msg.type);
+                    if (msg.type === 'spine' || msg.type === 'vtep' || msg.type === 'host') {
+                        registerStaticNode(msg.id, msg.type);
+                    }
+                }
+            } 
+            else if (msg.action === 'ADD_LINK') {
+                let edgeId = msg.source + '-' + msg.target;
+                if (!edges.get(edgeId)) {
+                    let color = isVmLikeNode(msg.source) ? '#ffff4d' : '#888888';
+                    edges.add({id: edgeId, from: msg.source, to: msg.target, color: {color: color}});
+                }
+
+                if (isVmLikeNode(msg.source) && msg.target.startsWith('host')) {
+                    registerVmOnHost(msg.source, msg.target);
+                }
+            }
+            else if (msg.action === 'DEL_LINK') {
+                let edgeId = msg.source + '-' + msg.target;
+                if (edges.get(edgeId)) edges.remove(edgeId);
+
+                if (isVmLikeNode(msg.source) && msg.target.startsWith('host')) {
+                    unregisterVmFromHost(msg.source, msg.target);
+                }
+            }
+            else if (msg.action === 'PACKET_FLOW') {
+                animatePacketFlow(msg.packet_type, msg.source, msg.target, msg.vm);
+            }
+            else if (msg.action === 'NODE_CONFIG') {
+                nodeConfigs.set(msg.id, msg.config);
+                if (configPanel.style.display === 'flex' && configTitle.textContent === msg.id) {
+                    showNodeConfig(msg.id);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

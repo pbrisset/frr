@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>EVPN BGP Route Live Chart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #091018;
+            --panel: #111d2a;
+            --panel-border: #243649;
+            --text: #e6f2ff;
+            --muted: #a8c1da;
+            --accent: #39d0ff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            font-family: "Avenir Next", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(1000px 500px at 90% -10%, #17324f 0%, transparent 70%),
+                radial-gradient(900px 500px at -10% 100%, #12263f 0%, transparent 70%),
+                var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 22px;
+        }
+
+        .shell {
+            width: min(1100px, 100%);
+            background: rgba(17, 29, 42, 0.92);
+            border: 1px solid var(--panel-border);
+            border-radius: 16px;
+            box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--panel-border);
+            background: linear-gradient(100deg, rgba(16, 29, 43, 0.9), rgba(20, 41, 63, 0.85));
+        }
+
+        .title {
+            margin: 0;
+            font-size: 1.05rem;
+            letter-spacing: 0.02em;
+        }
+
+        .meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--muted);
+            font-size: 0.86rem;
+            white-space: nowrap;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.75);
+        }
+
+        .main {
+            padding: 14px 16px 12px;
+        }
+
+        .chart-wrap {
+            height: min(70vh, 560px);
+        }
+
+        .stats {
+            margin: 12px 0 2px;
+            color: var(--muted);
+            font-size: 0.88rem;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .metric-select {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .metric-select button {
+            background: rgba(9, 16, 24, 0.8);
+            color: var(--muted);
+            border: 1px solid var(--panel-border);
+            border-radius: 8px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font: inherit;
+            font-size: 0.86rem;
+        }
+
+        .metric-select button.active {
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .stat {
+            border: 1px solid var(--panel-border);
+            border-radius: 10px;
+            padding: 8px 10px;
+            background: rgba(9, 16, 24, 0.8);
+        }
+
+        .stat strong {
+            color: var(--text);
+            font-size: 0.98rem;
+            margin-left: 6px;
+        }
+
+        @media (max-width: 780px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <div class="header">
+            <h1 class="title">EVPN BGP Route Monitor</h1>
+            <div class="meta">
+                <span class="dot"></span>
+                <span id="statusText">Waiting for samples...</span>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="metric-select">
+                <button data-metric="macip" class="active">RT-2 MAC/IP routes</button>
+                <button data-metric="evpn">All EVPN routes</button>
+                <button data-metric="pfx_rcvd">Prefixes received</button>
+            </div>
+            <div class="chart-wrap">
+                <canvas id="routeChart"></canvas>
+            </div>
+            <div class="stats">
+                <div class="stat">RT-2 total<strong id="total-macip">0</strong></div>
+                <div class="stat">EVPN total<strong id="total-evpn">0</strong></div>
+                <div class="stat">Received total<strong id="total-pfx_rcvd">0</strong></div>
+                <div class="stat">Samples<strong id="sampleCount">0</strong></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+        var METRICS = ['macip', 'evpn', 'pfx_rcvd'];
+        var COLORS = ['#39d0ff', '#ffd166', '#ef476f', '#06d6a0', '#c77dff', '#f78c6b', '#8ecae6'];
+        var maxPoints = 120;
+        var samples = [];
+        var currentMetric = 'macip';
+
+        var chart = new Chart(document.getElementById('routeChart').getContext('2d'), {
+            type: 'line',
+            data: { labels: [], datasets: [] },
+            options: {
+                maintainAspectRatio: false,
+                animation: false,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { labels: { color: '#d2e5f8', boxWidth: 22 } }
+                },
+                scales: {
+                    x: {
+                        ticks: { color: '#a8c1da', maxTicksLimit: 10 },
+                        grid: { color: 'rgba(80, 120, 160, 0.18)' }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#a8c1da', precision: 0 },
+                        grid: { color: 'rgba(80, 120, 160, 0.18)' }
+                    }
+                }
+            }
+        });
+
+        function routerNames() {
+            var names = new Set();
+            samples.forEach(function(s) {
+                Object.keys(s.metrics[currentMetric].per_router).forEach(function(n) { names.add(n); });
+            });
+            return Array.from(names).sort();
+        }
+
+        function redraw() {
+            chart.data.labels = samples.map(function(s) { return s.ts; });
+            var datasets = routerNames().map(function(name, i) {
+                return {
+                    label: name,
+                    data: samples.map(function(s) {
+                        var v = s.metrics[currentMetric].per_router[name];
+                        return v === undefined ? null : v;
+                    }),
+                    borderColor: COLORS[i % COLORS.length],
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    tension: 0.2,
+                    spanGaps: true
+                };
+            });
+            datasets.push({
+                label: 'total',
+                data: samples.map(function(s) { return s.metrics[currentMetric].total; }),
+                borderColor: '#ffffff',
+                borderDash: [6, 4],
+                borderWidth: 2,
+                pointRadius: 0,
+                tension: 0.2
+            });
+            chart.data.datasets = datasets;
+            chart.update('none');
+        }
+
+        function pushSample(msg) {
+            if (!msg.metrics) {
+                return;
+            }
+            samples.push(msg);
+            if (samples.length > maxPoints) {
+                samples.shift();
+            }
+            METRICS.forEach(function(m) {
+                document.getElementById('total-' + m).textContent = String(msg.metrics[m].total);
+            });
+            document.getElementById('sampleCount').textContent = String(samples.length);
+            document.getElementById('statusText').textContent = 'Live updates active';
+            redraw();
+        }
+
+        function resetSeries() {
+            samples.length = 0;
+            METRICS.forEach(function(m) {
+                document.getElementById('total-' + m).textContent = '0';
+            });
+            document.getElementById('sampleCount').textContent = '0';
+            document.getElementById('statusText').textContent = 'Waiting for samples...';
+            redraw();
+        }
+
+        document.querySelectorAll('.metric-select button').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                currentMetric = btn.dataset.metric;
+                document.querySelectorAll('.metric-select button').forEach(function(b) {
+                    b.classList.toggle('active', b === btn);
+                });
+                redraw();
+            });
+        });
+
+        socket.on('network_event', function(msg) {
+            if (!msg) {
+                return;
+            }
+            if (msg.action === 'ROUTE_SAMPLE_RESET') {
+                resetSeries();
+            } else if (msg.action === 'ROUTE_SAMPLE') {
+                pushSample(msg);
+            }
+        });
+    </script>
+</body>
+</html>

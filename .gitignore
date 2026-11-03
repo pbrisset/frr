@@ -121,3 +121,26 @@ refix
 pceplib/test/*.log
 pceplib/test/*.trs
 /tests/topotests/lib/mgmt_pb2.py
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Runtime output and logs
+*.log
+*.out
+*.err
+router-logs/
+
+# Packet captures
+*.pcap
+*.pcapng
+
+# Temporary topotest runs
+/tmp/topotests/
+/tmp/phase0-*/
+attempt-01/
+
+# Python bytecode
+__pycache__/
+*.pyc
