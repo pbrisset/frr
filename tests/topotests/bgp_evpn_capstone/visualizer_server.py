@@ -10,6 +10,7 @@ browser clients in real time.
 # standard library logging module used to configure Flask/Werkzeug log output
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
+import argparse
 import logging
 
 # suppress standard Werkzeug request logs to focus on mobility/debug messages
@@ -76,15 +77,20 @@ def receive_event():
 
 # run this block only when the file is executed directly (not imported).
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='Run the EVPN visualizer server')
+    parser.add_argument('--port', type=int, default=5000,
+                        help='HTTP port (default: 5000)')
+    args = parser.parse_args()
+
     # Print startup banner so users know where to open the UI.
     print("=========================================")
-    print(" EVPN Visualizer starting on port 5000")
-    print(" Open http://localhost:5000 in your browser")
+    print(" EVPN Visualizer starting on port {}".format(args.port))
+    print(" Open http://localhost:{} in your browser".format(args.port))
     print("=========================================")
 
     # Start the Socket.IO development server.
     # - host='0.0.0.0' binds on all interfaces so Docker port publishing works.
-    # - port=5000 is the externally mapped visualizer port.
+    # - port defaults to Docker's externally mapped port 5000.
     # - allow_unsafe_werkzeug=True permits Werkzeug in this non-production setup.
-    socketio.run(app, host='0.0.0.0', port=5000, allow_unsafe_werkzeug=True)
-    
+    socketio.run(app, host='0.0.0.0', port=args.port,
+                 allow_unsafe_werkzeug=True)

@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "parameters": {
+    "PHASE0_RUN": "1",
+    "PHASE0_RESULTS": "/tmp/phase0-move-02"
+  },
+  "effective": {
+    "robots": [
+      "host11"
+    ],
+    "duration": 12.0,
+    "move_interval": 4.0,
+    "disconnect": 0.0,
+    "probe_rate": 10.0,
+    "sample_interval": 0.5,
+    "repetitions": 1,
+    "seed": 0,
+    "schedule": "synchronized",
+    "mode": "break-before-make",
+    "access_leaves": 4,
+    "spines": 2,
+    "dad": "baseline"
+  },
+  "clock": {
+    "clock": "CLOCK_MONOTONIC",
+    "boot_id": "96d6449b-d93b-4a96-8eb2-08a72035937e",
+    "time_namespace": "monotonic           0         0\nboottime            0         0\n",
+    "note": "Command observations bracket execution; snapshots are sequential, not atomic. PCAP uses realtime; no cross-clock causal ordering."
+  },
+  "revision": "727b0db7f2fe740006722fbe0042f3c236a0bbdf",
+  "dirty": "A  customer_sync_2026-10-14.md\nA  mobility_telemetry.csv\n M test_evpn_capstone.py\nA  test_mobility_workload.py\n M visualizer_server.py\n?? ../../../.DS_Store\n?? ../../../doc/.DS_Store\n?? ../../../doc/capstone/experiment-results/\n?? ../../.DS_Store\n?? ../.DS_Store\n?? .DS_Store\n?? audit_2026-10-20/\n?? phase0/\n?? test_phase0_measurement.py\n?? ../leaf1\n?? ../spine1",
+  "started_wall_ns": 1793670468976754743,
+  "started_monotonic_ns": 506896164830,
+  "tgen_logdir": "/tmp/topotests/bgp_evpn_capstone.test_phase0_measurement"
+}

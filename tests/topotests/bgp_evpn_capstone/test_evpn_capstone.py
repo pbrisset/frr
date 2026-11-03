@@ -628,6 +628,166 @@ def test_evpn_type2_routes_imported():
         assert result is None, result
 
 
+def test_evpn_dataplane_bindings():
+    "Verify every VNI 1000 leaf has its access ports and VXLAN on br1000."
+    tgen = get_topogen()
+    if tgen.routers_have_failure():
+        pytest.skip(tgen.errors)
+
+    for leaf, spec in LEAVES.items():
+        if spec["l2vni"] != 1000:
+            continue
+        router = tgen.gears[leaf]
+        vni = json.loads(router.cmd_raises("ip -d -j link show dev vni1000"))[0]
+        assert vni.get("master") == "br1000", (leaf, vni)
+        assert vni.get("linkinfo", {}).get("info_data", {}).get("id") == 1000, (
+            leaf,
+            vni,
+        )
+        assert "UP" in vni.get("flags", []), (leaf, vni)
+        for host in spec["hosts"]:
+            port = "eth-{}".format(host)
+            link = json.loads(router.cmd_raises("ip -j link show dev {}".format(port)))[0]
+            assert link.get("master") == "br1000", (leaf, port, link)
+            assert "UP" in link.get("flags", []), (leaf, port, link)
+
+
+def _robot_mac_row(router, mac):
+    "Return the exact MAC table row for a robot."
+    output = router.vtysh_cmd("show evpn mac vni 1000")
+    return next((line.split() for line in output.splitlines() if line.startswith(mac)), [])
+
+
+def _rd_section(output, rd):
+    "Return Type-2 routes advertised under one route distinguisher."
+    marker = "Route Distinguisher: {}\n".format(rd)
+    if marker not in output:
+        return ""
+    return output.split(marker, 1)[1].split("Route Distinguisher:", 1)[0]
+
+
+def _move_robot(tgen, host, source, target):
+    "Move one host-facing veth directly between Munet leaf namespaces."
+    port = "eth-{}".format(host)
+    old_leaf = tgen.gears[source]
+    new_leaf = tgen.gears[target]
+    old_leaf.cmd_raises("ip link set {} nomaster".format(port))
+    old_leaf.cmd_raises("ip link set {} netns {}".format(port, new_leaf.net.pids[-1]))
+    new_leaf.cmd_raises("ip link set {} master br1000".format(port))
+    new_leaf.cmd_raises("ip link set {} up".format(port))
+
+
+def _check_robot_convergence(tgen, host, source, target, old_leaf=None):
+    "Check bridge learning, Type-2 ownership, and VTEP reachability."
+    ip_prefix, mac = LEAVES[source]["hosts"][host]
+    ip = ip_prefix.split("/")[0]
+    prefix = "[2]:[0]:[48]:[{}]:[32]:[{}]".format(mac, ip)
+    vtep = LEAVES[target]["lo"]
+    old_rd = "{}:1000".format(LEAVES[old_leaf or source]["lo"])
+    new_rd = "{}:1000".format(vtep)
+
+    for leaf, spec in LEAVES.items():
+        if spec["l2vni"] != 1000:
+            continue
+        router = tgen.gears[leaf]
+        row = _robot_mac_row(router, mac)
+        expected = [mac, "local", "eth-{}".format(host)] if leaf == target else [
+            mac, "remote", vtep
+        ]
+        if row[:3] != expected:
+            return "{} MAC row {} expected {}".format(leaf, row, expected)
+
+        routes = router.vtysh_cmd("show bgp l2vpn evpn route type macip")
+        if prefix in _rd_section(routes, old_rd):
+            return "{} retains stale {} route under {}".format(leaf, host, old_rd)
+        lines = _rd_section(routes, new_rd).splitlines()
+        best = next((i for i, line in enumerate(lines)
+                     if prefix in line and line.strip().startswith("*>")), None)
+        if best is None or best + 1 >= len(lines) or vtep not in lines[best + 1]:
+            return "{} lacks best {} Type-2 route via {}".format(leaf, host, vtep)
+        if leaf != target:
+            route = router.cmd_raises("ip route get {}".format(vtep))
+            if "unreachable" in route:
+                return "{} cannot reach VTEP {}".format(leaf, vtep)
+    return None
+
+
+def _run_robot_moves(tgen, moves):
+    "Move robots, check convergence, and restore original veth bindings."
+    moved = []
+    try:
+        for host, source, target in moves:
+            mac = LEAVES[source]["hosts"][host][1]
+            _, initial = topotest.run_and_expect(
+                lambda h=host, s=source, m=mac: (
+                    None if _robot_mac_row(tgen.gears[s], m)[:3]
+                    == [m, "local", "eth-{}".format(h)] else "not local"
+                ),
+                None,
+                count=30,
+                wait=1,
+            )
+            assert initial is None, "{} is not initially attached to {}".format(
+                host, source
+            )
+            logger.info("Moving %s from %s to %s", host, source, target)
+            _move_robot(tgen, host, source, target)
+            moved.append((host, source, target))
+
+        for host, source, _ in moves:
+            tgen.gears[host].cmd_raises(
+                "ping -c 2 -W 1 -I eth0 {}".format(LEAVES[source]["gw"])
+            )
+
+        for host, source, target in moves:
+            _, result = topotest.run_and_expect(
+                lambda h=host, s=source, d=target: _check_robot_convergence(
+                    tgen, h, s, d
+                ),
+                None,
+                count=60,
+                wait=1,
+            )
+            assert result is None, result
+    finally:
+        for host, source, target in reversed(moved):
+            _move_robot(tgen, host, target, source)
+            # ARP may need more than one packet immediately after reattachment.
+            tgen.gears[host].cmd(
+                "ping -c 3 -W 1 -I eth0 {}".format(LEAVES[source]["gw"])
+            )
+
+    for host, source, target in moves:
+        _, result = topotest.run_and_expect(
+            lambda h=host, s=source, d=target: _check_robot_convergence(
+                tgen, h, s, s, old_leaf=d
+            ),
+            None,
+            count=60,
+            wait=1,
+        )
+        assert result is None, "{} did not reconverge after restoration: {}".format(
+            host, result
+        )
+
+
+def test_evpn_single_robot_move(tgen):
+    "Verify one robot move, Type-2 reorigination, and stale route withdrawal."
+    if tgen.routers_have_failure():
+        pytest.skip(tgen.errors)
+    _run_robot_moves(tgen, [("host11", "leaf1", "leaf2")])
+
+
+def test_evpn_multi_robot_moves(tgen):
+    "Verify two robots move to new leaves before checking convergence."
+    if tgen.routers_have_failure():
+        pytest.skip(tgen.errors)
+    _run_robot_moves(
+        tgen,
+        [("host11", "leaf1", "leaf2"), ("host21", "leaf2", "leaf3")],
+    )
+
+
 if __name__ == "__main__":
     args = ["-s"] + sys.argv[1:]
     sys.exit(pytest.main(args))

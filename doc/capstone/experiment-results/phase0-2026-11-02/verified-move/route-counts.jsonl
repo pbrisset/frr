@@ -1,0 +1,140 @@
+{"device": "spine1", "start_ns": 519220636034, "end_ns": 519258428026, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 519258492316, "end_ns": 519290686590, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 519328063805, "end_ns": 519360496321, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 519360539653, "end_ns": 519394403035, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 519426168033, "end_ns": 519455615197, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 519455663695, "end_ns": 519486911711, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 519516765694, "end_ns": 519546968372, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 519547029828, "end_ns": 519576326497, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 519609348617, "end_ns": 519640230521, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 519640284353, "end_ns": 519671889648, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 519702775344, "end_ns": 519731404162, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 519731450827, "end_ns": 519761079025, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 519791467489, "end_ns": 519823973669, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 519824030625, "end_ns": 519855233310, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 520618117447, "end_ns": 520652064653, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 520652121609, "end_ns": 520684054262, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 520715411685, "end_ns": 520747620162, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 520747666660, "end_ns": 520778300692, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 520808802230, "end_ns": 520838528961, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 520838584334, "end_ns": 520867705920, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 520897800389, "end_ns": 520926629776, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 520926674275, "end_ns": 520955603363, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 520986330511, "end_ns": 521015682334, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 521015730707, "end_ns": 521045984581, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 521079401592, "end_ns": 521113621823, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 521113673405, "end_ns": 521146992544, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 521185651783, "end_ns": 521219640856, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 521219696271, "end_ns": 521254035956, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 522017136043, "end_ns": 522053495233, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 522053542939, "end_ns": 522085795944, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 522116449340, "end_ns": 522148277193, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 522148324650, "end_ns": 522178248447, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 522210346540, "end_ns": 522254439535, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 522254493575, "end_ns": 522286969530, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 522316238142, "end_ns": 522345910073, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 522345955530, "end_ns": 522375342888, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 522406125987, "end_ns": 522435732879, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 522435787044, "end_ns": 522465756922, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 522495445269, "end_ns": 522524998746, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 522525061494, "end_ns": 522553831582, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 522585814347, "end_ns": 522618952445, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 522619013859, "end_ns": 522662149264, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 523430796190, "end_ns": 523466596436, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 8}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 523466640684, "end_ns": 523497527733, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 523528565401, "end_ns": 523563379849, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 8}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 523563418014, "end_ns": 523593898827, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 523623356844, "end_ns": 523652770613, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 523652820861, "end_ns": 523685681421, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 523717860840, "end_ns": 523748906341, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 14}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 523748957422, "end_ns": 523778504811, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 523812079137, "end_ns": 523842858439, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 14}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 523842906313, "end_ns": 523875006817, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 523905067854, "end_ns": 523934714695, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 14}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 523934760693, "end_ns": 523965888894, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 523992350140, "end_ns": 524022025060, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 524022072517, "end_ns": 524051546403, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 524788555676, "end_ns": 524825642202, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 524825682451, "end_ns": 524859566677, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 524894180751, "end_ns": 524927992561, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 524928040268, "end_ns": 524964971043, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 525014439777, "end_ns": 525047981426, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 525048049007, "end_ns": 525083272886, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 525117115024, "end_ns": 525149791372, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 525149843495, "end_ns": 525181228389, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 525212598659, "end_ns": 525245597787, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 525245650493, "end_ns": 525281592846, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 525315400944, "end_ns": 525352544295, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 525352594251, "end_ns": 525392043601, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 525434118230, "end_ns": 525475416054, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 525475469802, "end_ns": 525508445430, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 526266826238, "end_ns": 526302302186, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 526302348267, "end_ns": 526336312020, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 526369170147, "end_ns": 526401654746, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 526401694537, "end_ns": 526433511910, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 526465305034, "end_ns": 526497363232, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 526497425188, "end_ns": 526530548639, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 526562152520, "end_ns": 526593386998, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 526593435705, "end_ns": 526625976885, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 526658527440, "end_ns": 526692073375, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 526692123748, "end_ns": 526723061404, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 526753549618, "end_ns": 526784438317, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 526784491107, "end_ns": 526815300309, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 526845022009, "end_ns": 526875131862, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 526875186318, "end_ns": 526905413959, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 527651882930, "end_ns": 527686935679, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 527686987969, "end_ns": 527720381195, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 527753751173, "end_ns": 527789131076, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 527789180658, "end_ns": 527818958143, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 527850373234, "end_ns": 527880469249, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 527880519914, "end_ns": 527910942875, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 527941171382, "end_ns": 527970740953, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 527970791035, "end_ns": 528000853380, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 528030499490, "end_ns": 528060818450, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 528060864990, "end_ns": 528090280858, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 528120925307, "end_ns": 528151556380, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 528151609253, "end_ns": 528181475397, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 528211176380, "end_ns": 528241404218, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 528241454008, "end_ns": 528271809634, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 529018616870, "end_ns": 529054998600, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 529055057431, "end_ns": 529087902334, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 529119764065, "end_ns": 529149875778, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 529149919151, "end_ns": 529181118449, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 529211468778, "end_ns": 529242629410, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 529242683825, "end_ns": 529271733369, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 529302290066, "end_ns": 529335867441, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 529335917565, "end_ns": 529368823465, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 529401636411, "end_ns": 529436658858, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 529436710356, "end_ns": 529470355979, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 529506460095, "end_ns": 529538358949, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 529538413489, "end_ns": 529572694005, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 529607155848, "end_ns": 529640698267, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 529640753473, "end_ns": 529675251440, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 530456617825, "end_ns": 530494559033, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 530494601823, "end_ns": 530529790800, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 530566050820, "end_ns": 530604639711, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 530604685001, "end_ns": 530635686760, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 530668835146, "end_ns": 530700684248, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 530700736246, "end_ns": 530732186571, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 530788053192, "end_ns": 530820039705, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 530820099036, "end_ns": 530854470460, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 530889976300, "end_ns": 530922270760, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 530922321550, "end_ns": 530954303641, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 530986474768, "end_ns": 531019882223, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 531019933846, "end_ns": 531050905809, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 531086862418, "end_ns": 531120064172, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 531120117920, "end_ns": 531152194758, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 531420172913, "end_ns": 531473704404, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine1", "start_ns": 531473802359, "end_ns": 531523619490, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 531570552645, "end_ns": 531621241952, "path_counts": {"rt2_mac_only": 10, "rt2_mac_ip": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "spine2", "start_ns": 531621296825, "end_ns": 531670680014, "path_counts": {"rt5": 5}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 531718023487, "end_ns": 531756199680, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf1", "start_ns": 531756252303, "end_ns": 531789280981, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 531823898640, "end_ns": 531855167384, "path_counts": {"rt2_mac_only": 17, "rt2_mac_ip": 15}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf2", "start_ns": 531855219590, "end_ns": 531886929400, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 531917400090, "end_ns": 531947423793, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf3", "start_ns": 531947479291, "end_ns": 531979597664, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 532009090512, "end_ns": 532038423198, "path_counts": {"rt2_mac_only": 18, "rt2_mac_ip": 16}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf4", "start_ns": 532038471113, "end_ns": 532067948128, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 532099463190, "end_ns": 532129557182, "path_counts": {"rt2_mac_only": 19, "rt2_mac_ip": 17}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
+{"device": "leaf5", "start_ns": 532129606055, "end_ns": 532158967990, "path_counts": {"rt5": 9}, "note": "Path counts, including both spine paths; raw route keys retained separately"}
