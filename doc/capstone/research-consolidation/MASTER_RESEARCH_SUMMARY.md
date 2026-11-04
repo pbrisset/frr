@@ -1,0 +1,33 @@
+# Master research summary
+
+This is our evidence, separate from the missing teammate AP study. The matrix contains **61 records**: 57 successful recorded single-robot executions (Phase 0 verified 1; Phase 1A smoke 2; Phase 1B matrix/pilots 24; Week 5 exploratory IP 9; Week 5 causal 20 plus one access-port check), two historical workload records with seven measured moves apiece, and two retained failed instrumentation attempts. The 57 count includes smoke and pilot executions, not 57 independent samples of one condition. Baseline suite assertions and individual moves within a historical workload are not counted as independent topology trials. Earlier suite and pilot descriptions may record additional attempts without complete standalone logs. Dates in the matrix use manifests when available; smoke dates are report/commit based.
+
+## October: baseline and mobility workload
+
+The existing two-spine/five-leaf EVPN topology has eight robot hosts attached to leaves1–4 and a controller behind Leaf5. The October 20 audit reports 11 fabric tests and two workload tests passed; the workload recorded five sequential host11 moves and two fleet moves, whose interface commands were serialized. The five elapsed polling/convergence measures were 2.309–2.384 s, and the two fleet rows 3.400 and 3.852 s. These are not packet interruption or BGP-only times. Post-return Zebra logs showed DAD duplicate detections after the CSV measurements, despite `dad_warning=False` in those rows; suppression and traffic impact were not established. The October 13 benchmark contains another seven rows. See `tests/topotests/bgp_evpn_capstone/audit_2026-10-20/REPORT.md` and both original CSVs; original execution-time source provenance is incomplete.
+
+## November 2–3: Phase 0
+
+The 13/13 baseline suite passed; the successful fresh one-move instrumented trial transferred host11 from leaf1 to leaf2. It recorded 116 controller-originated ICMP sends, 115 replies, one timeout and approximately 9.604 sends/s over the send span. Leaf2 was sampled local seq 1; Leaf5's kernel /32 was temporarily absent while a /24 ECMP route remained, and a source-specific lookup/RMAC/FDB resolution indicated leaf3 before a later matching leaf2 sample. The timeout has no proven packet drop location. An earlier instrumentation attempt failed because a parser expected the wrong bridge JSON field and is retained, excluded from results. Snapshots were slow, sequential, and non-atomic; PCAP realtime was not calibrated to monotonic event time. See `../experiment-results/phase0-2026-11-02/report.md`.
+
+## November 3: Phase 1A and 1B
+
+Phase 1A attached a second same-MAC veth while host11 remained one namespace with one configured robot IPv4 address; only the old interface held the IP/default route during overlap. The raw gratuitous ARP caused new-leaf learning. Both smoke-02 and smoke-03 event records exist, while the initial failed attempt remains archived. These are physical virtual-link overlap observations, not proof of two usable IP paths or an actual wireless roam.
+
+Phase 1B ran five fresh single-move trials each of BBM, MBB-100, MBB-250 and MBB-500 in fixed order, plus four excluded pilots. Losses were respectively `0,0,0,1,1`; `0,0,0,0,0`; `0,0,0,1,0`; `0,1,1,0,3`. Missing /32 and Leaf3 resolution were sampled in 4/5 MBB-100 and 5/5 MBB-500; no such sample was seen in the other matrix groups. This is a sampling result, not proof of absence between samples or an MBB reliability ranking. Local sequence reached 3 in some longer overlap runs; no duplicate flag was observed in the sampled matrix MAC state. Type-2 announcements/withdrawals and peer copies are retained, but event clock calibration and exact cause of packet loss are missing. See `../experiment-results/phase1-bbm-vs-mbb/report.md` and `PHASE1_DEEP_DIVE.md`.
+
+## Week 5 fleet audit
+
+The requested teammate AP fleet report, five named scripts and raw datasets were not located in the searched checkout, local refs, nearby project files and checked container directory. This is not evidence of what may exist on another machine or remote. The fleet audit did not rerun or validate their fleet study; its matrix marks requested points unknown. The historical two-robot workload is not the teammate AP study. No fleet threshold or production capacity is established. See `../experiment-results/week5-fleet-audit/`.
+
+## Week 5 IP-relearning exploration
+
+Nine fresh BBM one-robot executions compared no deliberate announcement, immediate/repeated/delayed self-target gratuitous ARP, telemetry and a gateway ping. All sampled Leaf2 local MAC with no IP neighbor and Leaf5 missing /32 at some point; seven had probe losses. Repeated and delayed gratuitous ARP could coincide with packet delivery recovery while Leaf5 still sampled an absent /32. One gateway ping produced an observed gateway ARP request/robot reply, Leaf2 local IP, MAC/IP advertisement and Leaf5 /32 restoration. This is association, not an isolated causal proof. In one capture a probe was sent to leaf3 and was not observed at the robot; a separate capture shows leaf3 forwarding a fallback packet onward to leaf2 successfully. See `../experiment-results/week5-ip-relearning/`.
+
+## Week 5 causal verification
+
+Twenty fresh BBM trials, five each of no deliberate ARP, immediate gateway ARP, delayed gateway ARP and four gateway ARPs, plus one distinct 200 ms extra-wait access-port check, were completed. Loss vectors and sampled recovery are in `intervention-trials.csv`; delayed and repeated groups sampled local IP and /32 via leaf2 in 5/5, immediate and no-deliberate groups in 1/5 each. Delayed-01 recovered before its scheduled request, demonstrating background traffic confounding. A separate access-port capture observed robot ARP before a later neighbor deletion, with its own packet and netlink-drop counters zero. Kernel source and observations support but do not establish that a remote `NOARP` entry blocks the initial local-neighbor update. The final assessment is **CAUSAL MECHANISM PARTIALLY SUPPORTED**, not a demonstrated FRR defect. See `../experiment-results/week5-ip-relearning-causal/`.
+
+## Cross-cutting interpretation
+
+A controller host's ICMP reply measures that flow, not application-level controller knowledge. Leaf5 lookup, BGP RIB, Zebra state, kernel neighbor/FDB and actual packet path are separate views. `/24` fallback can forward via an unrelated first leaf and still deliver over L2 VXLAN. BGP UPDATE messages, NLRI transmissions, unique changes, withdrawals and retransmissions are different counts. Clocks and snapshots cannot establish exact internal ordering without calibration and event tracing. No test establishes a fleet breaking point, production switch capacity, or an FRR fix.

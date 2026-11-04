@@ -1,0 +1,126 @@
+phase,run,check,raw_sends,raw_failures,reported_sends,reported_failures,status,evidence
+phase0,verified-move,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/phase0-2026-11-02/verified-move
+phase1b,phase1b-bbm-1,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-1
+phase1b,phase1b-bbm-1,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-1
+phase1b,phase1b-bbm-2,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-2
+phase1b,phase1b-bbm-2,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-2
+phase1b,phase1b-bbm-3,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-3
+phase1b,phase1b-bbm-3,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-3
+phase1b,phase1b-bbm-4,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-4
+phase1b,phase1b-bbm-4,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-4
+phase1b,phase1b-bbm-5,probe JSON vs summary,115,1,115,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-5
+phase1b,phase1b-bbm-5,probe JSON vs aggregate CSV,115,1,115,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-bbm-5
+phase1b,phase1b-mbb100-1,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-1
+phase1b,phase1b-mbb100-1,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-1
+phase1b,phase1b-mbb100-2,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-2
+phase1b,phase1b-mbb100-2,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-2
+phase1b,phase1b-mbb100-3,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-3
+phase1b,phase1b-mbb100-3,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-3
+phase1b,phase1b-mbb100-4,probe JSON vs summary,113,0,113,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-4
+phase1b,phase1b-mbb100-4,probe JSON vs aggregate CSV,113,0,113,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-4
+phase1b,phase1b-mbb100-5,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-5
+phase1b,phase1b-mbb100-5,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb100-5
+phase1b,phase1b-mbb250-1,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-1
+phase1b,phase1b-mbb250-1,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-1
+phase1b,phase1b-mbb250-2,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-2
+phase1b,phase1b-mbb250-2,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-2
+phase1b,phase1b-mbb250-3,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-3
+phase1b,phase1b-mbb250-3,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-3
+phase1b,phase1b-mbb250-4,probe JSON vs summary,115,1,115,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-4
+phase1b,phase1b-mbb250-4,probe JSON vs aggregate CSV,115,1,115,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-4
+phase1b,phase1b-mbb250-5,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-5
+phase1b,phase1b-mbb250-5,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb250-5
+phase1b,phase1b-mbb500-1,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-1
+phase1b,phase1b-mbb500-1,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-1
+phase1b,phase1b-mbb500-2,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-2
+phase1b,phase1b-mbb500-2,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-2
+phase1b,phase1b-mbb500-3,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-3
+phase1b,phase1b-mbb500-3,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-3
+phase1b,phase1b-mbb500-4,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-4
+phase1b,phase1b-mbb500-4,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-4
+phase1b,phase1b-mbb500-5,probe JSON vs summary,115,3,115,3,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-5
+phase1b,phase1b-mbb500-5,probe JSON vs aggregate CSV,115,3,115,3,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-mbb500-5
+phase1b,phase1b-pilot-bbm,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-pilot-bbm
+phase1b,phase1b-pilot-mbb,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-pilot-mbb
+phase1b,phase1b-pilot2-bbm,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-pilot2-bbm
+phase1b,phase1b-pilot2-mbb,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb/raw/phase1b-pilot2-mbb
+phase1b,phase1b-bbm-1,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-bbm-2,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-bbm-3,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-bbm-4,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-bbm-5,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb100-1,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb100-2,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb100-3,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb100-4,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb100-5,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb250-1,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb250-2,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb250-3,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb250-4,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb250-5,route and lookup CSV vs runs.csv,False,False,False,False,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb500-1,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb500-2,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb500-3,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb500-4,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+phase1b,phase1b-mbb500-5,route and lookup CSV vs runs.csv,True,True,True,True,PASS,doc/capstone/experiment-results/phase1-bbm-vs-mbb
+week5-ip,raw-delayed-01,probe JSON vs summary,115,18,115,18,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-delayed-01
+week5-ip,raw-delayed-01,probe JSON vs aggregate CSV,115,18,115,18,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-delayed-01
+week5-ip,raw-delayed-02,probe JSON vs summary,116,18,116,18,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-delayed-02
+week5-ip,raw-delayed-02,probe JSON vs aggregate CSV,116,18,116,18,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-delayed-02
+week5-ip,raw-gateway-02,probe JSON vs summary,116,19,116,19,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-gateway-02
+week5-ip,raw-gateway-02,probe JSON vs aggregate CSV,116,19,116,19,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-gateway-02
+week5-ip,raw-immediate-01,probe JSON vs summary,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-immediate-01
+week5-ip,raw-immediate-01,probe JSON vs aggregate CSV,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-immediate-01
+week5-ip,raw-none-01,probe JSON vs summary,116,74,116,74,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-none-01
+week5-ip,raw-none-01,probe JSON vs aggregate CSV,116,74,116,74,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-none-01
+week5-ip,raw-none-02,probe JSON vs summary,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-none-02
+week5-ip,raw-none-02,probe JSON vs aggregate CSV,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-none-02
+week5-ip,raw-repeated-01,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-repeated-01
+week5-ip,raw-repeated-01,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-repeated-01
+week5-ip,raw-repeated-02,probe JSON vs summary,114,0,114,0,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-repeated-02
+week5-ip,raw-repeated-02,probe JSON vs aggregate CSV,114,0,114,0,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-repeated-02
+week5-ip,raw-telemetry-01,probe JSON vs summary,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-telemetry-01
+week5-ip,raw-telemetry-01,probe JSON vs aggregate CSV,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning/raw-telemetry-01
+week5-causal,raw-access-01,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-access-01
+week5-causal,raw-access-01,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-access-01
+week5-causal,raw-delayed-01,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-01
+week5-causal,raw-delayed-01,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-01
+week5-causal,raw-delayed-02,probe JSON vs summary,116,18,116,18,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-02
+week5-causal,raw-delayed-02,probe JSON vs aggregate CSV,116,18,116,18,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-02
+week5-causal,raw-delayed-03,probe JSON vs summary,116,19,116,19,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-03
+week5-causal,raw-delayed-03,probe JSON vs aggregate CSV,116,19,116,19,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-03
+week5-causal,raw-delayed-04,probe JSON vs summary,115,19,115,19,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-04
+week5-causal,raw-delayed-04,probe JSON vs aggregate CSV,115,19,115,19,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-04
+week5-causal,raw-delayed-05,probe JSON vs summary,116,18,116,18,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-05
+week5-causal,raw-delayed-05,probe JSON vs aggregate CSV,116,18,116,18,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-delayed-05
+week5-causal,raw-immediate-01,probe JSON vs summary,115,67,115,67,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-01
+week5-causal,raw-immediate-01,probe JSON vs aggregate CSV,115,67,115,67,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-01
+week5-causal,raw-immediate-02,probe JSON vs summary,114,70,114,70,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-02
+week5-causal,raw-immediate-02,probe JSON vs aggregate CSV,114,70,114,70,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-02
+week5-causal,raw-immediate-03,probe JSON vs summary,115,1,115,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-03
+week5-causal,raw-immediate-03,probe JSON vs aggregate CSV,115,1,115,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-03
+week5-causal,raw-immediate-04,probe JSON vs summary,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-04
+week5-causal,raw-immediate-04,probe JSON vs aggregate CSV,116,75,116,75,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-04
+week5-causal,raw-immediate-05,probe JSON vs summary,116,70,116,70,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-05
+week5-causal,raw-immediate-05,probe JSON vs aggregate CSV,116,70,116,70,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-immediate-05
+week5-causal,raw-none-01,probe JSON vs summary,116,68,116,68,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-01
+week5-causal,raw-none-01,probe JSON vs aggregate CSV,116,68,116,68,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-01
+week5-causal,raw-none-02,probe JSON vs summary,116,69,116,69,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-02
+week5-causal,raw-none-02,probe JSON vs aggregate CSV,116,69,116,69,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-02
+week5-causal,raw-none-03,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-03
+week5-causal,raw-none-03,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-03
+week5-causal,raw-none-04,probe JSON vs summary,116,76,116,76,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-04
+week5-causal,raw-none-04,probe JSON vs aggregate CSV,116,76,116,76,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-04
+week5-causal,raw-none-05,probe JSON vs summary,116,70,116,70,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-05
+week5-causal,raw-none-05,probe JSON vs aggregate CSV,116,70,116,70,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-none-05
+week5-causal,raw-repeated-01,probe JSON vs summary,115,0,115,0,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-01
+week5-causal,raw-repeated-01,probe JSON vs aggregate CSV,115,0,115,0,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-01
+week5-causal,raw-repeated-02,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-02
+week5-causal,raw-repeated-02,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-02
+week5-causal,raw-repeated-03,probe JSON vs summary,116,0,116,0,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-03
+week5-causal,raw-repeated-03,probe JSON vs aggregate CSV,116,0,116,0,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-03
+week5-causal,raw-repeated-04,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-04
+week5-causal,raw-repeated-04,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-04
+week5-causal,raw-repeated-05,probe JSON vs summary,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-05
+week5-causal,raw-repeated-05,probe JSON vs aggregate CSV,116,1,116,1,PASS,doc/capstone/experiment-results/week5-ip-relearning-causal/raw-repeated-05
