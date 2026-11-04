@@ -1,0 +1,11 @@
+{
+  "condition": "none",
+  "seed": 4,
+  "note": "condition inferred from run invocation and worker log",
+  "capture_filter": "tcp port 179 or udp port 4789 or icmp or arp",
+  "probe_requested_hz": 10,
+  "topology": "existing 2-spine/5-leaf",
+  "dad": "baseline enabled 5/180s",
+  "experiment_source_sha256": "f3fff7fb23eeaf17e98ba854ce1299054087e14aaf7297517a99291bd46c2c1a",
+  "stimulus_sha256": "b4255bf9652dbea12c0dc982847aa5efb3ecf2ef37ab7deff9c24aa4262d3566"
+}

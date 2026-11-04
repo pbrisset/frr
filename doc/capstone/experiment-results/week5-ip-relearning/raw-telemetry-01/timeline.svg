@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="1969">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="monospace" font-size="13" fill="#17243b">
+<text x="20" y="28">One robot move: direct harness events and sampled routed forwarding</text>
+<text x="20" y="52">Time = monotonic milliseconds relative to move-command observation; dots are observations</text>
+<text x="20" y="90">-1550.788 ms</text>
+<circle cx="189.1" cy="86" r="4" fill="#157f56"/>
+<text x="540" y="90">leaf5 VTEP [&#x27;10.0.0.1&#x27;] match=True</text>
+<text x="20" y="117"> -137.075 ms</text>
+<circle cx="247.3" cy="113" r="4" fill="#b03c42"/>
+<text x="540" y="117">probe seq 39 reply RTT 0.151 ms</text>
+<text x="20" y="144">  -33.322 ms</text>
+<circle cx="251.6" cy="140" r="4" fill="#b03c42"/>
+<text x="540" y="144">probe seq 40 reply RTT 0.120 ms</text>
+<text x="20" y="171">  -21.347 ms</text>
+<circle cx="252.1" cy="167" r="4" fill="#157f56"/>
+<text x="540" y="171">leaf5 VTEP [&#x27;10.0.0.1&#x27;] match=True</text>
+<text x="20" y="198">    0.000 ms</text>
+<circle cx="252.9" cy="194" r="4" fill="#275dad"/>
+<text x="540" y="198">move_command_issued</text>
+<text x="20" y="225">   11.143 ms</text>
+<circle cx="253.4" cy="221" r="4" fill="#275dad"/>
+<text x="540" y="225">old_attachment_disconnected</text>
+<text x="20" y="252">   19.916 ms</text>
+<circle cx="253.8" cy="248" r="4" fill="#275dad"/>
+<text x="540" y="252">new_attachment_connected</text>
+<text x="20" y="279">   70.931 ms</text>
+<circle cx="255.9" cy="275" r="4" fill="#b03c42"/>
+<text x="540" y="279">probe seq 41 reply RTT 0.103 ms</text>
+<text x="20" y="306">  171.912 ms</text>
+<circle cx="260.0" cy="302" r="4" fill="#b03c42"/>
+<text x="540" y="306">probe seq 42 failed (timeout observed later)</text>
+<text x="20" y="333">  277.703 ms</text>
+<circle cx="264.4" cy="329" r="4" fill="#b03c42"/>
+<text x="540" y="333">probe seq 43 failed (timeout observed later)</text>
+<text x="20" y="360">  382.044 ms</text>
+<circle cx="268.7" cy="356" r="4" fill="#b03c42"/>
+<text x="540" y="360">probe seq 44 failed (timeout observed later)</text>
+<text x="20" y="387">  490.653 ms</text>
+<circle cx="273.1" cy="383" r="4" fill="#b03c42"/>
+<text x="540" y="387">probe seq 45 failed (timeout observed later)</text>
+<text x="20" y="414">  597.607 ms</text>
+<circle cx="277.5" cy="410" r="4" fill="#b03c42"/>
+<text x="540" y="414">probe seq 46 failed (timeout observed later)</text>
+<text x="20" y="441">  699.614 ms</text>
+<circle cx="281.7" cy="437" r="4" fill="#b03c42"/>
+<text x="540" y="441">probe seq 47 failed (timeout observed later)</text>
+<text x="20" y="468">  801.853 ms</text>
+<circle cx="286.0" cy="464" r="4" fill="#b03c42"/>
+<text x="540" y="468">probe seq 48 failed (timeout observed later)</text>
+<text x="20" y="495">  906.574 ms</text>
+<circle cx="290.3" cy="491" r="4" fill="#b03c42"/>
+<text x="540" y="495">probe seq 49 failed (timeout observed later)</text>
+<text x="20" y="522"> 1007.776 ms</text>
+<circle cx="294.4" cy="518" r="4" fill="#b03c42"/>
+<text x="540" y="522">probe seq 50 failed (timeout observed later)</text>
+<text x="20" y="549"> 1111.999 ms</text>
+<circle cx="298.7" cy="545" r="4" fill="#b03c42"/>
+<text x="540" y="549">probe seq 51 failed (timeout observed later)</text>
+<text x="20" y="576"> 1214.873 ms</text>
+<circle cx="303.0" cy="572" r="4" fill="#b03c42"/>
+<text x="540" y="576">probe seq 52 failed (timeout observed later)</text>
+<text x="20" y="603"> 1317.605 ms</text>
+<circle cx="307.2" cy="599" r="4" fill="#b03c42"/>
+<text x="540" y="603">probe seq 53 failed (timeout observed later)</text>
+<text x="20" y="630"> 1420.101 ms</text>
+<circle cx="311.4" cy="626" r="4" fill="#b03c42"/>
+<text x="540" y="630">probe seq 54 failed (timeout observed later)</text>
+<text x="20" y="657"> 1522.544 ms</text>
+<circle cx="315.6" cy="653" r="4" fill="#b03c42"/>
+<text x="540" y="657">probe seq 55 failed (timeout observed later)</text>
+<text x="20" y="684"> 1532.901 ms</text>
+<circle cx="316.1" cy="680" r="4" fill="#157f56"/>
+<text x="540" y="684">leaf5 VTEP [&#x27;10.0.0.3&#x27;] match=False</text>
+<text x="20" y="711"> 1626.931 ms</text>
+<circle cx="319.9" cy="707" r="4" fill="#b03c42"/>
+<text x="540" y="711">probe seq 56 failed (timeout observed later)</text>
+<text x="20" y="738"> 1736.702 ms</text>
+<circle cx="324.5" cy="734" r="4" fill="#b03c42"/>
+<text x="540" y="738">probe seq 57 failed (timeout observed later)</text>
+<text x="20" y="765"> 1849.063 ms</text>
+<circle cx="329.1" cy="761" r="4" fill="#b03c42"/>
+<text x="540" y="765">probe seq 58 failed (timeout observed later)</text>
+<text x="20" y="792"> 1956.558 ms</text>
+<circle cx="333.5" cy="788" r="4" fill="#b03c42"/>
+<text x="540" y="792">probe seq 59 failed (timeout observed later)</text>
+<text x="20" y="819"> 2063.750 ms</text>
+<circle cx="337.9" cy="815" r="4" fill="#b03c42"/>
+<text x="540" y="819">probe seq 60 failed (timeout observed later)</text>
+<text x="20" y="846"> 2170.529 ms</text>
+<circle cx="342.3" cy="842" r="4" fill="#b03c42"/>
+<text x="540" y="846">probe seq 61 failed (timeout observed later)</text>
+<text x="20" y="873"> 2271.975 ms</text>
+<circle cx="346.5" cy="869" r="4" fill="#b03c42"/>
+<text x="540" y="873">probe seq 62 failed (timeout observed later)</text>
+<text x="20" y="900"> 2374.842 ms</text>
+<circle cx="350.7" cy="896" r="4" fill="#b03c42"/>
+<text x="540" y="900">probe seq 63 failed (timeout observed later)</text>
+<text x="20" y="927"> 2478.883 ms</text>
+<circle cx="355.0" cy="923" r="4" fill="#b03c42"/>
+<text x="540" y="927">probe seq 64 failed (timeout observed later)</text>
+<text x="20" y="954"> 2580.577 ms</text>
+<circle cx="359.2" cy="950" r="4" fill="#b03c42"/>
+<text x="540" y="954">probe seq 65 failed (timeout observed later)</text>
+<text x="20" y="981"> 2683.772 ms</text>
+<circle cx="363.4" cy="977" r="4" fill="#b03c42"/>
+<text x="540" y="981">probe seq 66 failed (timeout observed later)</text>
+<text x="20" y="1008"> 2785.281 ms</text>
+<circle cx="367.6" cy="1004" r="4" fill="#b03c42"/>
+<text x="540" y="1008">probe seq 67 failed (timeout observed later)</text>
+<text x="20" y="1035"> 2889.754 ms</text>
+<circle cx="371.9" cy="1031" r="4" fill="#b03c42"/>
+<text x="540" y="1035">probe seq 68 failed (timeout observed later)</text>
+<text x="20" y="1062"> 2993.826 ms</text>
+<circle cx="376.2" cy="1058" r="4" fill="#b03c42"/>
+<text x="540" y="1062">probe seq 69 failed (timeout observed later)</text>
+<text x="20" y="1089"> 3065.049 ms</text>
+<circle cx="379.1" cy="1085" r="4" fill="#157f56"/>
+<text x="540" y="1089">leaf5 VTEP [&#x27;10.0.0.3&#x27;] match=False</text>
+<text x="20" y="1116"> 3094.195 ms</text>
+<circle cx="380.3" cy="1112" r="4" fill="#b03c42"/>
+<text x="540" y="1116">probe seq 70 failed (timeout observed later)</text>
+<text x="20" y="1143"> 3201.027 ms</text>
+<circle cx="384.7" cy="1139" r="4" fill="#b03c42"/>
+<text x="540" y="1143">probe seq 71 failed (timeout observed later)</text>
+<text x="20" y="1170"> 3307.088 ms</text>
+<circle cx="389.1" cy="1166" r="4" fill="#b03c42"/>
+<text x="540" y="1170">probe seq 72 failed (timeout observed later)</text>
+<text x="20" y="1197"> 3417.754 ms</text>
+<circle cx="393.7" cy="1193" r="4" fill="#b03c42"/>
+<text x="540" y="1197">probe seq 73 failed (timeout observed later)</text>
+<text x="20" y="1224"> 3526.428 ms</text>
+<circle cx="398.1" cy="1220" r="4" fill="#b03c42"/>
+<text x="540" y="1224">probe seq 74 failed (timeout observed later)</text>
+<text x="20" y="1251"> 3634.827 ms</text>
+<circle cx="402.6" cy="1247" r="4" fill="#b03c42"/>
+<text x="540" y="1251">probe seq 75 failed (timeout observed later)</text>
+<text x="20" y="1278"> 3740.388 ms</text>
+<circle cx="407.0" cy="1274" r="4" fill="#b03c42"/>
+<text x="540" y="1278">probe seq 76 failed (timeout observed later)</text>
+<text x="20" y="1305"> 3845.068 ms</text>
+<circle cx="411.3" cy="1301" r="4" fill="#b03c42"/>
+<text x="540" y="1305">probe seq 77 failed (timeout observed later)</text>
+<text x="20" y="1332"> 3945.981 ms</text>
+<circle cx="415.4" cy="1328" r="4" fill="#b03c42"/>
+<text x="540" y="1332">probe seq 78 failed (timeout observed later)</text>
+<text x="20" y="1359"> 4054.287 ms</text>
+<circle cx="419.9" cy="1355" r="4" fill="#b03c42"/>
+<text x="540" y="1359">probe seq 79 failed (timeout observed later)</text>
+<text x="20" y="1386"> 4157.132 ms</text>
+<circle cx="424.1" cy="1382" r="4" fill="#b03c42"/>
+<text x="540" y="1386">probe seq 80 failed (timeout observed later)</text>
+<text x="20" y="1413"> 4261.175 ms</text>
+<circle cx="428.4" cy="1409" r="4" fill="#b03c42"/>
+<text x="540" y="1413">probe seq 81 failed (timeout observed later)</text>
+<text x="20" y="1440"> 4366.251 ms</text>
+<circle cx="432.7" cy="1436" r="4" fill="#b03c42"/>
+<text x="540" y="1440">probe seq 82 failed (timeout observed later)</text>
+<text x="20" y="1467"> 4467.973 ms</text>
+<circle cx="436.9" cy="1463" r="4" fill="#b03c42"/>
+<text x="540" y="1467">probe seq 83 failed (timeout observed later)</text>
+<text x="20" y="1494"> 4549.500 ms</text>
+<circle cx="440.3" cy="1490" r="4" fill="#157f56"/>
+<text x="540" y="1494">leaf5 VTEP [&#x27;10.0.0.3&#x27;] match=False</text>
+<text x="20" y="1521"> 4569.947 ms</text>
+<circle cx="441.1" cy="1517" r="4" fill="#b03c42"/>
+<text x="540" y="1521">probe seq 84 failed (timeout observed later)</text>
+<text x="20" y="1548"> 4671.350 ms</text>
+<circle cx="445.3" cy="1544" r="4" fill="#b03c42"/>
+<text x="540" y="1548">probe seq 85 failed (timeout observed later)</text>
+<text x="20" y="1575"> 4777.298 ms</text>
+<circle cx="449.7" cy="1571" r="4" fill="#b03c42"/>
+<text x="540" y="1575">probe seq 86 failed (timeout observed later)</text>
+<text x="20" y="1602"> 4880.971 ms</text>
+<circle cx="453.9" cy="1598" r="4" fill="#b03c42"/>
+<text x="540" y="1602">probe seq 87 failed (timeout observed later)</text>
+<text x="20" y="1629"> 4984.143 ms</text>
+<circle cx="458.2" cy="1625" r="4" fill="#b03c42"/>
+<text x="540" y="1629">probe seq 88 failed (timeout observed later)</text>
+<text x="20" y="1656"> 5090.195 ms</text>
+<circle cx="462.5" cy="1652" r="4" fill="#b03c42"/>
+<text x="540" y="1656">probe seq 89 failed (timeout observed later)</text>
+<text x="20" y="1683"> 5193.415 ms</text>
+<circle cx="466.8" cy="1679" r="4" fill="#b03c42"/>
+<text x="540" y="1683">probe seq 90 failed (timeout observed later)</text>
+<text x="20" y="1710"> 5296.689 ms</text>
+<circle cx="471.0" cy="1706" r="4" fill="#b03c42"/>
+<text x="540" y="1710">probe seq 91 failed (timeout observed later)</text>
+<text x="20" y="1737"> 5398.858 ms</text>
+<circle cx="475.2" cy="1733" r="4" fill="#b03c42"/>
+<text x="540" y="1737">probe seq 92 failed (timeout observed later)</text>
+<text x="20" y="1764"> 5501.857 ms</text>
+<circle cx="479.5" cy="1760" r="4" fill="#b03c42"/>
+<text x="540" y="1764">probe seq 93 failed (timeout observed later)</text>
+<text x="20" y="1791"> 5604.001 ms</text>
+<circle cx="483.7" cy="1787" r="4" fill="#b03c42"/>
+<text x="540" y="1791">probe seq 94 failed (timeout observed later)</text>
+<text x="20" y="1818"> 5708.686 ms</text>
+<circle cx="488.0" cy="1814" r="4" fill="#b03c42"/>
+<text x="540" y="1818">probe seq 95 failed (timeout observed later)</text>
+<text x="20" y="1845"> 5810.682 ms</text>
+<circle cx="492.2" cy="1841" r="4" fill="#b03c42"/>
+<text x="540" y="1845">probe seq 96 failed (timeout observed later)</text>
+<text x="20" y="1872"> 5913.020 ms</text>
+<circle cx="496.4" cy="1868" r="4" fill="#b03c42"/>
+<text x="540" y="1872">probe seq 97 failed (timeout observed later)</text>
+<text x="20" y="1929">BGP packets use realtime: see packet-events.jsonl; no inferred cross-clock ordering.</text>
+</g></svg>

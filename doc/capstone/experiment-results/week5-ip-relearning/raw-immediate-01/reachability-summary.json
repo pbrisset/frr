@@ -1,0 +1,14 @@
+{
+  "host11": {
+    "sent": 116,
+    "lost": 75,
+    "bursts": [
+      {
+        "first_sequence": 42,
+        "count": 75,
+        "last_sequence": 116,
+        "recovery_receive_ns": null
+      }
+    ]
+  }
+}

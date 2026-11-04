@@ -1,0 +1,320 @@
+{"device": "leaf1", "realtime_epoch": ["1793765723.770964016"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765723.770967225"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765723.770988725"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765723.770995684"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765726.771164384"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765726.771164509"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765726.771210136"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765726.771230469"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765727.530900373"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf1", "realtime_epoch": ["1793765727.530928374"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf1", "realtime_epoch": ["1793765727.582492750"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf1", "realtime_epoch": ["1793765727.582492750"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765727.582503000"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf1", "realtime_epoch": ["1793765727.582503000"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765727.632715049"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765727.632732008"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765729.771354121"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765729.771389039"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765729.771455415"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765729.771506750"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765730.649518632"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765730.649847182"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765730.701815902"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765730.701894821"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765732.771561186"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765732.771561311"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765732.771590728"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765732.771642771"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765735.771701660"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765735.771706285"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765735.771735577"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf1", "realtime_epoch": ["1793765735.771749828"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765724.520590331"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765724.520620498"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765724.520729501"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765724.521522189"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.520646349"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.520676058"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.520778853"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.521582958"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.549522828"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.549553079"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.582478458"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf2", "realtime_epoch": ["1793765727.582478458"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.582495625"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf2", "realtime_epoch": ["1793765727.582495625"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765727.632720424"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf2", "realtime_epoch": ["1793765727.632735216"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf2", "realtime_epoch": ["1793765730.522192485"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.522197277"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.522239278"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.522240528"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.598818154"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.598853072"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.649487339"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765730.649818348"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765733.522968970"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765733.522991262"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765733.522992637"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765733.523046639"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765736.523012638"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765736.523043389"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765736.523054931"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf2", "realtime_epoch": ["1793765736.523085723"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765725.214164354"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765725.214183437"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765725.214200355"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765725.214245814"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765727.582458833"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf3", "realtime_epoch": ["1793765727.582458833"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765727.582460083"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf3", "realtime_epoch": ["1793765727.582460083"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765727.633011807"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf3", "realtime_epoch": ["1793765727.633011807"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765727.633028391"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf3", "realtime_epoch": ["1793765727.633028391"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765728.214265863"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765728.214265988"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765728.214310489"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765728.214335864"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765730.649433130"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765730.649777264"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765730.701931988"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765730.702002615"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765731.214330406"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765731.214358740"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765731.214364532"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765731.214381949"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765734.214386236"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765734.214420403"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765734.214456279"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765734.214484238"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765737.214446018"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765737.214481269"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765737.214527979"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf3", "realtime_epoch": ["1793765737.214548438"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765722.933037090"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765722.933093425"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765722.933235554"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765722.933333140"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765725.933062009"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765725.933121760"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765725.933139386"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765725.933168887"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765727.582481958"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf4", "realtime_epoch": ["1793765727.582481958"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765727.582486583"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf4", "realtime_epoch": ["1793765727.582486583"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765727.632915888"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf4", "realtime_epoch": ["1793765727.632915888"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765727.632934305"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf4", "realtime_epoch": ["1793765727.632934305"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765728.933131880"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765728.933203507"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765728.933218383"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765728.933236425"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765730.649463839"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765730.649800014"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765730.701200802"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765730.701333597"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765731.933252039"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765731.933286832"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765731.933287082"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765731.933290998"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765734.933333233"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765734.933361359"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765734.933365942"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf4", "realtime_epoch": ["1793765734.933997417"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765723.627806692"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765723.627887278"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765723.627934196"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765723.627963780"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765726.627950436"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765726.627956144"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765726.627994729"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765726.628030980"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765727.582436707"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf5", "realtime_epoch": ["1793765727.582436707"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765727.582439874"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf5", "realtime_epoch": ["1793765727.582439874"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765727.632985931"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf5", "realtime_epoch": ["1793765727.632985931"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765727.633001598"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "leaf5", "realtime_epoch": ["1793765727.633001598"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765729.628004296"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765729.628012630"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765729.628034505"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765729.628108257"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765730.649364919"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765730.649675844"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765730.701433725"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765730.701552437"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765732.628205113"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765732.628209488"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765732.628231155"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765732.628274448"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765735.628436383"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765735.628441425"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765735.628442050"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "leaf5", "realtime_epoch": ["1793765735.628460884"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765722.933015340"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765722.933240804"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765723.627797775"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765723.627889736"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765723.770992809"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765723.770987809"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765724.520622498"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765724.520726418"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765725.214197771"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765725.214247523"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765725.933054092"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765725.933141511"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765726.627950269"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765726.627955978"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765726.771158301"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765726.771231428"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.520678142"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.520776853"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.530929832"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.549554204"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.582437207"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.582437207"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.582458916"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.582458916"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.582480833"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.582480833"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.582494667"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.582494667"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.582502125"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.582502125"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.632733466"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.632736550"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.632935430"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.632935430"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.633002598"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.633002598"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765727.633013724"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine1", "realtime_epoch": ["1793765727.633013724"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765728.214258404"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765728.214337073"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765728.933126213"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765728.933220758"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765729.628010671"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765729.628004296"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765729.771391414"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765729.771505958"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.522231361"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.522242362"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.598858739"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.649669177"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.649773555"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.649797514"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.649815890"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.649844974"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.701341139"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.701556895"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.701899696"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765730.701942697"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765731.214360199"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765731.214362740"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765731.933259623"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765731.933289248"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765732.628210238"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765732.628273115"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765732.771555227"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765732.771645521"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765733.522989054"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765733.523048430"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765734.214422737"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765734.214481988"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765734.933341192"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765734.933995459"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765735.628436425"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765735.628441633"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765735.771741661"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765735.771748327"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765736.523049889"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765736.523052264"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765737.214486228"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine1", "realtime_epoch": ["1793765737.214547146"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765722.933086883"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765722.933336640"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765723.627936487"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765723.627961030"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765723.770961266"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765723.770967392"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765724.520597164"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765724.521520355"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765725.214158062"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765725.214185271"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765725.933119552"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765725.933171053"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765726.627996729"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765726.628029813"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765726.771158343"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765726.771210927"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.520652183"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.521580958"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.530902956"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.549528245"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.582434624"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.582434624"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.582457666"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.582457666"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.582477666"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.582477666"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.582485667"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.582485667"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.582492083"], "direction": "sent", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.582492083"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.632717591"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.632722341"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.632917763"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.632917763"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.632987765"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.632987765"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765727.633029224"], "direction": "received", "bgp_types": ["2"], "announced": [], "withdrawn": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}, {"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}]}
+{"device": "spine2", "realtime_epoch": ["1793765727.633029224"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["0"], "mac": ["00:00:00:00:00:11"], "ip": []}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765728.214258362"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765728.214311947"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765728.933201382"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765728.933237341"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765729.628036589"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765729.628106507"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765729.771363663"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765729.771452332"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.522195277"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.522196860"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.598821446"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.649353336"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.649429088"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.649460214"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.649483964"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.649514548"], "direction": "sent", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.701216803"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.701440850"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.701823735"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765730.702007407"], "direction": "received", "bgp_types": ["2"], "announced": [{"route_type": ["2"], "ip_length": ["32"], "mac": ["00:00:00:00:00:11"], "ip": ["45.0.0.11"]}], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765731.214333781"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765731.214380074"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765731.933284248"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765731.933288457"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765732.628205154"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765732.628232072"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765732.771555185"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765732.771591561"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765733.522973053"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765733.522989429"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765734.214392486"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765734.214454238"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765734.933363609"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765734.933363484"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765735.628439175"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765735.628462051"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765735.771701868"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765735.771706201"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765736.523020846"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765736.523082931"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765737.214452935"], "direction": "received", "bgp_types": ["4"], "announced": [], "withdrawn": []}
+{"device": "spine2", "realtime_epoch": ["1793765737.214525062"], "direction": "sent", "bgp_types": ["4"], "announced": [], "withdrawn": []}

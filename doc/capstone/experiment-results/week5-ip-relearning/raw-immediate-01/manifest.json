@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "parameters": {
+    "PHASE0_RUN": "1",
+    "PHASE0_RESULTS": "/tmp/week5-ip-immediate-01"
+  },
+  "effective": {
+    "robots": [
+      "host11"
+    ],
+    "duration": 12.0,
+    "move_interval": 4.0,
+    "disconnect": 0.0,
+    "probe_rate": 10.0,
+    "sample_interval": 0.5,
+    "repetitions": 1,
+    "seed": 0,
+    "schedule": "synchronized",
+    "mode": "break-before-make",
+    "access_leaves": 4,
+    "spines": 2,
+    "dad": "baseline"
+  },
+  "clock": {
+    "clock": "CLOCK_MONOTONIC",
+    "boot_id": "96d6449b-d93b-4a96-8eb2-08a72035937e",
+    "time_namespace": "monotonic           0         0\nboottime            0         0\n",
+    "note": "Command observations bracket execution; snapshots are sequential, not atomic. PCAP uses realtime; no cross-clock causal ordering."
+  },
+  "revision": "fd70931112f3f1ea5899713cc14dbe10e7982442",
+  "dirty": "?? ../../../doc/capstone/experiment-results/week5-ip-relearning/\n?? test_week5_ip_relearning_temporary.py",
+  "started_wall_ns": 1793764092962773457,
+  "started_monotonic_ns": 81453060514738,
+  "tgen_logdir": "/tmp/topotests/bgp_evpn_capstone.test_week5_ip_relearning_temporary"
+}

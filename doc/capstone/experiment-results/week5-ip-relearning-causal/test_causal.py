@@ -1,0 +1,220 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: ISC
+"""Opt-in independent measurement run. Existing tests and configs are untouched."""
+import json
+import os
+from pathlib import Path
+import random
+import shutil
+import signal
+import subprocess
+import time
+
+import pytest
+from lib.topogen import get_topogen
+from bgp_evpn_capstone import test_evpn_capstone as fabric
+from bgp_evpn_capstone.phase0.measurement import Recorder, decode, forwarding_vteps, loss_summary
+
+pytestmark = [pytest.mark.bgpd, pytest.mark.evpn,
+              pytest.mark.skipif(os.environ.get('PHASE0_RUN') != '1', reason='opt-in experiment')]
+
+
+def setup_module(module):
+    if os.environ.get('PHASE0_RUN') == '1':
+        fabric.setup_module(module)
+
+
+def teardown_module(module):
+    if os.environ.get('PHASE0_RUN') == '1':
+        fabric.teardown_module(module)
+
+
+def test_measured_mobility():
+    tgen = get_topogen()
+    assert not tgen.routers_have_failure(), tgen.errors
+    out = Path(os.environ['PHASE0_RESULTS']).resolve()
+    out.mkdir(parents=True, exist_ok=False)
+    rec = Recorder(out)
+    robots = os.environ.get('PHASE0_ROBOTS', 'host11').split(',')
+    specs = {host: (leaf, spec, values) for leaf, spec in fabric.LEAVES.items()
+             if leaf != 'leaf5' for host, values in spec['hosts'].items()}
+    assert robots and len(set(robots)) == len(robots) and set(robots) <= set(specs)
+    duration = float(os.environ.get('PHASE0_DURATION', '12'))
+    interval = float(os.environ.get('PHASE0_MOVE_INTERVAL', '4'))
+    disconnect = float(os.environ.get('PHASE0_DISCONNECT', '0'))
+    rate = float(os.environ.get('PHASE0_PROBE_RATE', '10'))
+    sample = float(os.environ.get('PHASE0_SAMPLE_INTERVAL', '0.5'))
+    repetitions = int(os.environ.get('PHASE0_REPETITIONS', '1'))
+    synchronized = os.environ.get('PHASE0_SCHEDULE', 'synchronized')
+    seed = int(os.environ.get('PHASE0_SEED', '0'))
+    assert 0 < duration <= 600 and 0 < interval and 0 <= disconnect < interval
+    assert 0 < rate <= 100 and duration * rate < 65535 and sample >= 0.1
+    assert repetitions > 0 and synchronized in ('synchronized', 'staggered')
+    assert os.environ.get('PHASE0_MODE', 'break-before-make') == 'break-before-make', (
+        'Single-veth harness cannot simultaneously attach; make-before-break unavailable')
+    assert os.environ.get('PHASE0_DAD', 'baseline') == 'baseline', (
+        'Phase 0 records baseline DAD; configuration sweeps require a separate reviewed fixture')
+    assert int(os.environ.get('PHASE0_ACCESS_LEAVES', '4')) == 4
+    assert int(os.environ.get('PHASE0_SPINES', '2')) == 2
+    manifest = dict(schema=1, parameters={k: v for k, v in os.environ.items() if k.startswith('PHASE0_')},
+        effective=dict(robots=robots, duration=duration, move_interval=interval,
+            disconnect=disconnect, probe_rate=rate, sample_interval=sample,
+            repetitions=repetitions, seed=seed, schedule=synchronized,
+            mode='break-before-make', access_leaves=4, spines=2, dad='baseline'),
+        clock=dict(clock='CLOCK_MONOTONIC', boot_id=Path('/proc/sys/kernel/random/boot_id').read_text().strip(),
+            time_namespace=Path('/proc/self/timens_offsets').read_text() if Path('/proc/self/timens_offsets').exists() else None,
+            note='Command observations bracket execution; snapshots are sequential, not atomic. PCAP uses realtime; no cross-clock causal ordering.'),
+        revision=subprocess.getoutput('git rev-parse HEAD'),
+        dirty=subprocess.getoutput('git status --short'), started_wall_ns=time.time_ns(),
+        started_monotonic_ns=time.monotonic_ns(), tgen_logdir=str(tgen.logdir))
+    (out/'manifest.json').write_text(json.dumps(manifest, indent=2))
+    for name, node in tgen.routers().items():
+        rec.command(node, 'vtysh -c "show version"', 'environment')
+        rec.command(node, 'vtysh -c "show running-config"', 'configuration')
+        rec.command(node, 'vtysh -c "show evpn"', 'dad_configuration')
+    rec.command(tgen.gears['leaf5'], 'uname -a; cat /etc/os-release; lscpu; cat /proc/meminfo; cat /proc/self/limits; cat /proc/pressure/cpu; cat /proc/pressure/memory; cat /sys/fs/cgroup/cpu.max /sys/fs/cgroup/cpu.stat /sys/fs/cgroup/memory.max; lsns; ps -eo pid,comm,pcpu,rss; readlink /proc/self/ns/time; cat /proc/self/timens_offsets', 'environment')
+    fabric.test_bgp_underlay_established()
+    fabric.test_evpn_sessions_established()
+    fabric._prime_host_adjacencies(tgen)
+    ownership = {h: specs[h][0] for h in robots}
+    processes, files, moved = [], [], []
+    worker = '/home/frr/frr/tests/topotests/bgp_evpn_capstone/phase0/probe.py'
+    experiment_dir = '/home/frr/frr/doc/capstone/experiment-results/week5-ip-relearning-causal'
+
+    def snapshot():
+        for name, node in tgen.routers().items():
+            for command in ('show bgp neighbors json', 'show bgp l2vpn evpn route type macip json',
+                            'show bgp l2vpn evpn route type prefix json'):
+                rec.command(node, 'vtysh -c "{}"'.format(command), 'control_plane')
+        for leaf in fabric.LEAVES:
+            node = tgen.gears[leaf]
+            rec.command(node, 'vtysh -c "show evpn mac vni 1000 json"', 'zebra_mac')
+            rec.command(node, 'bridge -j fdb show; ip -j neigh show vrf VRF500', 'kernel_state')
+            rec.command(node, 'vtysh -c "show evpn arp-cache vni 1000 json"', 'zebra_neigh')
+            rec.command(node, 'ip -s -d -j neigh show dev br1000', 'kernel_neigh')
+        node = tgen.gears['leaf5']
+        neigh = decode(rec.command(node, 'ip -j neigh show vrf VRF500', 'forwarding')['output'])
+        fdb = decode(rec.command(node, 'bridge -j fdb show', 'forwarding')['output'])
+        rec.command(node, 'ip -j route show vrf VRF500; ip -j nexthop show; ip -d -j link show type vxlan; ip -j route show', 'forwarding')
+        for h in robots:
+            ip = specs[h][2][0].split('/')[0]
+            route = decode(rec.command(node, 'ip -j route get {} vrf VRF500 from 20.0.0.51 iif br2000'.format(ip), 'forwarding')['output'])
+            vteps = forwarding_vteps(route, neigh, fdb)
+            rec.event('forwarding_resolution', robot=h, actual_leaf=ownership[h],
+                actual_vtep=fabric.LEAVES[ownership[h]]['lo'] if ownership[h] else None,
+                candidates=vteps, matched=(vteps == [fabric.LEAVES[ownership[h]]['lo']]) if ownership[h] and vteps else None,
+                evidence='inferred route-get -> neighbor RMAC -> vni500 FDB; sequential snapshots')
+            for leaf in fabric.LEAVES:
+                rec.command(tgen.gears[leaf], 'ip -j link show dev eth-{}'.format(h), 'attachment_snapshot')
+        rec.command(node, 'cat /proc/pressure/cpu /sys/fs/cgroup/cpu.stat; ps -eo pid,comm,pcpu,rss', 'resources')
+
+    try:
+        for name in list(tgen.routers()) + robots + ['controller']:
+            node = tgen.net[name]
+            rec.command(node, 'readlink /proc/self/ns/time; cat /proc/self/timens_offsets; date +%s.%N', 'clock_check')
+            handle = (out/(name+'-capture.log')).open('w')
+            files.append(handle)
+            capture = node.popen(['dumpcap', '-B', '16', '-i', 'any', '-f', 'tcp port 179 or udp port 4789 or icmp or arp',
+                                  '-w', str(out/(name+'.pcapng'))], stdout=handle, stderr=handle)
+            processes.append(capture)
+        for name, iface in (('leaf2', 'br1000'), ('host11', 'eth0')):
+            handle = (out/(name+'-access-capture.log')).open('w')
+            files.append(handle)
+            processes.append(tgen.net[name].popen(['dumpcap', '-B', '16', '-i', iface, '-f', 'arp or icmp', '-w', str(out/(name+'-access.pcapng'))], stdout=handle, stderr=handle))
+        monitor_file = (out/'leaf2-neighbor-events.jsonl').open('w')
+        files.append(monitor_file)
+        processes.append(tgen.net['leaf2'].popen(['python3', experiment_dir+'/neighbor_monitor.py'], stdout=monitor_file, stderr=monitor_file))
+        for name in ('leaf1', 'leaf2', 'leaf5'):
+            handle = (out/(name+'-netlink.log')).open('w')
+            files.append(handle)
+            processes.append(tgen.net[name].popen(['ip', '-ts', 'monitor', 'neigh', 'route', 'link'], stdout=handle, stderr=handle))
+        rec.command(tgen.gears['leaf2'], 'for v in all default br1000; do for k in arp_accept arp_ignore arp_filter arp_announce; do sysctl net.ipv4.conf.$v.$k; done; done; ip -d link show br1000; bridge -d link show', 'arp_policy')
+        time.sleep(1)
+        for process in processes:
+            rec.event('capture_status', pid=process.pid, running=process.poll() is None)
+        for index, h in enumerate(robots):
+            processes.append(tgen.net['controller'].popen(['python3', worker,
+                specs[h][2][0].split('/')[0], str(out/(h+'-probes.jsonl')),
+                '--duration', str(duration), '--rate', str(rate), '--identifier', str(42000+index)]))
+        start = time.monotonic()
+        rng = random.Random(seed)
+        order = robots[:]
+        rng.shuffle(order)
+        schedule = sorted((interval*(r+1) + (i*interval/len(order) if synchronized == 'staggered' else 0), h)
+                          for r in range(repetitions) for i, h in enumerate(order))
+        assert max(t for t, _ in schedule) + disconnect + 1 < duration, 'duration too short for requested moves'
+        next_sample = start
+        while time.monotonic() - start < duration:
+            elapsed = time.monotonic() - start
+            while schedule and schedule[0][0] <= elapsed:
+                requested, h = schedule.pop(0)
+                source = ownership[h]
+                target = 'leaf2' if source == 'leaf1' else 'leaf1'
+                port = 'eth-'+h
+                old, new = tgen.gears[source], tgen.gears[target]
+                rec.event('move_command_issued', robot=h, source=source, target=target,
+                          scheduled_ns=int((start+requested)*1e9), semantics='serialized commands; synchronized means common scheduled deadline')
+                old.cmd_raises('ip link set {} nomaster'.format(port))
+                ownership[h] = None
+                moved.append(h)
+                rec.event('old_attachment_disconnected', robot=h, leaf=source, interface=port, evidence='successful harness command completion')
+                if disconnect:
+                    time.sleep(disconnect)
+                old.cmd_raises('ip link set {} netns {}'.format(port, new.net.pids[-1]))
+                new.cmd_raises('ip link set {} master br1000'.format(port))
+                new.cmd_raises('ip link set {} up'.format(port))
+                ownership[h] = target
+                rec.event('new_attachment_connected', robot=h, leaf=target, interface=port, vtep=fabric.LEAVES[target]['lo'], evidence='successful harness command completion')
+                assert '"master":"br1000"' in new.cmd_raises('ip -j link show dev '+port).replace(' ', '')
+                rec.command(old, 'ip -j link show; bridge -j fdb show', 'old_attachment_cleanup')
+                rec.command(new, 'ip -s -d -j neigh show dev br1000', 'pre_stimulus_kernel_neigh')
+                rec.command(new, 'vtysh -c "show evpn arp-cache vni 1000 json"', 'pre_stimulus_zebra_neigh')
+                handle = (out/(h+'-stimulus.log')).open('a')
+                files.append(handle)
+                rec.event('stimulus_worker_started', treatment=os.environ.get('CAUSAL_CASE', 'none'), clock_note='worker records wall and monotonic times')
+                processes.append(tgen.net[h].popen(['python3', experiment_dir+'/stimulus.py', os.environ.get('CAUSAL_CASE', 'none')], stdout=handle, stderr=handle))
+                elapsed = time.monotonic()-start
+            if time.monotonic() >= next_sample:
+                snapshot()
+                next_sample = time.monotonic() + sample
+            time.sleep(0.01)
+        for process in processes:
+            if process.args and 'probe.py' in str(process.args):
+                assert process.wait(timeout=5) == 0
+        snapshot()
+    finally:
+        for process in processes:
+            if process.poll() is None:
+                if process.args and process.args[0] == 'dumpcap':
+                    process.send_signal(signal.SIGINT)
+                else:
+                    process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait()
+        for handle in files:
+            handle.close()
+        for h in set(moved):
+            source = ownership[h]
+            if source and source != specs[h][0]:
+                fabric._move_robot(tgen, h, source, specs[h][0])
+        for name in tgen.routers():
+            path = Path(tgen.logdir)/name
+            if path.exists():
+                shutil.copytree(path, out/'router-logs'/name, dirs_exist_ok=True)
+        rec.event('run_finished')
+        rec.log.close()
+    summary = {}
+    for h in robots:
+        rows = [json.loads(line) for line in (out/(h+'-probes.jsonl')).read_text().splitlines()]
+        summary[h] = loss_summary(rows)
+        assert rows and any(r['success'] for r in rows), 'no successful controller probes'
+    (out/'reachability-summary.json').write_text(json.dumps(summary, indent=2))
+    events = [json.loads(line) for line in (out/'events.jsonl').read_text().splitlines()]
+    for h in robots:
+        # No assertion that convergence occurs: failure is an observation.
+        for leaf in ('leaf1', 'leaf2'):
+            samples = [decode(e['output']) for e in events if e['kind'] == 'zebra_mac' and e['device'] == leaf]
+            assert any(specs[h][2][1] in json.dumps(state) for state in samples), 'robot absent from Zebra samples'

@@ -1,0 +1,90 @@
+{
+  "controller": {},
+  "host11-access": {},
+  "host11": {},
+  "leaf1": {
+    "sent_message_type_4": 10,
+    "received_message_type_4": 10,
+    "sent_message_type_2": 4,
+    "sent_withdrawn_rt2_iplen32": 2,
+    "sent_withdrawn_rt2_iplen0": 2,
+    "received_message_type_2": 4,
+    "received_withdrawn_rt2_iplen32": 2,
+    "received_withdrawn_rt2_iplen0": 2,
+    "received_announced_rt2_iplen0": 2,
+    "sent_announced_rt2_iplen0": 2
+  },
+  "leaf2-access": {},
+  "leaf2": {
+    "received_message_type_4": 10,
+    "sent_message_type_4": 10,
+    "sent_message_type_2": 4,
+    "sent_announced_rt2_iplen0": 2,
+    "received_message_type_2": 4,
+    "received_withdrawn_rt2_iplen32": 2,
+    "received_withdrawn_rt2_iplen0": 2,
+    "received_announced_rt2_iplen0": 2,
+    "sent_withdrawn_rt2_iplen32": 2,
+    "sent_withdrawn_rt2_iplen0": 2
+  },
+  "leaf3": {
+    "sent_message_type_4": 10,
+    "received_message_type_4": 10,
+    "received_message_type_2": 4,
+    "received_withdrawn_rt2_iplen32": 2,
+    "received_withdrawn_rt2_iplen0": 2,
+    "received_announced_rt2_iplen0": 2,
+    "sent_message_type_2": 4,
+    "sent_withdrawn_rt2_iplen32": 2,
+    "sent_withdrawn_rt2_iplen0": 2,
+    "sent_announced_rt2_iplen0": 2
+  },
+  "leaf4": {
+    "sent_message_type_4": 12,
+    "received_message_type_4": 12,
+    "received_message_type_2": 4,
+    "received_withdrawn_rt2_iplen32": 2,
+    "received_withdrawn_rt2_iplen0": 2,
+    "received_announced_rt2_iplen0": 2,
+    "sent_message_type_2": 4,
+    "sent_withdrawn_rt2_iplen32": 2,
+    "sent_withdrawn_rt2_iplen0": 2,
+    "sent_announced_rt2_iplen0": 2
+  },
+  "leaf5": {
+    "received_message_type_4": 10,
+    "sent_message_type_4": 10,
+    "received_message_type_2": 4,
+    "received_withdrawn_rt2_iplen32": 2,
+    "received_withdrawn_rt2_iplen0": 2,
+    "received_announced_rt2_iplen0": 2,
+    "sent_message_type_2": 4,
+    "sent_withdrawn_rt2_iplen32": 2,
+    "sent_withdrawn_rt2_iplen0": 2,
+    "sent_announced_rt2_iplen0": 2
+  },
+  "spine1": {
+    "received_message_type_4": 26,
+    "sent_message_type_4": 26,
+    "received_message_type_2": 10,
+    "received_withdrawn_rt2_iplen32": 5,
+    "received_withdrawn_rt2_iplen0": 5,
+    "received_announced_rt2_iplen0": 5,
+    "sent_message_type_2": 10,
+    "sent_withdrawn_rt2_iplen32": 5,
+    "sent_withdrawn_rt2_iplen0": 5,
+    "sent_announced_rt2_iplen0": 5
+  },
+  "spine2": {
+    "received_message_type_4": 26,
+    "sent_message_type_4": 26,
+    "received_message_type_2": 10,
+    "received_withdrawn_rt2_iplen32": 5,
+    "received_withdrawn_rt2_iplen0": 5,
+    "received_announced_rt2_iplen0": 5,
+    "sent_message_type_2": 10,
+    "sent_withdrawn_rt2_iplen32": 5,
+    "sent_withdrawn_rt2_iplen0": 5,
+    "sent_announced_rt2_iplen0": 5
+  }
+}

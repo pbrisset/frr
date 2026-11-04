@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="676">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="monospace" font-size="12">
+<text x="20" y="24">BGP capture clock: realtime epoch seconds; separate from monotonic timeline</text>
+<text x="20" y="55">[&#x27;1793764235.537256512&#x27;] leaf1 sent UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="79">[&#x27;1793764235.537287681&#x27;] leaf1 sent UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="103">[&#x27;1793764235.588637939&#x27;] leaf1 received UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="127">[&#x27;1793764235.588637939&#x27;] leaf1 received UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="151">[&#x27;1793764235.588892375&#x27;] leaf1 received UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="175">[&#x27;1793764235.588892375&#x27;] leaf1 received UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="199">[&#x27;1793764235.639249935&#x27;] leaf1 sent UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="223">[&#x27;1793764235.639284437&#x27;] leaf1 sent UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="247">[&#x27;1793764235.558589632&#x27;] leaf2 sent UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="271">[&#x27;1793764235.558624177&#x27;] leaf2 sent UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="295">[&#x27;1793764235.588650774&#x27;] leaf2 received UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="319">[&#x27;1793764235.588650774&#x27;] leaf2 received UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="343">[&#x27;1793764235.588863081&#x27;] leaf2 received UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="367">[&#x27;1793764235.588863081&#x27;] leaf2 received UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="391">[&#x27;1793764235.639156386&#x27;] leaf2 sent UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="415">[&#x27;1793764235.639186722&#x27;] leaf2 sent UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="439">[&#x27;1793764235.588561892&#x27;] leaf5 received UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="463">[&#x27;1793764235.588561892&#x27;] leaf5 received UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="487">[&#x27;1793764235.588819286&#x27;] leaf5 received UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="511">[&#x27;1793764235.588819286&#x27;] leaf5 received UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="535">[&#x27;1793764235.639415072&#x27;] leaf5 sent UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="559">[&#x27;1793764235.639415072&#x27;] leaf5 sent UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+<text x="20" y="583">[&#x27;1793764235.639446657&#x27;] leaf5 sent UPDATE: 0 announced, 2 withdrawn NLRIs</text>
+<text x="20" y="607">[&#x27;1793764235.639446657&#x27;] leaf5 sent UPDATE: 1 announced, 0 withdrawn NLRIs</text>
+</g></svg>

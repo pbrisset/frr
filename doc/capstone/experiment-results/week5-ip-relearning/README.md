@@ -1,0 +1,9 @@
+# Week 5: IP relearning and controller reachability
+
+**Observed in this emulator:** a single-veth BBM move repeatedly produced a locally learned Leaf2 MAC while Leaf2's IP neighbor and Leaf5's robot /32 were absent in later samples. Seven of nine exploratory runs had probe losses. A delayed gateway-ping intervention produced a captured gateway/robot ARP exchange, Leaf2 local neighbor, new MAC/IP Type-2, and Leaf5 /32 via Leaf2. **This does not establish an FRR defect.** Kernel neighbor policy, unobserved internal events, capture limits and the missing AP study remain open.
+
+Delivery and /32 recovery are distinct: in two repeated-GARP and two delayed-GARP runs, Leaf5 still sampled a missing /32 and lookup toward Leaf3, yet controller replies recovered. Packet captures in one repeated trial show Leaf3 forwarding the packet over L2 VXLAN to Leaf2. In one no-announcement trial a failed probe reached Leaf3; its exact drop location remains unknown.
+
+Read [reproduction report](reproduction-report.md), [causal chain and packet identifiers](causal-chain.md), [source audit](source-code-analysis.md), [limitations](limitations.md), and [reproduction commands](reproduction-commands.md). The hypothesis CSV, transition CSVs and nine `raw-*` directories contain the observations. Each raw directory includes PCAPs, event and probe records, netlink logs, router logs, capture logs, and separate monotonic and realtime timeline panels (`timeline.html`). Evidence CSV paths are relative to this directory. [Provenance](provenance.md) records environment and hashes; `SHA256SUMS` hashes this package's artifacts.
+
+The named teammate AP harness and diagnostic trace were not available in the repository and locally searched project files; conclusions are for this distinct BBM harness. No FRR core source, topology, or production configuration was modified, and no DAD sweep or topology scaling was run. No fix is proposed or implemented.

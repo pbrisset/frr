@@ -1,0 +1,22 @@
+run,condition,worker_sends,probe_sends,probe_replies,probe_losses,realized_probe_rate_hz,post_move_sends,post_move_losses,max_loss_burst,local_ip_samples,leaf2_sent_mac_ip_nlri_copies,sampled_absent_32,sampled_new_leaf_32,post_move_probe_recovery,mismatching_leaf5_samples,leaf2_capture_received,leaf2_capture_dropped,leaf2_pcap_drops,leaf2_dumpcap_drops,leaf2_flushed,leaf2_interface_drops,netlink_socket_errors,netlink_limit,evidence
+raw-access-01,access,1,116,116,0,9.594,73,0,0,5,2,False,True,NO LOSS,0,158,0,0,0,0,0,0,see checked socket final stats,raw-access-01/events.jsonl; raw-access-01/host11-stimulus.log
+raw-delayed-01,delayed,1,116,115,1,9.618,72,1,1,6,2,False,True,OBSERVED,0,155,0,0,0,0,0,0,socket overrun cannot be excluded,raw-delayed-01/events.jsonl; raw-delayed-01/host11-stimulus.log
+raw-delayed-02,delayed,1,116,98,18,9.605,77,18,18,4,2,True,True,OBSERVED,2,170,0,0,0,0,0,0,socket overrun cannot be excluded,raw-delayed-02/events.jsonl; raw-delayed-02/host11-stimulus.log
+raw-delayed-03,delayed,1,116,97,19,9.614,77,19,19,5,2,True,True,OBSERVED,2,170,0,0,0,0,0,0,socket overrun cannot be excluded,raw-delayed-03/events.jsonl; raw-delayed-03/host11-stimulus.log
+raw-delayed-04,delayed,1,115,96,19,9.555,76,19,19,4,2,True,True,OBSERVED,2,168,0,0,0,0,0,0,socket overrun cannot be excluded,raw-delayed-04/events.jsonl; raw-delayed-04/host11-stimulus.log
+raw-delayed-05,delayed,1,116,98,18,9.609,74,18,18,5,2,True,True,OBSERVED,1,164,0,0,0,0,0,0,socket overrun cannot be excluded,raw-delayed-05/events.jsonl; raw-delayed-05/host11-stimulus.log
+raw-immediate-01,immediate,1,115,48,67,9.549,69,67,67,0,0,True,False,NOT OBSERVED (CENSORED),5,26,0,0,0,0,0,0,socket overrun cannot be excluded,raw-immediate-01/events.jsonl; raw-immediate-01/host11-stimulus.log
+raw-immediate-02,immediate,1,114,44,70,9.462,71,70,69,0,0,True,False,NOT OBSERVED (CENSORED),5,27,0,0,0,0,0,0,socket overrun cannot be excluded,raw-immediate-02/events.jsonl; raw-immediate-02/host11-stimulus.log
+raw-immediate-03,immediate,1,115,114,1,9.556,76,1,1,6,2,False,True,OBSERVED,0,161,0,0,0,0,0,0,socket overrun cannot be excluded,raw-immediate-03/events.jsonl; raw-immediate-03/host11-stimulus.log
+raw-immediate-04,immediate,1,116,41,75,9.614,77,75,75,0,0,True,False,NOT OBSERVED (CENSORED),6,28,0,0,0,0,0,0,socket overrun cannot be excluded,raw-immediate-04/events.jsonl; raw-immediate-04/host11-stimulus.log
+raw-immediate-05,immediate,1,116,46,70,9.645,72,70,70,0,0,True,False,NOT OBSERVED (CENSORED),6,28,0,0,0,0,0,0,socket overrun cannot be excluded,raw-immediate-05/events.jsonl; raw-immediate-05/host11-stimulus.log
+raw-none-01,none,0,116,48,68,9.59,70,68,68,0,0,True,False,NOT OBSERVED (CENSORED),6,25,0,0,0,0,0,0,socket overrun cannot be excluded,raw-none-01/events.jsonl; raw-none-01/host11-stimulus.log
+raw-none-02,none,0,116,47,69,9.633,71,69,69,0,0,True,False,NOT OBSERVED (CENSORED),6,25,0,0,0,0,0,0,socket overrun cannot be excluded,raw-none-02/events.jsonl; raw-none-02/host11-stimulus.log
+raw-none-03,none,0,116,115,1,9.589,77,1,1,6,2,False,True,OBSERVED,0,160,0,0,0,0,0,0,socket overrun cannot be excluded,raw-none-03/events.jsonl; raw-none-03/host11-stimulus.log
+raw-none-04,none,0,116,40,76,9.618,77,76,75,0,0,True,False,NOT OBSERVED (CENSORED),6,24,0,0,0,0,0,0,socket overrun cannot be excluded,raw-none-04/events.jsonl; raw-none-04/host11-stimulus.log
+raw-none-05,none,0,116,46,70,9.606,71,70,69,0,0,True,False,NOT OBSERVED (CENSORED),6,24,0,0,0,0,0,0,socket overrun cannot be excluded,raw-none-05/events.jsonl; raw-none-05/host11-stimulus.log
+raw-repeated-01,repeated,4,115,115,0,9.582,73,0,0,6,2,False,True,NO LOSS,0,171,0,0,0,0,0,0,socket overrun cannot be excluded,raw-repeated-01/events.jsonl; raw-repeated-01/host11-stimulus.log
+raw-repeated-02,repeated,4,116,115,1,9.603,77,1,1,6,2,False,True,OBSERVED,0,178,0,0,0,0,0,0,socket overrun cannot be excluded,raw-repeated-02/events.jsonl; raw-repeated-02/host11-stimulus.log
+raw-repeated-03,repeated,4,116,116,0,9.594,75,0,0,6,2,False,True,NO LOSS,0,175,0,0,0,0,0,0,socket overrun cannot be excluded,raw-repeated-03/events.jsonl; raw-repeated-03/host11-stimulus.log
+raw-repeated-04,repeated,4,116,115,1,9.637,75,1,1,5,2,False,True,OBSERVED,0,174,0,0,0,0,0,0,socket overrun cannot be excluded,raw-repeated-04/events.jsonl; raw-repeated-04/host11-stimulus.log
+raw-repeated-05,repeated,4,116,115,1,9.61,75,1,1,6,2,False,True,OBSERVED,0,174,0,0,0,0,0,0,socket overrun cannot be excluded,raw-repeated-05/events.jsonl; raw-repeated-05/host11-stimulus.log

@@ -1,0 +1,10 @@
+run,treatment,seed,sent,lost,post_move_samples_missing_32,post_move_mismatching_lookup_samples,post_move_leaf2_local_ip_samples,first_local_ip_sample_ms,evidence
+raw-delayed-01,delayed,0,115,18,5,5,0,not observed,raw-delayed-01/events.jsonl; raw-delayed-01/host11-stimulus.log
+raw-delayed-02,delayed,1,116,18,6,6,0,not observed,raw-delayed-02/events.jsonl; raw-delayed-02/host11-stimulus.log
+raw-gateway-02,gateway,1,116,19,2,2,4,4453.318,raw-gateway-02/events.jsonl; raw-gateway-02/host11-stimulus.log
+raw-immediate-01,immediate,0,116,75,6,6,0,not observed,raw-immediate-01/events.jsonl; raw-immediate-01/host11-stimulus.log
+raw-none-01,none,0,116,74,6,6,0,not observed,raw-none-01/events.jsonl; raw-none-01/host11-stimulus.log
+raw-none-02,none,1,116,75,6,6,0,not observed,raw-none-02/events.jsonl; raw-none-02/host11-stimulus.log
+raw-repeated-01,repeated,0,115,0,6,6,0,not observed,raw-repeated-01/events.jsonl; raw-repeated-01/host11-stimulus.log
+raw-repeated-02,repeated,1,114,0,6,6,0,not observed,raw-repeated-02/events.jsonl; raw-repeated-02/host11-stimulus.log
+raw-telemetry-01,telemetry,0,116,75,6,6,0,not observed,raw-telemetry-01/events.jsonl; raw-telemetry-01/host11-stimulus.log

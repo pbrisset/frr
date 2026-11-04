@@ -1,0 +1,10 @@
+run,sent,replies,timeouts_or_errors,realized_sends_per_sec,post_command_sends,post_command_losses,longest_failure_burst,burst_details,evidence
+raw-delayed-01,115,97,18,9.536,72,18,18,"[{""first_sequence"": 46, ""count"": 18, ""last_sequence"": 63, ""recovery_receive_ns"": 81556954506898, ""first_failed_send_to_recovery_ms"": 2779.342356}]",raw-delayed-01/host11-probes.jsonl
+raw-delayed-02,116,98,18,9.591,76,18,18,"[{""first_sequence"": 42, ""count"": 18, ""last_sequence"": 59, ""recovery_receive_ns"": 81734320068461, ""first_failed_send_to_recovery_ms"": 2833.414854}]",raw-delayed-02/host11-probes.jsonl
+raw-gateway-02,116,97,19,9.639,74,19,19,"[{""first_sequence"": 44, ""count"": 19, ""last_sequence"": 62, ""recovery_receive_ns"": 81775338703369, ""first_failed_send_to_recovery_ms"": 2973.930848}]",raw-gateway-02/host11-probes.jsonl
+raw-immediate-01,116,41,75,9.611,76,75,75,"[{""first_sequence"": 42, ""count"": 75, ""last_sequence"": 116, ""recovery_receive_ns"": null}]",raw-immediate-01/host11-probes.jsonl
+raw-none-01,116,42,74,9.616,75,74,74,"[{""first_sequence"": 43, ""count"": 74, ""last_sequence"": 116, ""recovery_receive_ns"": null}]",raw-none-01/host11-probes.jsonl
+raw-none-02,116,41,75,9.645,76,75,75,"[{""first_sequence"": 42, ""count"": 75, ""last_sequence"": 116, ""recovery_receive_ns"": null}]",raw-none-02/host11-probes.jsonl
+raw-repeated-01,115,115,0,9.581,70,0,0,[],raw-repeated-01/host11-probes.jsonl
+raw-repeated-02,114,114,0,9.449,77,0,0,[],raw-repeated-02/host11-probes.jsonl
+raw-telemetry-01,116,41,75,9.6,76,75,75,"[{""first_sequence"": 42, ""count"": 75, ""last_sequence"": 116, ""recovery_receive_ns"": null}]",raw-telemetry-01/host11-probes.jsonl
