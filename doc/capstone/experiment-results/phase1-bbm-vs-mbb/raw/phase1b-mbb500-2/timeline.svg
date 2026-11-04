@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="538">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="monospace" font-size="13" fill="#17243b">
+<text x="20" y="28">One robot move: direct harness events and sampled routed forwarding</text>
+<text x="20" y="52">Time = monotonic milliseconds relative to move-command observation; dots are observations</text>
+<text x="20" y="90">-1877.364 ms</text>
+<circle cx="175.6" cy="86" r="4" fill="#157f56"/>
+<text x="540" y="90">leaf5 VTEP [&#x27;10.0.0.1&#x27;] match=True</text>
+<text x="20" y="117"> -159.093 ms</text>
+<circle cx="246.4" cy="113" r="4" fill="#b03c42"/>
+<text x="540" y="117">probe seq 41 reply RTT 0.152 ms</text>
+<text x="20" y="144">  -54.984 ms</text>
+<circle cx="250.7" cy="140" r="4" fill="#b03c42"/>
+<text x="540" y="144">probe seq 42 reply RTT 0.167 ms</text>
+<text x="20" y="171">  -40.021 ms</text>
+<circle cx="251.3" cy="167" r="4" fill="#157f56"/>
+<text x="540" y="171">leaf5 VTEP [&#x27;10.0.0.1&#x27;] match=True</text>
+<text x="20" y="198">    0.000 ms</text>
+<circle cx="252.9" cy="194" r="4" fill="#275dad"/>
+<text x="540" y="198">move_command_issued</text>
+<text x="20" y="225">   22.327 ms</text>
+<circle cx="253.9" cy="221" r="4" fill="#275dad"/>
+<text x="540" y="225">new_attachment_connected</text>
+<text x="20" y="252">   48.346 ms</text>
+<circle cx="254.9" cy="248" r="4" fill="#b03c42"/>
+<text x="540" y="252">probe seq 43 reply RTT 0.494 ms</text>
+<text x="20" y="279">  151.963 ms</text>
+<circle cx="259.2" cy="275" r="4" fill="#b03c42"/>
+<text x="540" y="279">probe seq 44 reply RTT 0.244 ms</text>
+<text x="20" y="306">  535.887 ms</text>
+<circle cx="275.0" cy="302" r="4" fill="#275dad"/>
+<text x="540" y="306">old_attachment_disconnected</text>
+<text x="20" y="333">  679.840 ms</text>
+<circle cx="280.9" cy="329" r="4" fill="#b03c42"/>
+<text x="540" y="333">probe seq 49 failed (timeout observed later)</text>
+<text x="20" y="360"> 1708.036 ms</text>
+<circle cx="323.3" cy="356" r="4" fill="#b03c42"/>
+<text x="540" y="360">first reply after loss: seq 50</text>
+<text x="20" y="387"> 1751.942 ms</text>
+<circle cx="325.1" cy="383" r="4" fill="#157f56"/>
+<text x="540" y="387">leaf5 VTEP [&#x27;10.0.0.3&#x27;] match=False</text>
+<text x="20" y="414"> 3270.835 ms</text>
+<circle cx="387.6" cy="410" r="4" fill="#157f56"/>
+<text x="540" y="414">leaf5 VTEP [&#x27;10.0.0.2&#x27;] match=True</text>
+<text x="20" y="441"> 4753.044 ms</text>
+<circle cx="448.7" cy="437" r="4" fill="#157f56"/>
+<text x="540" y="441">leaf5 VTEP [&#x27;10.0.0.2&#x27;] match=True</text>
+<text x="20" y="498">BGP packets use realtime: see packet-events.jsonl; no inferred cross-clock ordering.</text>
+</g></svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="580">
+<rect width="100%" height="100%" fill="white"/>
+<g font-family="sans-serif" font-size="13" fill="#222">
+<text x="10" y="25">Per-run observed probe losses (not outage duration)</text>
+<text x="10" y="55">phase1b-bbm-1</text>
+<rect x="180" y="43" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="55">0 / 116</text>
+<text x="10" y="80">phase1b-bbm-2</text>
+<rect x="180" y="68" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="80">0 / 116</text>
+<text x="10" y="105">phase1b-bbm-3</text>
+<rect x="180" y="93" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="105">0 / 116</text>
+<text x="10" y="130">phase1b-bbm-4</text>
+<rect x="180" y="118" width="35" height="14" fill="#3273a8"/>
+<text x="225" y="130">1 / 116</text>
+<text x="10" y="155">phase1b-bbm-5</text>
+<rect x="180" y="143" width="35" height="14" fill="#3273a8"/>
+<text x="225" y="155">1 / 115</text>
+<text x="10" y="180">phase1b-mbb100-1</text>
+<rect x="180" y="168" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="180">0 / 116</text>
+<text x="10" y="205">phase1b-mbb100-2</text>
+<rect x="180" y="193" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="205">0 / 116</text>
+<text x="10" y="230">phase1b-mbb100-3</text>
+<rect x="180" y="218" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="230">0 / 115</text>
+<text x="10" y="255">phase1b-mbb100-4</text>
+<rect x="180" y="243" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="255">0 / 113</text>
+<text x="10" y="280">phase1b-mbb100-5</text>
+<rect x="180" y="268" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="280">0 / 115</text>
+<text x="10" y="305">phase1b-mbb250-1</text>
+<rect x="180" y="293" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="305">0 / 116</text>
+<text x="10" y="330">phase1b-mbb250-2</text>
+<rect x="180" y="318" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="330">0 / 115</text>
+<text x="10" y="355">phase1b-mbb250-3</text>
+<rect x="180" y="343" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="355">0 / 116</text>
+<text x="10" y="380">phase1b-mbb250-4</text>
+<rect x="180" y="368" width="35" height="14" fill="#3273a8"/>
+<text x="225" y="380">1 / 115</text>
+<text x="10" y="405">phase1b-mbb250-5</text>
+<rect x="180" y="393" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="405">0 / 115</text>
+<text x="10" y="430">phase1b-mbb500-1</text>
+<rect x="180" y="418" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="430">0 / 115</text>
+<text x="10" y="455">phase1b-mbb500-2</text>
+<rect x="180" y="443" width="35" height="14" fill="#3273a8"/>
+<text x="225" y="455">1 / 116</text>
+<text x="10" y="480">phase1b-mbb500-3</text>
+<rect x="180" y="468" width="35" height="14" fill="#3273a8"/>
+<text x="225" y="480">1 / 116</text>
+<text x="10" y="505">phase1b-mbb500-4</text>
+<rect x="180" y="493" width="0" height="14" fill="#3273a8"/>
+<text x="190" y="505">0 / 116</text>
+<text x="10" y="530">phase1b-mbb500-5</text>
+<rect x="180" y="518" width="105" height="14" fill="#3273a8"/>
+<text x="295" y="530">3 / 115</text>
+</g></svg>

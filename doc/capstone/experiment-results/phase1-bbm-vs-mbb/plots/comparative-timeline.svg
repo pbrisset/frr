@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="790">
+<rect width="100%" height="100%" fill="white"/><g font-family="sans-serif" font-size="11">
+<text x="10" y="20">Handoff observations: milliseconds relative to move command (not continuous states)</text>
+<text x="10" y="38">Blue: new attached; red: old detached; orange: IP transfer; black cross: sampled leaf5 mismatch</text>
+<text x="10" y="65">phase1b-bbm-1</text>
+<line x1="190" y1="61" x2="1000" y2="61" stroke="#bbb"/>
+<circle cx="219.7" cy="61" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 14.5 ms</title></circle>
+<circle cx="223.4" cy="61" r="4" fill="#145da0"><title>new_attachment_connected 29.3 ms</title></circle>
+<text x="10" y="100">phase1b-bbm-2</text>
+<line x1="190" y1="96" x2="1000" y2="96" stroke="#bbb"/>
+<circle cx="218.8" cy="96" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 11.2 ms</title></circle>
+<circle cx="222.3" cy="96" r="4" fill="#145da0"><title>new_attachment_connected 25.0 ms</title></circle>
+<text x="10" y="135">phase1b-bbm-3</text>
+<line x1="190" y1="131" x2="1000" y2="131" stroke="#bbb"/>
+<circle cx="218.4" cy="131" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 9.5 ms</title></circle>
+<circle cx="223.4" cy="131" r="4" fill="#145da0"><title>new_attachment_connected 29.3 ms</title></circle>
+<text x="10" y="170">phase1b-bbm-4</text>
+<line x1="190" y1="166" x2="1000" y2="166" stroke="#bbb"/>
+<circle cx="218.8" cy="166" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 11.2 ms</title></circle>
+<circle cx="222.7" cy="166" r="4" fill="#145da0"><title>new_attachment_connected 26.5 ms</title></circle>
+<text x="10" y="205">phase1b-bbm-5</text>
+<line x1="190" y1="201" x2="1000" y2="201" stroke="#bbb"/>
+<circle cx="219.7" cy="201" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 14.6 ms</title></circle>
+<circle cx="223.2" cy="201" r="4" fill="#145da0"><title>new_attachment_connected 28.3 ms</title></circle>
+<text x="10" y="240">phase1b-mbb100-1</text>
+<line x1="190" y1="236" x2="1000" y2="236" stroke="#bbb"/>
+<circle cx="221.0" cy="236" r="4" fill="#145da0"><title>new_attachment_connected 19.7 ms</title></circle>
+<circle cx="249.3" cy="236" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 131.6 ms</title></circle>
+<circle cx="250.3" cy="236" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 135.6 ms</title></circle>
+<circle cx="525.3" cy="236" r="4" fill="#111"><title>forwarding_resolution 1220.8 ms</title></circle>
+<text x="10" y="275">phase1b-mbb100-2</text>
+<line x1="190" y1="271" x2="1000" y2="271" stroke="#bbb"/>
+<circle cx="219.6" cy="271" r="4" fill="#145da0"><title>new_attachment_connected 14.3 ms</title></circle>
+<circle cx="248.3" cy="271" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 127.6 ms</title></circle>
+<circle cx="249.3" cy="271" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 131.5 ms</title></circle>
+<circle cx="543.5" cy="271" r="4" fill="#111"><title>forwarding_resolution 1292.9 ms</title></circle>
+<text x="10" y="310">phase1b-mbb100-3</text>
+<line x1="190" y1="306" x2="1000" y2="306" stroke="#bbb"/>
+<circle cx="222.2" cy="306" r="4" fill="#145da0"><title>new_attachment_connected 24.7 ms</title></circle>
+<circle cx="250.1" cy="306" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 134.5 ms</title></circle>
+<circle cx="251.1" cy="306" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 138.5 ms</title></circle>
+<text x="10" y="345">phase1b-mbb100-4</text>
+<line x1="190" y1="341" x2="1000" y2="341" stroke="#bbb"/>
+<circle cx="222.7" cy="341" r="4" fill="#145da0"><title>new_attachment_connected 26.3 ms</title></circle>
+<circle cx="253.6" cy="341" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 148.3 ms</title></circle>
+<circle cx="255.0" cy="341" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 154.0 ms</title></circle>
+<circle cx="547.3" cy="341" r="4" fill="#111"><title>forwarding_resolution 1307.9 ms</title></circle>
+<text x="10" y="380">phase1b-mbb100-5</text>
+<line x1="190" y1="376" x2="1000" y2="376" stroke="#bbb"/>
+<circle cx="220.9" cy="376" r="4" fill="#145da0"><title>new_attachment_connected 19.5 ms</title></circle>
+<circle cx="250.0" cy="376" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 134.0 ms</title></circle>
+<circle cx="251.1" cy="376" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 138.4 ms</title></circle>
+<circle cx="547.1" cy="376" r="4" fill="#111"><title>forwarding_resolution 1307.0 ms</title></circle>
+<text x="10" y="415">phase1b-mbb250-1</text>
+<line x1="190" y1="411" x2="1000" y2="411" stroke="#bbb"/>
+<circle cx="220.8" cy="411" r="4" fill="#145da0"><title>new_attachment_connected 18.8 ms</title></circle>
+<circle cx="287.4" cy="411" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 281.7 ms</title></circle>
+<circle cx="288.6" cy="411" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 286.6 ms</title></circle>
+<text x="10" y="450">phase1b-mbb250-2</text>
+<line x1="190" y1="446" x2="1000" y2="446" stroke="#bbb"/>
+<circle cx="221.9" cy="446" r="4" fill="#145da0"><title>new_attachment_connected 23.2 ms</title></circle>
+<circle cx="288.2" cy="446" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 285.1 ms</title></circle>
+<circle cx="289.6" cy="446" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 290.5 ms</title></circle>
+<text x="10" y="485">phase1b-mbb250-3</text>
+<line x1="190" y1="481" x2="1000" y2="481" stroke="#bbb"/>
+<circle cx="221.7" cy="481" r="4" fill="#145da0"><title>new_attachment_connected 22.6 ms</title></circle>
+<circle cx="288.0" cy="481" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 284.3 ms</title></circle>
+<circle cx="289.4" cy="481" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 289.6 ms</title></circle>
+<text x="10" y="520">phase1b-mbb250-4</text>
+<line x1="190" y1="516" x2="1000" y2="516" stroke="#bbb"/>
+<circle cx="222.1" cy="516" r="4" fill="#145da0"><title>new_attachment_connected 24.0 ms</title></circle>
+<circle cx="289.7" cy="516" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 291.0 ms</title></circle>
+<circle cx="291.5" cy="516" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 298.0 ms</title></circle>
+<text x="10" y="555">phase1b-mbb250-5</text>
+<line x1="190" y1="551" x2="1000" y2="551" stroke="#bbb"/>
+<circle cx="220.2" cy="551" r="4" fill="#145da0"><title>new_attachment_connected 16.5 ms</title></circle>
+<circle cx="288.9" cy="551" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 287.6 ms</title></circle>
+<circle cx="290.6" cy="551" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 294.5 ms</title></circle>
+<text x="10" y="590">phase1b-mbb500-1</text>
+<line x1="190" y1="586" x2="1000" y2="586" stroke="#bbb"/>
+<circle cx="219.9" cy="586" r="4" fill="#145da0"><title>new_attachment_connected 15.5 ms</title></circle>
+<circle cx="350.8" cy="586" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 532.3 ms</title></circle>
+<circle cx="355.0" cy="586" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 548.8 ms</title></circle>
+<circle cx="635.5" cy="586" r="4" fill="#111"><title>forwarding_resolution 1655.9 ms</title></circle>
+<text x="10" y="625">phase1b-mbb500-2</text>
+<line x1="190" y1="621" x2="1000" y2="621" stroke="#bbb"/>
+<circle cx="221.7" cy="621" r="4" fill="#145da0"><title>new_attachment_connected 22.3 ms</title></circle>
+<circle cx="351.8" cy="621" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 535.9 ms</title></circle>
+<circle cx="354.8" cy="621" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 548.0 ms</title></circle>
+<circle cx="659.8" cy="621" r="4" fill="#111"><title>forwarding_resolution 1751.9 ms</title></circle>
+<text x="10" y="660">phase1b-mbb500-3</text>
+<line x1="190" y1="656" x2="1000" y2="656" stroke="#bbb"/>
+<circle cx="220.9" cy="656" r="4" fill="#145da0"><title>new_attachment_connected 19.2 ms</title></circle>
+<circle cx="354.9" cy="656" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 548.3 ms</title></circle>
+<circle cx="358.3" cy="656" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 561.7 ms</title></circle>
+<circle cx="626.1" cy="656" r="4" fill="#111"><title>forwarding_resolution 1618.9 ms</title></circle>
+<text x="10" y="695">phase1b-mbb500-4</text>
+<line x1="190" y1="691" x2="1000" y2="691" stroke="#bbb"/>
+<circle cx="220.5" cy="691" r="4" fill="#145da0"><title>new_attachment_connected 17.6 ms</title></circle>
+<circle cx="351.4" cy="691" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 534.5 ms</title></circle>
+<circle cx="354.1" cy="691" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 545.3 ms</title></circle>
+<circle cx="618.2" cy="691" r="4" fill="#111"><title>forwarding_resolution 1587.8 ms</title></circle>
+<text x="10" y="730">phase1b-mbb500-5</text>
+<line x1="190" y1="726" x2="1000" y2="726" stroke="#bbb"/>
+<circle cx="220.9" cy="726" r="4" fill="#145da0"><title>new_attachment_connected 19.2 ms</title></circle>
+<circle cx="354.2" cy="726" r="4" fill="#cb2e2e"><title>old_attachment_disconnected 545.5 ms</title></circle>
+<circle cx="357.0" cy="726" r="4" fill="#dd8b00"><title>ip_route_transfer_completed 556.5 ms</title></circle>
+<circle cx="579.3" cy="726" r="4" fill="#111"><title>forwarding_resolution 1434.0 ms</title></circle>
+</g></svg>

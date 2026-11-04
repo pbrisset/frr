@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "parameters": {
+    "PHASE1B_RESULTS": "/tmp/phase1b-bbm-1",
+    "PHASE1B_RUN": "1",
+    "PHASE1B_OVERLAP_MS": "250",
+    "PHASE1B_MODE": "break-before-make"
+  },
+  "effective": {
+    "robots": [
+      "host11"
+    ],
+    "duration": 12.0,
+    "move_interval": 4.0,
+    "disconnect": 0.0,
+    "probe_rate": 10.0,
+    "sample_interval": 0.5,
+    "repetitions": 1,
+    "seed": 0,
+    "schedule": "synchronized",
+    "mode": "break-before-make",
+    "overlap_ms": 0,
+    "access_leaves": 4,
+    "spines": 2,
+    "dad": "baseline"
+  },
+  "clock": {
+    "clock": "CLOCK_MONOTONIC",
+    "boot_id": "96d6449b-d93b-4a96-8eb2-08a72035937e",
+    "time_namespace": "monotonic           0         0\nboottime            0         0\n",
+    "note": "Command observations bracket execution; snapshots are sequential, not atomic. PCAP uses realtime; no cross-clock causal ordering."
+  },
+  "revision": "709ca316646823ef1ad64f05e4e60174db0c2199",
+  "dirty": "?? test_phase1_comparison.py",
+  "started_wall_ns": 1793705446117026596,
+  "started_monotonic_ns": 26172815181296,
+  "tgen_logdir": "/tmp/topotests/bgp_evpn_capstone.test_phase1_comparison"
+}

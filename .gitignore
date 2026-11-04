@@ -134,6 +134,9 @@ router-logs/
 *.pcap
 *.pcapng
 
+# Exported review archive
+/doc/capstone/review-packages/phase1-complete-review-package.zip
+
 # Temporary topotest runs
 /tmp/topotests/
 /tmp/phase0-*/
