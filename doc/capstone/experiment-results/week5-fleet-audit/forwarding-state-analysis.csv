@@ -1,0 +1,4 @@
+run,elapsed_ms,attachment,host32,subnet24,resolved_vtep,probe_result,classification,evidence
+phase0-verified-move,1056.633,leaf2,absent sampled,present sampled,10.0.0.3,UNKNOWN,sequential non-atomic lookups; no packet attribution,doc/capstone/experiment-results/phase0-2026-11-02/report.md
+phase0-verified-move,2529.41,leaf2,UNKNOWN,UNKNOWN,10.0.0.2,UNKNOWN,first sampled matching resolution,doc/capstone/experiment-results/phase0-2026-11-02/report.md
+AP fleet,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,no AP forwarding records,UNKNOWN

@@ -1,0 +1,5 @@
+run,robot,source,destination,observation,elapsed_ms,evidence,classification
+phase0-verified-move,host11,leaf1,leaf2,move command,0,doc/capstone/experiment-results/phase0-2026-11-02/verified-move/events.jsonl,command observation
+phase0-verified-move,host11,leaf1,leaf2,old detach command completion,21.659,doc/capstone/experiment-results/phase0-2026-11-02/report.md,command observation
+phase0-verified-move,host11,leaf1,leaf2,new attachment commands completion,46.17,doc/capstone/experiment-results/phase0-2026-11-02/report.md,command observation
+AP fleet,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,Missing original artifacts,UNKNOWN

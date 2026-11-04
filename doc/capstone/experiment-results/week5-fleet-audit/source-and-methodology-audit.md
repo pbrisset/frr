@@ -1,0 +1,23 @@
+# Source and methodology audit
+
+## Search and provenance
+
+Starting branch `dev/guna-experiments`, HEAD `e5a21b4d93bbbdae9e4aa7a4545beaef92cc9b51`; `git status --short --branch` showed no changes. `git log --all` for the five names and `git rev-list --all --objects` filtered for fleet/scale/prober names returned no matching capstone paths. `rg --files`, searches under `doc/capstone` and the capstone test, and filename search throughout `/Users/gunabhiram/College` found neither the AP report nor `test_mobility_scale.py`, `mobility_scale.py`, `mobility_prober.py`, `run_mobility_points.sh`, or `analyze_mobility.py`. The running `frr-dev` container's capstone directory likewise listed only `test_mobility_workload.py` and `mobility_telemetry.csv` for mobility names. This does not prove the artifacts do not exist on an un-fetched remote, another machine, under unrelated filenames, or elsewhere in the container. No network fetch was performed. The user-described claims are research questions, not report quotations or evidence of execution.
+
+Current topology: `tests/topotests/bgp_evpn_capstone/test_evpn_capstone.py`, leaf/spine `frr.conf`: two spines, five leaves, eight robot hosts on leaf1–4, controller behind leaf5; VLAN/VNI 1000, robot subnet 45.0.0.0/24, L3VNI 500. Each leaf peers with both spines. The current topology is not proof of the teammate's topology. Phase 0 `provenance.json` records source hashes and binary hashes; its run manifest revision `727b0db7...` had a dirty tree including untracked instrumentation, so revision alone is insufficient. Phase 1B manifest revision `709ca316...` also had untracked harness files; the Phase 1 evidence index expressly says current copies are not proven byte-identical. This checkout is a later archival commit. See input hashes and the original manifests for limits.
+
+Phase 0 has one verified host11 BBM move: 116 sends, 115 replies, one timeout, ~9.604 realized sends/s over the send span. Phase 1B has five fresh topologies per method (BBM and MBB 100/250/500 ms), fixed execution order, one move each and approximately 10-Hz controller ICMP; see its `runs.csv` and `report.md`. Phase 0 has a different run and instrumentation version. Both use enabled baseline DAD, reported threshold 5 moves/180 s; sample flags cannot exclude transient duplicate events. Historical two-robot workload serializes interface operations and reports control-plane polling intervals, not controller interruption. None establish AP fleet settings or counts. Measurement periods, workload, stimuli, DAD, source versions, realized probe rates, and resource instrumentation must be matched before comparing runs.
+
+## Mobility compatibility matrix
+
+| Dimension | AP fleet model | Phase 1 / comparison rule |
+|---|---|---|
+| Handoff, overlap, old AP port | UNKNOWN: missing implementation; cannot label BBM, MBB or zero-gap | BBM detaches and transfers same veth; observed BBM command interval 13.74–19.79 ms in five runs. MBB uses second same-MAC veth and physical overlap. Not directly comparable until port commands and timing are recovered. |
+| Identity | UNKNOWN: MAC/IP and namespace mechanics | BBM retains same host/veth; MBB one namespace, second same-MAC interface, single robot IPv4 moved after detach. Compare only matched identity semantics. |
+| Detection and learning | UNKNOWN: AP port link state, FDB deletion/aging, ARP/ICMP | Phase 1 traffic and ARP stimuli are known; compare only with matched departure and learning stimuli and captures. |
+| DAD | UNKNOWN | Phase 1 baseline enabled, 5/180s; match and record effective state. |
+| Controller and probes | UNKNOWN | Host behind leaf5 sends ICMP, 10 Hz requested; normalize actual sends and duration, and separate loss from convergence. |
+| Fleet size, move schedule and resources | UNKNOWN | One moving robot per Phase 1B trial, eight attached; no direct scale comparison. Match achieved rate, burst shape, seed, duration, background traffic, resources and observer cost. |
+| BGP counts | UNKNOWN | Per-device/direction capture-window messages and NLRI transmissions include peer duplicates; normalize scope and separately deduplicate route changes. |
+
+Whether the AP model leaves an old AP connected, permits simultaneous robot links, or emits one/repeated gateway ARP/ICMP/telemetry is UNKNOWN. No simulation or inference from file names can establish this. Phase 1 MBB's gratuitous ARP triggers learning at the new leaf while original IP/default egress remains on the old interface; it is not demonstrated simultaneous normal IP egress or a wireless roam. BBM pings the gateway after reattachment. Both traffic and probes can alter neighbor learning and affect measurements.

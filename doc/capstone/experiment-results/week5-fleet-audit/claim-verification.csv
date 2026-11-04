@@ -1,0 +1,11 @@
+claim,classification,evidence,qualification
+AP fleet report and scale points exist and yield stated results,UNVERIFIED,"No report, scripts or raw data located",Requested points are not proof of execution
+"AP movement is BBM, MBB, or zero-gap break-then-make",UNVERIFIED,Missing AP implementation,All variants unknown
+AP IP relearning fails,UNVERIFIED,No AP neighbor or route records,Phase 0/1 transient missing /32 and later recovery are not AP failure proof
+AP fleet degrades at a particular scale,UNVERIFIED,No AP per-point raw data,No tested threshold can be established
+Phase 0 host11 reaches leaf2 and forwarding later matches,SUPPORTED WITH LIMITATIONS,doc/capstone/experiment-results/phase0-2026-11-02/report.md,One run; sampled and non-atomic
+Phase 0 leaf5 sampled /32 absence and leaf3 resolution,SUPPORTED WITH LIMITATIONS,doc/capstone/experiment-results/phase0-2026-11-02/report.md,No packet path or loss attribution
+Phase 1 MBB enables two physical virtual access attachments,VERIFIED,doc/capstone/experiment-results/phase1-bbm-vs-mbb/README.md,Not simultaneous normal IP egress
+Controller application knows robot location,NOT TESTED,No application state available,Leaf5 routing is network state
+AP synchronized movement causes sustained BGP overload,UNVERIFIED,"No AP per-peer queues, rates, session evidence",Occupancy and average CPU alone are insufficient
+Production network breaking point established,NOT TESTED,Only small emulation evidence available,No production capacity inference

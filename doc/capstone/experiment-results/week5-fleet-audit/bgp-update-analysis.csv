@@ -1,0 +1,4 @@
+run,device,direction,update_messages,advertised_nlris,withdrawn_nlris,unique_changes,retransmissions,limitation,evidence
+phase0-verified-move,each leaf,sent,6,2 MAC-only + 2 MAC/IP,2 MAC-only + 2 MAC/IP,UNKNOWN,UNKNOWN,capture-window peer transmissions; not unique routes,doc/capstone/experiment-results/phase0-2026-11-02/verified-move/packet-counts.json
+phase0-verified-move,each spine,sent,15,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,capture-window aggregate; not fleet batching,doc/capstone/experiment-results/phase0-2026-11-02/verified-move/packet-counts.json
+AP fleet,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,UNKNOWN,No captures or per-peer queue data,UNKNOWN

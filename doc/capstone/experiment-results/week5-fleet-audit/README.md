@@ -1,0 +1,7 @@
+# Week 5 fleet mobility evidence audit
+
+**Status: blocked on the teammate's study artifacts.** No AP fleet report, named scripts, or raw fleet dataset was found in the searched locations. No AP experiment was rerun and no fleet threshold can be determined. The existing two-robot workload and the Phase 0/1 single-robot experiments are separate evidence, not substitutes. See [source and methodology](source-and-methodology-audit.md), [fleet findings](fleet-findings.md), [protocol walkthrough](control-plane-walkthrough.md), [controller analysis](controller-forwarding-analysis.md), and [gaps](evidence-gaps.md). CSVs use `UNKNOWN` for unavailable values; it means neither zero nor a failed run. Rows describing points from the request do not assert they were actually executed.
+
+The audit inspected the clean starting checkout `dev/guna-experiments` at `e5a21b4d93bbbdae9e4aa7a4545beaef92cc9b51`; no FRR source or configuration was changed. Results are retrospective, with no new experiments or raw captures. `input-sha256.csv` records hashes of selected evidence inspected, not proof of the historical execution-time source. Previous evidence remains at `../phase0-2026-11-02/` and `../phase1-bbm-vs-mbb/`. Paths in CSV evidence columns are relative to repository root.
+
+Start with `claim-verification.csv` for the evidentiary status, `experiment-matrix.csv` for requested dimensions, and `reproduction-commands.md` for recovery and narrowly scoped next steps. Historical interpretations retain their original clock and sampling limitations.
