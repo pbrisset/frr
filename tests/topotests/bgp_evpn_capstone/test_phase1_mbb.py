@@ -10,6 +10,7 @@ import pytest
 from lib.topogen import get_topogen
 from lib import topotest
 from bgp_evpn_capstone import test_evpn_capstone as fabric
+from bgp_evpn_capstone.phase1.scan_roam import validate_local_neighbor
 
 pytestmark = [pytest.mark.bgpd, pytest.mark.evpn,
               pytest.mark.skipif(os.getenv('PHASE1_MBB') != '1', reason='opt-in')]
@@ -42,9 +43,22 @@ def test_mbb_host11():
         (out / 'events.json').write_text(json.dumps(events, indent=2))
 
     def snapshot(label):
+        def leaf_snapshot(node, port):
+            started = time.monotonic_ns()
+            raw = node.cmd_raises(
+                'ip -j link show dev {}; bridge -j fdb show; '
+                'vtysh -c "show evpn mac vni 1000 json"; '
+                'vtysh -c "show bgp l2vpn evpn route type macip json"'.format(port))
+            neighbors = json.loads(node.cmd_raises('ip -j neigh show'))
+            routes = json.loads(node.cmd_raises('ip -j route show table all'))
+            return dict(raw=raw, neighbors=neighbors, routes=routes,
+                        sample_start_ns=started, sample_end_ns=time.monotonic_ns())
+
         event(label, host=host.cmd('ip -j addr; ip -j route'),
-              leaf1=old.cmd('ip -j link show dev eth-host11; bridge -j fdb show; vtysh -c "show evpn mac vni 1000 json"; vtysh -c "show bgp l2vpn evpn route type macip json"'),
-              leaf2=new.cmd('ip -j link show dev mbb-leaf; bridge -j fdb show; vtysh -c "show evpn mac vni 1000 json"; vtysh -c "show bgp l2vpn evpn route type macip json"'))
+              leaf1=leaf_snapshot(old, 'eth-host11'),
+              leaf2=leaf_snapshot(new, 'mbb-leaf'))
+        validate_local_neighbor(events[-1]['leaf2'], MAC, IP, 'mbb-leaf',
+                                {'vni1000', 'vni500'})
 
     fabric.test_bgp_underlay_established()
     fabric.test_evpn_sessions_established()
@@ -69,7 +83,7 @@ def test_mbb_host11():
         event('gratuitous_arp_sent')
         snapshot('overlap_snapshot')
         # Each field concatenates four JSON command outputs; the third is Zebra.
-        text = events[-1]['leaf2']
+        text = events[-1]['leaf2']['raw']
         decoder = json.JSONDecoder()
         for _ in range(3):
             state, end = decoder.raw_decode(text.lstrip())
