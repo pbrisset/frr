@@ -145,3 +145,9 @@ attempt-01/
 # Python bytecode
 __pycache__/
 *.pyc
+
+# roadmap360 raw telemetry (large; report and runs_360.csv stay tracked)
+*.pcapng.gz
+*.log.gz
+*.jsonl
+results/
