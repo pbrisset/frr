@@ -2,6 +2,7 @@
 """Apply matched move plans to the archived 64-robot workload."""
 
 import json
+import os
 import random
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -9,9 +10,35 @@ from pathlib import Path
 
 import mobility_scale as mobility
 import pytest
+import route_counter
 from lib.topogen import get_topogen
 
 BaseFleet = mobility.Fleet
+
+
+def configure_capture_buffer():
+    """Raise the Linux packet queue for the sustained 30-second staggered runs."""
+    if (os.environ.get("MOB_DWELL"), os.environ.get("MOB_SYNC")) != ("30", "0"):
+        return
+    recorder = Path(route_counter.BGP_PCAP)
+    source = recorder.read_text()
+    original = "socket.SO_RCVBUF, 4 << 20"
+    assert source.count(original) == 1, "Unexpected archived capture socket setup"
+    # SO_RCVBUFFORCE bypasses the namespace's capped SO_RCVBUF value.
+    recorder.write_text(
+        source.replace(original, 'getattr(socket, "SO_RCVBUFFORCE", 33), 8 << 20')
+    )
+    settings = {
+        "recorder": "handoff bgp_pcap.py",
+        "option": "SO_RCVBUFFORCE",
+        "requested_bytes": 8 << 20,
+    }
+    (Path(os.environ["MOB_OUT"]) / "capture_settings.json").write_text(
+        json.dumps(settings, indent=2) + "\n"
+    )
+
+
+configure_capture_buffer()
 
 
 class MatchedFleet(BaseFleet):

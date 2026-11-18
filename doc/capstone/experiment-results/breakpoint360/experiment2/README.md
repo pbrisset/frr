@@ -38,6 +38,10 @@ the same container, with a fresh topology per trial. The detached run continues
 if the host terminal disconnects. For a single-seed matrix in a fresh results
 directory, use `MOB_SEED=1 bash "$out/reproduce.sh" matrix`.
 
+After the full matrix, run `python3 "$out/aggregate_exp2.py"` with Matplotlib
+installed to audit all 12 captures and regenerate the aggregate CSVs and three
+figures.
+
 ## Evidence per trial
 
 - `counts.csv` and `timeline.csv` contain shared-counter EVPN data.
@@ -46,7 +50,9 @@ directory, use `MOB_SEED=1 bash "$out/reproduce.sh" matrix`.
   carrying Type-2 routes. BGP counts use decoded messages over TCP.
 - `bgp_capture/` contains all 10 leaf-side captures. The post-run check
   reconciles per-device capture counts with FRR UPDATE counters and records
-  reassembly gaps and quiet-window traffic.
+  reassembly gaps and quiet-window traffic. The 30-second staggered recorder
+  uses a larger Linux receive buffer to avoid capture gaps on leaf5 links.
+  That setting is recorded in `capture_settings.json`.
 - `truth.csv` records actual attach times and source/destination leaves.
   `belief_leaf5.log` and `moves.csv` capture whether leaf5 selected the correct
   VTEP after each move. `leaf5_final_fib.json` and
