@@ -1,0 +1,17 @@
+2026-11-17T21:21:14-07:00
+breakpoint360
+585ecd991f30f2c5d424d3591a3bb74205067630
+ProductName:		macOS
+ProductVersion:		27.0.1
+BuildVersion:		26A434
+      Model Identifier: Mac16,1
+      Chip: Apple M4
+time="2026-11-17T21:21:15-07:00" level=info msg="colima is running using macOS Virtualization.Framework"
+time="2026-11-17T21:21:15-07:00" level=info msg="arch: aarch64"
+time="2026-11-17T21:21:15-07:00" level=info msg="runtime: docker"
+time="2026-11-17T21:21:15-07:00" level=info msg="mountType: virtiofs"
+time="2026-11-17T21:21:15-07:00" level=info msg="docker socket: unix:///Users/gunabhiram/.colima/default/docker.sock"
+time="2026-11-17T21:21:15-07:00" level=info msg="containerd socket: unix:///Users/gunabhiram/.colima/default/containerd.sock"
+CPUs=6 memory_bytes=8307912704
+Image=frr-dev:latest image_id=sha256:16419c614956c053aab698212daf9fb80e6c79e2270b58358e87433cbcd63a2f privileged=true memory_limit_bytes=0
+54dc11e9c84433df65e5cd690efc0d9e04fa7b472414306cfde85fc36d971f06  team-handoff/guna/mobility_tools.tar.gz
