@@ -1,0 +1,94 @@
+{
+ "requested_rate": 8.0,
+ "requested_duration_s": 8.0,
+ "planned_moves": 64,
+ "issued_moves": 64,
+ "completed_moves": 64,
+ "errors": 0,
+ "skipped": 0,
+ "timeouts": 0,
+ "confirm_sources": {
+  "bridge_forwarding": 64
+ },
+ "achieved_rate_window": 8.0,
+ "achieved_rate_overall": 8.0,
+ "issued_rate": 8.0,
+ "completion_span_s": 8.0,
+ "bin_s": 1.0,
+ "completed_per_bin": [
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8,
+  8
+ ],
+ "window_bin_rate": {
+  "min": 8.0,
+  "p50": 8.0,
+  "max": 8.0
+ },
+ "schedule_lag_ms": {
+  "n": 64,
+  "min": 0.087773,
+  "p50": 0.9704585,
+  "p95": 4.6839587,
+  "max": 7.249013,
+  "mean": 1.6477793749999998
+ },
+ "attach_ack_ms": {
+  "n": 64,
+  "min": 0.867945,
+  "p50": 1.452277,
+  "p95": 3.1655101000000005,
+  "max": 3.610577,
+  "mean": 1.6228626875
+ },
+ "completion_latency_ms": {
+  "n": 64,
+  "min": 1.22229,
+  "p50": 2.0364005,
+  "p95": 3.8802970500000002,
+  "max": 4.376435,
+  "mean": 2.2058644062500004
+ },
+ "generator_flags": [],
+ "generator_ok": true,
+ "t0_ns": 427631826309996,
+ "stop_ns": 427649826309996,
+ "mode": "staggered",
+ "sync_period_s": 1.0,
+ "interrupted": false,
+ "counters": {
+  "telemetry_sent": 1344,
+  "telemetry_errors": 0,
+  "garp_sent": 64,
+  "arp_sent": 0,
+  "arp_errors": 0,
+  "arp_superseded": 0,
+  "link_events_matched": 64,
+  "confirm_ignored": 0
+ },
+ "monitors": {
+  "leaf1": {
+   "messages": 90,
+   "overruns": 0
+  },
+  "leaf2": {
+   "messages": 79,
+   "overruns": 0
+  },
+  "leaf3": {
+   "messages": 86,
+   "overruns": 0
+  },
+  "leaf4": {
+   "messages": 97,
+   "overruns": 0
+  }
+ },
+ "superseded": 0,
+ "unresolved_at_stop": 0
+}

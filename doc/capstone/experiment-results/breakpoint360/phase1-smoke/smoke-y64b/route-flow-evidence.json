@@ -1,0 +1,948 @@
+{
+ "move": {
+  "seq": 126,
+  "batch": 7,
+  "robot": "f27",
+  "mac": "02:36:02:00:00:1b",
+  "ip": "47.0.0.55",
+  "vni": 1002,
+  "src": "leaf1",
+  "planned_src": "leaf1",
+  "dst": "leaf2",
+  "at_ns": 427896945753377,
+  "batch_size": 16,
+  "start_ns": 427896960613444,
+  "detach_err": 0,
+  "detach_ack_ns": 427896964482792,
+  "attach_err": 0,
+  "attach_ack_ns": 427896968654593,
+  "detach_confirmed_ns": 427896969264749,
+  "attach_confirmed_ns": 427896973155805,
+  "confirm_source": "bridge_forwarding",
+  "garp_ns": 427896974356867
+ },
+ "spine1": {
+  "new": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "advertisedTo": {
+    "eth-leaf1": {
+     "hostname": "leaf1",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf2": {
+     "hostname": "leaf2",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf3": {
+     "hostname": "leaf3",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf4": {
+     "hostname": "leaf4",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf5": {
+     "hostname": "leaf5",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 1,
+   "paths": [
+    [
+     {
+      "vni": "1002",
+      "aspath": {
+       "string": "65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65012
+         ]
+        }
+       ],
+       "length": 1
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 63,
+      "bestpath": {
+       "bestpathFromAs": 65012,
+       "overall": true,
+       "selectionReason": "First path received"
+      },
+      "extendedCommunity": {
+       "string": "RT:1002:1002 ET:8 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "leaf2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::d43f:35ff:fecd:9c4",
+       "routerId": "10.0.0.2",
+       "hostname": "leaf2",
+       "interface": "eth-leaf2",
+       "type": "external"
+      }
+     }
+    ]
+   ],
+   "numPaths": 1
+  },
+  "new_macip": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]:[32]:[47.0.0.55]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "ipLen": 32,
+   "ip": "47.0.0.55",
+   "advertisedTo": {
+    "eth-leaf1": {
+     "hostname": "leaf1",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf2": {
+     "hostname": "leaf2",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf3": {
+     "hostname": "leaf3",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf4": {
+     "hostname": "leaf4",
+     "peerGroup": "fabric"
+    },
+    "eth-leaf5": {
+     "hostname": "leaf5",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 1,
+   "paths": [
+    [
+     {
+      "vni": "1002/500",
+      "aspath": {
+       "string": "65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65012
+         ]
+        }
+       ],
+       "length": 1
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 65,
+      "bestpath": {
+       "bestpathFromAs": 65012,
+       "overall": true,
+       "selectionReason": "First path received"
+      },
+      "extendedCommunity": {
+       "string": "RT:500:500 RT:1002:1002 ET:8 MM:2 Rmac:8a:e4:b7:a4:1f:36"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "leaf2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::d43f:35ff:fecd:9c4",
+       "routerId": "10.0.0.2",
+       "hostname": "leaf2",
+       "interface": "eth-leaf2",
+       "type": "external"
+      }
+     }
+    ]
+   ],
+   "numPaths": 1
+  },
+  "old": {}
+ },
+ "leaf5": {
+  "new": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "advertisedTo": {
+    "eth-spine1": {
+     "hostname": "spine1",
+     "peerGroup": "fabric"
+    },
+    "eth-spine2": {
+     "hostname": "spine2",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 2,
+   "paths": [
+    [
+     {
+      "vni": "1002",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 66,
+      "multipath": true,
+      "bestpath": {
+       "bestpathFromAs": 65000,
+       "overall": true,
+       "selectionReason": "Router ID"
+      },
+      "extendedCommunity": {
+       "string": "RT:1002:1002 ET:8 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine1",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::6c52:d2ff:fea2:43d3",
+       "routerId": "10.0.0.101",
+       "hostname": "spine1",
+       "interface": "eth-spine1",
+       "type": "external"
+      }
+     }
+    ],
+    [
+     {
+      "vni": "1002",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 66,
+      "multipath": true,
+      "extendedCommunity": {
+       "string": "RT:1002:1002 ET:8 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::c025:16ff:fec8:9091",
+       "routerId": "10.0.0.102",
+       "hostname": "spine2",
+       "interface": "eth-spine2",
+       "type": "external"
+      }
+     }
+    ]
+   ],
+   "numPaths": 2
+  },
+  "new_macip": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]:[32]:[47.0.0.55]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "ipLen": 32,
+   "ip": "47.0.0.55",
+   "advertisedTo": {
+    "eth-spine1": {
+     "hostname": "spine1",
+     "peerGroup": "fabric"
+    },
+    "eth-spine2": {
+     "hostname": "spine2",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 2,
+   "paths": [
+    [
+     {
+      "vni": "1002/500",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 68,
+      "multipath": true,
+      "bestpath": {
+       "bestpathFromAs": 65000,
+       "overall": true,
+       "selectionReason": "Router ID"
+      },
+      "extendedCommunity": {
+       "string": "RT:500:500 RT:1002:1002 ET:8 MM:2 Rmac:8a:e4:b7:a4:1f:36"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine1",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::6c52:d2ff:fea2:43d3",
+       "routerId": "10.0.0.101",
+       "hostname": "spine1",
+       "interface": "eth-spine1",
+       "type": "external"
+      }
+     }
+    ],
+    [
+     {
+      "vni": "1002/500",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 68,
+      "multipath": true,
+      "extendedCommunity": {
+       "string": "RT:500:500 RT:1002:1002 ET:8 MM:2 Rmac:8a:e4:b7:a4:1f:36"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::c025:16ff:fec8:9091",
+       "routerId": "10.0.0.102",
+       "hostname": "spine2",
+       "interface": "eth-spine2",
+       "type": "external"
+      }
+     }
+    ]
+   ],
+   "numPaths": 2
+  },
+  "old": {}
+ },
+ "leaf2": {
+  "new": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "advertisedTo": {
+    "eth-spine1": {
+     "hostname": "spine1",
+     "peerGroup": "fabric"
+    },
+    "eth-spine2": {
+     "hostname": "spine2",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 1,
+   "paths": [
+    [
+     {
+      "vni": "1002",
+      "aspath": {
+       "string": "Local",
+       "segments": [],
+       "length": 0
+      },
+      "origin": "IGP",
+      "weight": 32768,
+      "valid": true,
+      "version": 63,
+      "sourced": true,
+      "local": true,
+      "bestpath": {
+       "bestpathFromAs": 0,
+       "overall": true,
+       "selectionReason": "First path received"
+      },
+      "extendedCommunity": {
+       "string": "ET:8 RT:1002:1002 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527711,
+       "string": "Thu Nov 12 23:55:11 2026"
+      },
+      "lastUpdateStr": "0:00:00:12",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "leaf2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "0.0.0.0",
+       "routerId": "10.0.0.2"
+      }
+     }
+    ]
+   ],
+   "numPaths": 1
+  },
+  "new_macip": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]:[32]:[47.0.0.55]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "ipLen": 32,
+   "ip": "47.0.0.55",
+   "advertisedTo": {
+    "eth-spine1": {
+     "hostname": "spine1",
+     "peerGroup": "fabric"
+    },
+    "eth-spine2": {
+     "hostname": "spine2",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 1,
+   "paths": [
+    [
+     {
+      "vni": "1002/500",
+      "aspath": {
+       "string": "Local",
+       "segments": [],
+       "length": 0
+      },
+      "origin": "IGP",
+      "weight": 32768,
+      "valid": true,
+      "version": 65,
+      "sourced": true,
+      "local": true,
+      "bestpath": {
+       "bestpathFromAs": 0,
+       "overall": true,
+       "selectionReason": "First path received"
+      },
+      "extendedCommunity": {
+       "string": "ET:8 RT:1002:1002 RT:500:500 Rmac:8a:e4:b7:a4:1f:36 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527712,
+       "string": "Thu Nov 12 23:55:12 2026"
+      },
+      "lastUpdateStr": "0:00:00:11",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "leaf2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "0.0.0.0",
+       "routerId": "10.0.0.2"
+      }
+     }
+    ]
+   ],
+   "numPaths": 1
+  },
+  "old": {}
+ },
+ "leaf1": {
+  "new": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "advertisedTo": {
+    "eth-spine1": {
+     "hostname": "spine1",
+     "peerGroup": "fabric"
+    },
+    "eth-spine2": {
+     "hostname": "spine2",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 2,
+   "paths": [
+    [
+     {
+      "vni": "1002",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 68,
+      "multipath": true,
+      "bestpath": {
+       "bestpathFromAs": 65000,
+       "overall": true,
+       "selectionReason": "Router ID"
+      },
+      "extendedCommunity": {
+       "string": "RT:1002:1002 ET:8 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527711,
+       "string": "Thu Nov 12 23:55:11 2026"
+      },
+      "lastUpdateStr": "0:00:00:12",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine1",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::3092:8cff:fe81:f15b",
+       "routerId": "10.0.0.101",
+       "hostname": "spine1",
+       "interface": "eth-spine1",
+       "type": "external"
+      }
+     }
+    ],
+    [
+     {
+      "vni": "1002",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 68,
+      "multipath": true,
+      "extendedCommunity": {
+       "string": "RT:1002:1002 ET:8 MM:2"
+      },
+      "lastUpdate": {
+       "epoch": 1794527711,
+       "string": "Thu Nov 12 23:55:11 2026"
+      },
+      "lastUpdateStr": "0:00:00:12",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::545c:3fff:fe4b:3224",
+       "routerId": "10.0.0.102",
+       "hostname": "spine2",
+       "interface": "eth-spine2",
+       "type": "external"
+      }
+     }
+    ]
+   ],
+   "numPaths": 2
+  },
+  "new_macip": {
+   "prefix": "[2]:[0]:[48]:[02:36:02:00:00:1b]:[32]:[47.0.0.55]",
+   "prefixLen": 352,
+   "rd": "10.0.0.2:1002",
+   "routeType": 2,
+   "ethTag": 0,
+   "macLen": 48,
+   "mac": "02:36:02:00:00:1b",
+   "ipLen": 32,
+   "ip": "47.0.0.55",
+   "advertisedTo": {
+    "eth-spine1": {
+     "hostname": "spine1",
+     "peerGroup": "fabric"
+    },
+    "eth-spine2": {
+     "hostname": "spine2",
+     "peerGroup": "fabric"
+    }
+   },
+   "pathCount": 2,
+   "paths": [
+    [
+     {
+      "vni": "1002/500",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 70,
+      "multipath": true,
+      "bestpath": {
+       "bestpathFromAs": 65000,
+       "overall": true,
+       "selectionReason": "Router ID"
+      },
+      "extendedCommunity": {
+       "string": "RT:500:500 RT:1002:1002 ET:8 MM:2 Rmac:8a:e4:b7:a4:1f:36"
+      },
+      "lastUpdate": {
+       "epoch": 1794527711,
+       "string": "Thu Nov 12 23:55:11 2026"
+      },
+      "lastUpdateStr": "0:00:00:12",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine1",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::3092:8cff:fe81:f15b",
+       "routerId": "10.0.0.101",
+       "hostname": "spine1",
+       "interface": "eth-spine1",
+       "type": "external"
+      }
+     }
+    ],
+    [
+     {
+      "vni": "1002/500",
+      "aspath": {
+       "string": "65000 65012",
+       "segments": [
+        {
+         "type": "as-sequence",
+         "list": [
+          65000,
+          65012
+         ]
+        }
+       ],
+       "length": 2
+      },
+      "origin": "IGP",
+      "valid": true,
+      "version": 70,
+      "multipath": true,
+      "extendedCommunity": {
+       "string": "RT:500:500 RT:1002:1002 ET:8 MM:2 Rmac:8a:e4:b7:a4:1f:36"
+      },
+      "lastUpdate": {
+       "epoch": 1794527711,
+       "string": "Thu Nov 12 23:55:11 2026"
+      },
+      "lastUpdateStr": "0:00:00:12",
+      "nexthops": [
+       {
+        "ip": "10.0.0.2",
+        "hostname": "spine2",
+        "afi": "ipv4",
+        "metric": 0,
+        "accessible": true,
+        "used": true
+       }
+      ],
+      "peer": {
+       "peerId": "fe80::545c:3fff:fe4b:3224",
+       "routerId": "10.0.0.102",
+       "hostname": "spine2",
+       "interface": "eth-spine2",
+       "type": "external"
+      }
+     }
+    ]
+   ],
+   "numPaths": 2
+  },
+  "old": {}
+ },
+ "leaf5_vrf_bgp": {
+  "prefix": "47.0.0.55/32",
+  "version": 339,
+  "pathCount": 2,
+  "paths": [
+   {
+    "importedFrom": "10.0.0.2:1002",
+    "vni": "1002/500",
+    "l3nhg": false,
+    "l3nhgActive": false,
+    "aspath": {
+     "string": "65000 65012",
+     "segments": [
+      {
+       "type": "as-sequence",
+       "list": [
+        65000,
+        65012
+       ]
+      }
+     ],
+     "length": 2
+    },
+    "announceNexthopSelf": true,
+    "origin": "IGP",
+    "valid": true,
+    "version": 339,
+    "multipath": true,
+    "bestpath": {
+     "bestpathFromAs": 65000,
+     "overall": true,
+     "selectionReason": "Router ID"
+    },
+    "lastUpdate": {
+     "epoch": 1794527711,
+     "string": "Thu Nov 12 23:55:11 2026"
+    },
+    "lastUpdateStr": "0:00:00:12",
+    "nexthops": [
+     {
+      "ip": "10.0.0.2",
+      "hostname": "spine1",
+      "afi": "ipv4",
+      "metric": 0,
+      "accessible": true,
+      "used": true
+     }
+    ],
+    "peer": {
+     "peerId": "fe80::6c52:d2ff:fea2:43d3",
+     "routerId": "10.0.0.101",
+     "hostname": "spine1",
+     "interface": "eth-spine1",
+     "type": "external"
+    }
+   },
+   {
+    "importedFrom": "10.0.0.2:1002",
+    "vni": "1002/500",
+    "l3nhg": false,
+    "l3nhgActive": false,
+    "aspath": {
+     "string": "65000 65012",
+     "segments": [
+      {
+       "type": "as-sequence",
+       "list": [
+        65000,
+        65012
+       ]
+      }
+     ],
+     "length": 2
+    },
+    "announceNexthopSelf": true,
+    "origin": "IGP",
+    "valid": true,
+    "version": 339,
+    "multipath": true,
+    "lastUpdate": {
+     "epoch": 1794527711,
+     "string": "Thu Nov 12 23:55:11 2026"
+    },
+    "lastUpdateStr": "0:00:00:12",
+    "nexthops": [
+     {
+      "ip": "10.0.0.2",
+      "hostname": "spine2",
+      "afi": "ipv4",
+      "metric": 0,
+      "accessible": true,
+      "used": true
+     }
+    ],
+    "peer": {
+     "peerId": "fe80::c025:16ff:fec8:9091",
+     "routerId": "10.0.0.102",
+     "hostname": "spine2",
+     "interface": "eth-spine2",
+     "type": "external"
+    }
+   }
+  ],
+  "multiPathCount": 2,
+  "flags": {
+   "bestPathExists": true,
+   "fibInstalled": false,
+   "fibWaitForInstall": false,
+   "fibSuppress": false,
+   "fibInstallFailed": false
+  }
+ },
+ "leaf5_kernel": "47.0.0.55 nhid 53 via 10.0.0.2 dev br500 proto bgp metric 20 onlink \n",
+ "zebra_client_leaf1": "Client: static\n------------------------ \nFD: 33 \nConnect Time: 00:00:42 \nNot registered for Nexthop Updates\nClient will be notified about the status of its routes.\nLast Msg Rx Time: 00:00:42 \nLast Msg Tx Time: 00:00:13 \nLast Sent Cmd: ZEBRA_INTERFACE_LINK_PARAMS \n\nType        Add         Update      Del \n================================================== \nIPv4        0           0           0           \nIPv6        0           0           0           \nRedist:v4   0           0           0           \nRedist:v6   0           0           0           \nNHG         0           0           0           \nVRF         2           0           0           \nConnected   307         0           0           \nInterface   100         0           192         \nIntf Addr   55          0           0           \nBFD peer    0           0           0           \nNHT v4      0           0           0           \nNHT v6      0           0           0           \nVxLAN SG    0           0           0           \nVNI         0           0           0           \nL3-VNI      0           0           0           \nMAC-IP      0           0           0           \nES          0           0           0           \nES-EVI      0           0           0           \nErrors: 0\nInput Fifo: 0:4 Output Fifo: 0:36\n\n\nClient: bgp\n------------------------ \nFD: 39 \nConnect Time: 00:00:42 \nNexthop Registry Time: 00:00:42 \nNexthop Last Update Time: 00:00:37 \nClient will Not be notified about the status of its routes.\nLast Msg Rx Time: 00:00:12 \nLast Msg Tx Time: 00:00:05 \nLast Rcvd Cmd: ZEBRA_ROUTE_ADD \nLast Sent Cmd: ZEBRA_MACIP_ADD \n\nType        Add         Update      Del \n================================================== \nIPv4        118         0           64          \nIPv6        0           0           0           \nRedist:v4   5           0           0           \nRedist:v6   0           0           0           \nNHG         0           0           0           \nVRF         2           0           0           \nConnected   307         0           0           \nInterface   100         0           192         \nIntf Addr   55          0           0           \nBFD peer    0           0           0           \nNHT v4      5           0           0           \nNHT v6      0           0           0           \nVxLAN SG    0           0           0           \nVNI         9           0           0           \nL3-VNI      1           0           0           \nMAC-IP      202         0           128         \nES          0           0           0           \nES-EVI      0           0           0           \nErrors: 0\nInput Fifo: 0:16 Output Fifo: 0:56\n\n\nClient: vnc\n------------------------ \nFD: 43 \nConnect Time: 00:00:42 \nNot registered for Nexthop Updates\nClient will Not be notified about the status of its routes.\nLast Msg Rx Time: 00:00:42 \nLast Msg Tx Time: 00:00:13 \nLast Sent Cmd: ZEBRA_INTERFACE_LINK_PARAMS \n\nType        Add         Update      Del \n================================================== \nIPv4        0           0           0           \nIPv6        0           0           0           \nRedist:v4   0           0           0           \nRedist:v6   0           0           0           \nNHG         0           0           0           \nVRF         2           0           0           \nConnected   282         0           0           \nInterface   100         0           192         \nIntf Addr   23          0           0           \nBFD peer    0           0           0           \nNHT v4      0           0           0           \nNHT v6      0           0           0           \nVxLAN SG    0           0           0           \nVNI         0           0           0           \nL3-VNI      0           0           0           \nMAC-IP      0           0           0           \nES          0           0           0           \nES-EVI      0           0           0           \nErrors: 0\nInput Fifo: 0:1 Output Fifo: 0:20\n\n\nClient: bgp [1]\n------------------------ \nFD: 4 \nConnect Time: 00:00:41 \nNot registered for Nexthop Updates\nClient will Not be notified about the status of its routes.\nLast Msg Rx Time: 00:00:41 \nLast Msg Tx Time: 00:00:41 \nLast Rcvd Cmd: ZEBRA_LABEL_MANAGER_CONNECT \nLast Sent Cmd: ZEBRA_LABEL_MANAGER_CONNECT \n\nType        Add         Update      Del \n================================================== \nIPv4        0           0           0           \nIPv6        0           0           0           \nRedist:v4   0           0           0           \nRedist:v6   0           0           0           \nNHG         0           0           0           \nVRF         0           0           0           \nConnected   0           0           0           \nInterface   0           0           0           \nIntf Addr   0           0           0           \nBFD peer    0           0           0           \nNHT v4      0           0           0           \nNHT v6      0           0           0           \nVxLAN SG    0           0           0           \nVNI         0           0           0           \nL3-VNI      0           0           0           \nMAC-IP      0           0           0           \nES          0           0           0           \nES-EVI      0           0           0           \nErrors: 0\nInput Fifo: 0:1 Output Fifo: 0:0\n\n\n"
+}

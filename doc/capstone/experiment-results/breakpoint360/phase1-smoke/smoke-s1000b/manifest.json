@@ -1,0 +1,346 @@
+{
+ "schema": "bp360-phase1-trial-1",
+ "test_id": "smoke-s1000b",
+ "config": {
+  "test_id": "smoke-s1000b",
+  "workload": {
+   "robots": 1000,
+   "active_pct": 40.0,
+   "hosting_leaves": 4,
+   "rate": 128.0,
+   "duration_s": 10.0,
+   "mode": "staggered",
+   "arrival": "uniform",
+   "sync_period_s": 1.0,
+   "max_moves_per_robot": 4,
+   "seed": 1,
+   "telemetry_hz": 1.0,
+   "arp_offsets_ms": []
+  },
+  "lead_s": 3.0,
+  "post_s": 10.0
+ },
+ "started_wall_ns": 1794528097721813372,
+ "revision": "585ecd991f30f2c5d424d3591a3bb74205067630",
+ "dirty": "?? ../../../roadmap360_final_report.zip\n?? breakpoint360/\n?? test_breakpoint360.py",
+ "kernel": "6.8.0-117-generic",
+ "plan_stats": {
+  "requested_rate": 128.0,
+  "requested_duration_s": 10.0,
+  "planned_moves": 1280,
+  "planned_rate": 128.0,
+  "robots": 1000,
+  "active_robots": 400,
+  "static_robots": 600,
+  "hosting_leaves": [
+   "leaf1",
+   "leaf2",
+   "leaf3",
+   "leaf4"
+  ],
+  "batches": 1280,
+  "max_batch": 1,
+  "max_moves_per_robot_planned": 4,
+  "dad_safe": true,
+  "min_same_robot_gap_s": 3.125,
+  "veth_pairs": 2200
+ },
+ "frr_version": [
+  "FRRouting 10.8.0-dev-my-manual-build (leaf1) on Linux(6.8.0-117-generic)."
+ ],
+ "dad": [
+  "Duplicate address detection: Enable",
+  "Detection max-moves 5, time 180"
+ ],
+ "fleet_build_s": 4.02,
+ "fleet_learnt": {
+  "have": 1000,
+  "want": 1000,
+  "waited_s": 13.5
+ },
+ "bgp_pre": {
+  "spine1": {
+   "eth-leaf1": {
+    "updatesSent": 1277,
+    "updatesRecv": 1253,
+    "totalSent": 1290,
+    "totalRecv": 1264
+   },
+   "eth-leaf2": {
+    "updatesSent": 1277,
+    "updatesRecv": 1224,
+    "totalSent": 1289,
+    "totalRecv": 1235
+   },
+   "eth-leaf3": {
+    "updatesSent": 1277,
+    "updatesRecv": 1227,
+    "totalSent": 1289,
+    "totalRecv": 1238
+   },
+   "eth-leaf4": {
+    "updatesSent": 1277,
+    "updatesRecv": 1246,
+    "totalSent": 1289,
+    "totalRecv": 1256
+   },
+   "eth-leaf5": {
+    "updatesSent": 1277,
+    "updatesRecv": 1220,
+    "totalSent": 1289,
+    "totalRecv": 1230
+   }
+  },
+  "spine2": {
+   "eth-leaf1": {
+    "updatesSent": 1251,
+    "updatesRecv": 1253,
+    "totalSent": 1264,
+    "totalRecv": 1264
+   },
+   "eth-leaf2": {
+    "updatesSent": 1251,
+    "updatesRecv": 1224,
+    "totalSent": 1264,
+    "totalRecv": 1235
+   },
+   "eth-leaf3": {
+    "updatesSent": 1251,
+    "updatesRecv": 1227,
+    "totalSent": 1263,
+    "totalRecv": 1238
+   },
+   "eth-leaf4": {
+    "updatesSent": 1251,
+    "updatesRecv": 1246,
+    "totalSent": 1262,
+    "totalRecv": 1256
+   },
+   "eth-leaf5": {
+    "updatesSent": 1251,
+    "updatesRecv": 1220,
+    "totalSent": 1262,
+    "totalRecv": 1230
+   }
+  },
+  "leaf1": {
+   "eth-spine1": {
+    "updatesSent": 1253,
+    "updatesRecv": 1277,
+    "totalSent": 1264,
+    "totalRecv": 1288
+   },
+   "eth-spine2": {
+    "updatesSent": 1253,
+    "updatesRecv": 1251,
+    "totalSent": 1264,
+    "totalRecv": 1262
+   }
+  },
+  "leaf2": {
+   "eth-spine1": {
+    "updatesSent": 1224,
+    "updatesRecv": 1277,
+    "totalSent": 1237,
+    "totalRecv": 1291
+   },
+   "eth-spine2": {
+    "updatesSent": 1224,
+    "updatesRecv": 1251,
+    "totalSent": 1235,
+    "totalRecv": 1262
+   }
+  },
+  "leaf3": {
+   "eth-spine1": {
+    "updatesSent": 1227,
+    "updatesRecv": 1277,
+    "totalSent": 1238,
+    "totalRecv": 1288
+   },
+   "eth-spine2": {
+    "updatesSent": 1227,
+    "updatesRecv": 1251,
+    "totalSent": 1241,
+    "totalRecv": 1265
+   }
+  },
+  "leaf4": {
+   "eth-spine1": {
+    "updatesSent": 1246,
+    "updatesRecv": 1277,
+    "totalSent": 1256,
+    "totalRecv": 1287
+   },
+   "eth-spine2": {
+    "updatesSent": 1246,
+    "updatesRecv": 1251,
+    "totalSent": 1258,
+    "totalRecv": 1262
+   }
+  },
+  "leaf5": {
+   "eth-spine1": {
+    "updatesSent": 1220,
+    "updatesRecv": 1277,
+    "totalSent": 1230,
+    "totalRecv": 1287
+   },
+   "eth-spine2": {
+    "updatesSent": 1220,
+    "updatesRecv": 1251,
+    "totalSent": 1234,
+    "totalRecv": 1262
+   }
+  }
+ },
+ "agent_rc": 0,
+ "bgp_post": {
+  "spine1": {
+   "eth-leaf1": {
+    "updatesSent": 2964,
+    "updatesRecv": 2940,
+    "totalSent": 2987,
+    "totalRecv": 2961
+   },
+   "eth-leaf2": {
+    "updatesSent": 2964,
+    "updatesRecv": 2906,
+    "totalSent": 2986,
+    "totalRecv": 2927
+   },
+   "eth-leaf3": {
+    "updatesSent": 2964,
+    "updatesRecv": 2909,
+    "totalSent": 2986,
+    "totalRecv": 2930
+   },
+   "eth-leaf4": {
+    "updatesSent": 2964,
+    "updatesRecv": 2916,
+    "totalSent": 2987,
+    "totalRecv": 2937
+   },
+   "eth-leaf5": {
+    "updatesSent": 2964,
+    "updatesRecv": 2865,
+    "totalSent": 2986,
+    "totalRecv": 2885
+   }
+  },
+  "spine2": {
+   "eth-leaf1": {
+    "updatesSent": 2944,
+    "updatesRecv": 2940,
+    "totalSent": 2967,
+    "totalRecv": 2961
+   },
+   "eth-leaf2": {
+    "updatesSent": 2944,
+    "updatesRecv": 2906,
+    "totalSent": 2967,
+    "totalRecv": 2927
+   },
+   "eth-leaf3": {
+    "updatesSent": 2944,
+    "updatesRecv": 2909,
+    "totalSent": 2966,
+    "totalRecv": 2930
+   },
+   "eth-leaf4": {
+    "updatesSent": 2944,
+    "updatesRecv": 2916,
+    "totalSent": 2966,
+    "totalRecv": 2937
+   },
+   "eth-leaf5": {
+    "updatesSent": 2944,
+    "updatesRecv": 2865,
+    "totalSent": 2965,
+    "totalRecv": 2885
+   }
+  },
+  "leaf1": {
+   "eth-spine1": {
+    "updatesSent": 2940,
+    "updatesRecv": 2964,
+    "totalSent": 2961,
+    "totalRecv": 2985
+   },
+   "eth-spine2": {
+    "updatesSent": 2940,
+    "updatesRecv": 2944,
+    "totalSent": 2961,
+    "totalRecv": 2965
+   }
+  },
+  "leaf2": {
+   "eth-spine1": {
+    "updatesSent": 2906,
+    "updatesRecv": 2964,
+    "totalSent": 2929,
+    "totalRecv": 2988
+   },
+   "eth-spine2": {
+    "updatesSent": 2906,
+    "updatesRecv": 2944,
+    "totalSent": 2927,
+    "totalRecv": 2965
+   }
+  },
+  "leaf3": {
+   "eth-spine1": {
+    "updatesSent": 2909,
+    "updatesRecv": 2964,
+    "totalSent": 2930,
+    "totalRecv": 2985
+   },
+   "eth-spine2": {
+    "updatesSent": 2909,
+    "updatesRecv": 2944,
+    "totalSent": 2933,
+    "totalRecv": 2968
+   }
+  },
+  "leaf4": {
+   "eth-spine1": {
+    "updatesSent": 2916,
+    "updatesRecv": 2964,
+    "totalSent": 2937,
+    "totalRecv": 2985
+   },
+   "eth-spine2": {
+    "updatesSent": 2916,
+    "updatesRecv": 2944,
+    "totalSent": 2939,
+    "totalRecv": 2966
+   }
+  },
+  "leaf5": {
+   "eth-spine1": {
+    "updatesSent": 2865,
+    "updatesRecv": 2964,
+    "totalSent": 2885,
+    "totalRecv": 2984
+   },
+   "eth-spine2": {
+    "updatesSent": 2865,
+    "updatesRecv": 2944,
+    "totalSent": 2889,
+    "totalRecv": 2965
+   }
+  }
+ },
+ "ledger_validation": {
+  "robots": 1000,
+  "ledger_states": {
+   "attached": 1000
+  },
+  "mismatches": 0,
+  "examples": [],
+  "ignored_confirmations": 0,
+  "planned_final_equal": 1000
+ },
+ "fleet_teardown_wait_s": 67.8,
+ "finished_wall_ns": 1794528223348573809
+}

@@ -1,0 +1,103 @@
+{
+ "requested_rate": 16.0,
+ "requested_duration_s": 8.0,
+ "planned_moves": 128,
+ "issued_moves": 128,
+ "completed_moves": 128,
+ "errors": 0,
+ "skipped": 0,
+ "timeouts": 0,
+ "confirm_sources": {
+  "bridge_forwarding": 128
+ },
+ "achieved_rate_window": 16.0,
+ "achieved_rate_overall": 16.0,
+ "issued_rate": 16.0,
+ "completion_span_s": 8.0,
+ "bin_s": 1.0,
+ "completed_per_bin": [
+  16,
+  16,
+  16,
+  16,
+  16,
+  16,
+  16,
+  16
+ ],
+ "window_bin_rate": {
+  "min": 16.0,
+  "p50": 16.0,
+  "max": 16.0
+ },
+ "schedule_lag_ms": {
+  "n": 128,
+  "min": 0.505794,
+  "p50": 11.456066,
+  "p95": 17.54133525,
+  "max": 21.626491,
+  "mean": 10.862862859375
+ },
+ "batch_start_lag_ms": {
+  "n": 8,
+  "min": 0.505794,
+  "p50": 2.851929,
+  "p95": 5.725168250000001,
+  "max": 6.864007,
+  "mean": 2.97007525
+ },
+ "batches": 8,
+ "batch_issue_spread_ms": {
+  "n": 8,
+  "min": 17.581351,
+  "p50": 19.405109500000002,
+  "p95": 20.04190255,
+  "max": 20.053644,
+  "mean": 19.170347749999998
+ },
+ "attach_ack_ms": {
+  "n": 128,
+  "min": 2.639245,
+  "p50": 10.536620500000001,
+  "p95": 18.99417185,
+  "max": 19.747685,
+  "mean": 11.159356835937498
+ },
+ "completion_latency_ms": {
+  "n": 128,
+  "min": 6.103432,
+  "p50": 13.171136,
+  "p95": 21.797236200000004,
+  "max": 23.960324,
+  "mean": 14.174251117187497
+ },
+ "generator_flags": [],
+ "generator_ok": true,
+ "t0_ns": 427889945753377,
+ "stop_ns": 427907945753377,
+ "mode": "synchronized",
+ "sync_period_s": 1.0,
+ "interrupted": false,
+ "counters": {
+  "telemetry_sent": 1344,
+  "telemetry_errors": 0,
+  "garp_sent": 128,
+  "arp_sent": 256,
+  "arp_errors": 0,
+  "arp_superseded": 0,
+  "link_events_matched": 128,
+  "confirm_ignored": 0
+ },
+ "monitors": {
+  "leaf1": {
+   "messages": 320,
+   "overruns": 0
+  },
+  "leaf2": {
+   "messages": 320,
+   "overruns": 0
+  }
+ },
+ "superseded": 0,
+ "unresolved_at_stop": 0
+}

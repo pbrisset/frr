@@ -1,0 +1,110 @@
+{
+ "requested_rate": 128.0,
+ "requested_duration_s": 10.0,
+ "planned_moves": 1280,
+ "issued_moves": 1280,
+ "completed_moves": 1280,
+ "errors": 0,
+ "skipped": 0,
+ "timeouts": 0,
+ "confirm_sources": {
+  "bridge_forwarding": 1280
+ },
+ "achieved_rate_window": 128.0,
+ "achieved_rate_overall": 128.0,
+ "issued_rate": 128.0,
+ "completion_span_s": 10.0,
+ "bin_s": 1.0,
+ "completed_per_bin": [
+  104,
+  152,
+  128,
+  128,
+  128,
+  128,
+  128,
+  128,
+  128,
+  128
+ ],
+ "window_bin_rate": {
+  "min": 104.0,
+  "p50": 128.0,
+  "max": 152.0
+ },
+ "schedule_lag_ms": {
+  "n": 1280,
+  "min": 0.004015,
+  "p50": 0.00801,
+  "p95": 130.692019,
+  "max": 238.268248,
+  "mean": 11.727919487500008
+ },
+ "batch_start_lag_ms": {
+  "n": 1280,
+  "min": 0.004015,
+  "p50": 0.00801,
+  "p95": 130.692019,
+  "max": 238.268248,
+  "mean": 11.727919487500008
+ },
+ "batches": 1280,
+ "batch_issue_spread_ms": {
+  "n": 0
+ },
+ "attach_ack_ms": {
+  "n": 1280,
+  "min": 0.1975,
+  "p50": 0.7623534999999999,
+  "p95": 2.9536915999999973,
+  "max": 41.159403,
+  "mean": 1.1317342749999988
+ },
+ "completion_latency_ms": {
+  "n": 1280,
+  "min": 0.651791,
+  "p50": 1.0736240000000001,
+  "p95": 4.728534699999998,
+  "max": 72.094359,
+  "mean": 1.8995297406249996
+ },
+ "generator_flags": [
+  "batch start lag p95 130.7 ms > 100 ms"
+ ],
+ "generator_ok": false,
+ "t0_ns": 428126761955006,
+ "stop_ns": 428146761955006,
+ "mode": "staggered",
+ "sync_period_s": 1.0,
+ "interrupted": false,
+ "counters": {
+  "telemetry_sent": 23000,
+  "telemetry_errors": 0,
+  "garp_sent": 1280,
+  "arp_sent": 0,
+  "arp_errors": 0,
+  "arp_superseded": 0,
+  "link_events_matched": 1280,
+  "confirm_ignored": 0
+ },
+ "monitors": {
+  "leaf1": {
+   "messages": 1870,
+   "overruns": 0
+  },
+  "leaf2": {
+   "messages": 1848,
+   "overruns": 0
+  },
+  "leaf3": {
+   "messages": 1871,
+   "overruns": 0
+  },
+  "leaf4": {
+   "messages": 1809,
+   "overruns": 0
+  }
+ },
+ "superseded": 0,
+ "unresolved_at_stop": 0
+}

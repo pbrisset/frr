@@ -1,0 +1,158 @@
+{
+ "requested_rate": 128.0,
+ "requested_duration_s": 10.0,
+ "planned_moves": 1280,
+ "issued_moves": 1280,
+ "completed_moves": 1280,
+ "errors": 0,
+ "skipped": 0,
+ "timeouts": 0,
+ "confirm_sources": {
+  "bridge_forwarding": 1280
+ },
+ "achieved_rate_window": 128.0,
+ "achieved_rate_overall": 128.0,
+ "issued_rate": 128.0,
+ "completion_span_s": 10.0,
+ "bin_s": 1.0,
+ "completed_per_bin": [
+  128,
+  128,
+  109,
+  147,
+  128,
+  128,
+  128,
+  128,
+  128,
+  128
+ ],
+ "window_bin_rate": {
+  "min": 109.0,
+  "p50": 128.0,
+  "max": 147.0
+ },
+ "schedule_lag_ms": {
+  "n": 1280,
+  "min": 0.004538,
+  "p50": 0.0077775,
+  "p95": 96.87331824999978,
+  "max": 290.440611,
+  "mean": 12.630674149999985
+ },
+ "batch_start_lag_ms": {
+  "n": 1280,
+  "min": 0.004538,
+  "p50": 0.0077775,
+  "p95": 96.87331824999978,
+  "max": 290.440611,
+  "mean": 12.630674149999985
+ },
+ "batches": 1280,
+ "batch_issue_spread_ms": {
+  "n": 0
+ },
+ "attach_ack_ms": {
+  "n": 1280,
+  "min": 0.221293,
+  "p50": 0.7113175,
+  "p95": 2.3983263499999983,
+  "max": 99.026491,
+  "mean": 1.2327680562500014
+ },
+ "completion_latency_ms": {
+  "n": 1280,
+  "min": 0.634421,
+  "p50": 0.9851535,
+  "p95": 4.349995499999999,
+  "max": 123.59155,
+  "mean": 2.1376843289062495
+ },
+ "generator_flags": [],
+ "generator_ok": true,
+ "agent_health": {
+  "nice": -10,
+  "cpu_user_s": 16.76116,
+  "cpu_sys_s": 5.230283,
+  "voluntary_ctxsw": 2467,
+  "involuntary_ctxsw": 4002,
+  "loop_stalls_over_20ms": 12,
+  "worst_stalls": [
+   {
+    "at_ms_after_t0": 2992.4,
+    "gap_ms": 99.3
+   },
+   {
+    "at_ms_after_t0": 2869.3,
+    "gap_ms": 48.5
+   },
+   {
+    "at_ms_after_t0": 2918.0,
+    "gap_ms": 38.6
+   },
+   {
+    "at_ms_after_t0": 2791.6,
+    "gap_ms": 36.4
+   },
+   {
+    "at_ms_after_t0": 2957.3,
+    "gap_ms": 34.7
+   },
+   {
+    "at_ms_after_t0": 3125.0,
+    "gap_ms": 29.7
+   },
+   {
+    "at_ms_after_t0": 2756.8,
+    "gap_ms": 28.0
+   },
+   {
+    "at_ms_after_t0": 3096.5,
+    "gap_ms": 26.0
+   },
+   {
+    "at_ms_after_t0": 3279.2,
+    "gap_ms": 25.4
+   },
+   {
+    "at_ms_after_t0": 2627.9,
+    "gap_ms": 25.1
+   }
+  ]
+ },
+ "t0_ns": 428312870145337,
+ "stop_ns": 428332870145337,
+ "mode": "staggered",
+ "sync_period_s": 1.0,
+ "interrupted": false,
+ "counters": {
+  "telemetry_sent": 23000,
+  "telemetry_errors": 0,
+  "garp_sent": 1280,
+  "arp_sent": 0,
+  "arp_errors": 0,
+  "arp_superseded": 0,
+  "link_events_matched": 1280,
+  "confirm_ignored": 0
+ },
+ "monitors": {
+  "leaf1": {
+   "messages": 1869,
+   "overruns": 0
+  },
+  "leaf2": {
+   "messages": 1848,
+   "overruns": 0
+  },
+  "leaf3": {
+   "messages": 1871,
+   "overruns": 0
+  },
+  "leaf4": {
+   "messages": 1809,
+   "overruns": 0
+  }
+ },
+ "superseded": 0,
+ "unresolved_at_stop": 0
+}
