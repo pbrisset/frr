@@ -4552,6 +4552,7 @@ void zebra_evpn_l3vni_local_mac_update(struct interface *acc_ifp, struct interfa
 	struct zebra_evpn_l3_mac_es *e;
 	struct zebra_l3vni *zl3vni;
 	ifindex_t old_ifindex;
+	bool changed = false;
 
 	acc_bd = zebra_evpn_acc_vl_find(vid, br_if);
 	if (!acc_bd)
@@ -4576,10 +4577,7 @@ void zebra_evpn_l3vni_local_mac_update(struct interface *acc_ifp, struct interfa
 
 	old_ifindex = zebra_evpn_l3_mac_es_find(acc_bd, macaddr);
 
-	if (add) {
-		if (old_ifindex == acc_ifp->ifindex)
-			return; /* no change */
-
+	if (add && old_ifindex != acc_ifp->ifindex) {
 		e = zebra_evpn_l3_mac_es_lookup(acc_bd, macaddr);
 		if (!e) {
 			e = XCALLOC(MTYPE_ZL3_MAC_ES, sizeof(*e));
@@ -4587,10 +4585,8 @@ void zebra_evpn_l3vni_local_mac_update(struct interface *acc_ifp, struct interfa
 			zebra_l3_mac_es_add(&acc_bd->l3_mac_es_table, e);
 		}
 		e->acc_ifindex = acc_ifp->ifindex;
-	} else {
-		if (!old_ifindex)
-			return; /* nothing cached */
-
+		changed = true;
+	} else if (!add && old_ifindex) {
 		/* Only the port that currently owns the MAC may remove it: a
 		 * delayed delete for the old port must not erase a newer move
 		 * to a different port.
@@ -4606,6 +4602,7 @@ void zebra_evpn_l3vni_local_mac_update(struct interface *acc_ifp, struct interfa
 			zebra_l3_mac_es_del(&acc_bd->l3_mac_es_table, e);
 			XFREE(MTYPE_ZL3_MAC_ES, e);
 		}
+		changed = true;
 	}
 
 	/* Re-advertise any pure-L3 neighbor already learned for this MAC: an add
@@ -4615,6 +4612,11 @@ void zebra_evpn_l3vni_local_mac_update(struct interface *acc_ifp, struct interfa
 		return;
 	zl3vni = zl3vni_from_vrf(acc_bd->vlan_zif->ifp->vrf->vrf_id);
 	if (zl3vni) {
+		bool pin_recheck = zebra_evpn_l3vni_sync_mac_event(zl3vni->vni, acc_ifp, br_if,
+								   macaddr, vid, !add);
+
+		if (!changed && !pin_recheck)
+			return;
 		zebra_evpn_l3vni_neigh_debug_mac_event(zl3vni->vni, macaddr, vid, acc_ifp, add);
 		zebra_evpn_l3vni_neigh_readvertise_mac(zl3vni->vni, macaddr, vid);
 	}
