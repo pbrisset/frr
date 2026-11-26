@@ -19,7 +19,7 @@ from l3mh_netlink import (
     watch_binding,
 )
 from test_evpn_l3mh_aging import send_arp
-from test_evpn_l3mh_port_events import PORT, VID, events
+from test_evpn_l3mh_port_events import PORT, PROTECTION, VID, events
 from test_evpn_l3mh_three_peers import _es_rd, _per_es_route_targets
 
 pytestmark = l3mh.pytestmark
@@ -104,8 +104,13 @@ def test_peer_rt2_is_cached_during_local_probe_without_mac(events):
     assert events.pinned(entry)
 
 
-def test_early_fdb_and_old_arp_notifications_during_hold(events):
+@pytest.mark.parametrize("protected", (False, True), ids=("unprotected", "protected"))
+def test_early_fdb_and_old_arp_notifications_during_hold(events, protected):
     owner = events.owner
+    if not protected:
+        owner.vtysh_cmd(
+            f"configure terminal\ninterface {PORT}\n no {PROTECTION}", raises=True
+        )
     early, alone = (events.binding(i) for i in (120, 121))
     for entry in (early, alone):
         events.learn(owner, entry)
@@ -691,13 +696,10 @@ def test_shared_static_pin_must_be_installed_before_local_rt2(events, action):
 def test_existing_same_key_survivor_backs_probe_after_rt1_loss(events, withdraw_first):
     owner, selected, survivor = events.leaves
     entry = events.binding(181)
-    config = f"configure terminal\ninterface {PORT}\n"
-    protection = "evpn mh bridge-port-protection"
     debug = "debug bgp evpn mh l3vni-neigh"
     log = Path(owner.logdir) / owner.name / "bgpd.log"
     origin = l3mh.LEAF_LO[selected.name]
     lookup_log = f"L3MH RT-1 fallback VNI {l3mh.L3VNI} origin {origin}: "
-    selected.vtysh_cmd(config + protection, raises=True)
     owner.vtysh_cmd(debug, raises=True)
     try:
         events.learn(survivor, entry)
@@ -711,40 +713,39 @@ def test_existing_same_key_survivor_backs_probe_after_rt1_loss(events, withdraw_
             assert events.route(leaf, entry, owner)
 
         offset = log.stat().st_size
-        selected.vtysh_cmd(config + "no " + protection, raises=True)
-        events.settle()
-        with log.open() as stream:
-            stream.seek(offset)
-            lookups = [
-                line.split(lookup_log)[1].strip()
-                for line in stream
-                if lookup_log in line
-            ]
-        assert lookups == ["1 lookups"], lookups
-        events.status(entry, "PROBE")
-        assert events.route(selected, entry, owner)
-        if withdraw_first:
-            with check_probe(owner, entry):
+        with l3mh._withdraw_rt1(selected, "192.168.2.1", "192.168.5.1"):
+            events.settle()
+            with log.open() as stream:
+                stream.seek(offset)
+                lookups = [
+                    line.split(lookup_log)[1].strip()
+                    for line in stream
+                    if lookup_log in line
+                ]
+            assert lookups == ["1 lookups"], lookups
+            events.status(entry, "PROBE")
+            assert events.route(selected, entry, owner)
+            if withdraw_first:
+                with check_probe(owner, entry):
+                    events.delete_arp(selected, entry)
+                    events.settle()
+                assert not events.route(selected, entry, owner)
+                events.status(entry, "PROBE")
+
+            events.arp(owner, entry, "failed")
+            events.settle()
+            detail = events.status(entry, "PERMANENT")
+            assert detail.get("peerOrigin") == l3mh.LEAF_LO[survivor.name], detail
+            assert events.pinned(entry) and not events.route(owner, entry)
+            if not withdraw_first:
                 events.delete_arp(selected, entry)
                 events.settle()
-            assert not events.route(selected, entry, owner)
-            events.status(entry, "PROBE")
-
-        events.arp(owner, entry, "failed")
-        events.settle()
-        detail = events.status(entry, "PERMANENT")
-        assert detail.get("peerOrigin") == l3mh.LEAF_LO[survivor.name], detail
-        assert events.pinned(entry) and not events.route(owner, entry)
-        if not withdraw_first:
-            events.delete_arp(selected, entry)
-            events.settle()
-            assert (
-                events.status(entry, "PERMANENT").get("peerOrigin")
-                == l3mh.LEAF_LO[survivor.name]
-            )
+                assert (
+                    events.status(entry, "PERMANENT").get("peerOrigin")
+                    == l3mh.LEAF_LO[survivor.name]
+                )
     finally:
         owner.vtysh_cmd("no " + debug, raises=True)
-        selected.vtysh_cmd(config + "no " + protection, raises=True)
 
 
 def test_retained_rt2_second_spine_copy_stays_ineligible(events):

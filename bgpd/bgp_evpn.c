@@ -5829,6 +5829,7 @@ static void update_router_id_vrf(struct bgp *bgp_vrf)
 
 	/* derive the RD for the VRF based on new router-id */
 	bgp_evpn_derive_auto_rd_for_vrf(bgp_vrf);
+	bgp_evpn_es_vrf_ip_ead_update(bgp_vrf);
 
 	/* update advertise ipv4|ipv6 routes as type-5 routes */
 	update_advertise_vrf_routes(bgp_vrf);
